@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>Great Little Local | Climb Directory - Home</title>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-item">
+        <h1 class="hero-text">
+          <div class="logo-top-line">I know a</div>
+          <div class="logo-bottom-line">Great Little Local...</div>
+        </h1>
+        <h2>CLIMB</h2>
+        <p id="hero-para">
+          The place to search for climbing information in your area.
+          <br />
+          <strong>What will you search for today?</strong>
+        </p>
+      </div>
+      <div class="grid-item">
+        <div id="hero-img">
+        <img
+          src="{{ url_for('static', filename='climbing.jpg') }}"
+          alt="A man climbing on a rock face"
+        />
+        </div>
+      </div>
+      <div class="grid-item search-box">
+        <h3>Climbing walls</h3>
+        <p class="search-boxes">
+          Need somewhere to climb? 
+          </br>
+          Search here for climbing walls in your area.
+        </p>
+        <form  class="search-inputs" method="POST" action="/walls">
+        <input type="text" name="wallsearch" placeholder="Search...">
+        </form>
+      </div>
+      <div class="grid-item search-box">
+        <h3>Classes</h3>
+        <p class="search-boxes">
+          Need a class for you or the kids? 
+          <br>
+          Search here for climbing classes in your area.
+        </p>
+        <form  class="search-inputs" method="POST" action="/classes">
+        <input type="text" name="classsearch" placeholder="Search...">
+        </form>
+      </div>
+      <div class="grid-item search-box">
+        <h3>Competitions and events</h3>
+        <p class="search-boxes">
+          Want to compete? Or see a speaker?
+          <br> 
+          Search here for events in your area.
+        </p>
+        <form  class="search-inputs" method="POST" action="/events">
+        <input type="text" name="eventsearch" placeholder="Search...">
+        </form>
+      </div>
+      <div class="grid-item search-box">
+        <h3>Climbing clubs</h3>
+        <p class="search-boxes">
+          Want someone to climb with? 
+          <br>
+          Search here for climbing clubs in your area.
+        </p>
+        <form  class="search-inputs" method="POST" action="/clubs">
+        <input type="text" name="clubsearch" placeholder="Search...">
+        </form>
+      </div>
+    </div>
+    <div>
+      <form method="GET" action="/about">
+        <button type="submit" value="about-me">About</button>
+      </form>
+    </div>
+
+
+    <footer>
+        <p class="copyright-line">
+            <span>&#169</span> 
+            Phillippa Clubbs 
+            <script>document.write(new Date().getFullYear())</script>
+        </p>    
+    </footer>
+    <script src="src/scripts.js"></script>
+  </body>
+</html>

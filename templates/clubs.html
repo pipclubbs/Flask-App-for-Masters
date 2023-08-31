@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Club search</title>
+  </head>
+  <body>
+    <h2>Climbing club search results</h2>
+    <div>
+      {% if club_search %}
+      <p>you typed {{ club_search }}</p>
+      {% endif %}
+    </div>
+    <div>
+      <form method="GET" action="/">
+        <button type="submit" value="home">Home</button>
+      </form>
+    </div>
+    <div>
+      <form method="GET" action="/about">
+        <button type="submit" value="about-me">About</button>
+      </form>
+    </div>
+  </body>
+</html>
