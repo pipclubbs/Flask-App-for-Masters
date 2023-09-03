@@ -7,15 +7,6 @@ result = requests.get(url)
 soup = BeautifulSoup(result.text, "html.parser")
 
 
-def find_h1():
-    """search the html for an <h1> tag and return the content"""
-    h1_tag = soup.find('h1')
-    h1_tag = h1_tag.string
-    h1_tag = "".join(h1_tag.split())
-    return h1_tag
-
-
-
 def find_h2():
     """search the html for <h4> tags and return the content as a list"""
     list_1 = []
