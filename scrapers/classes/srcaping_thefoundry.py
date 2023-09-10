@@ -34,5 +34,4 @@ foundry_classes = {
 
 """convert dictionary to json and append to external json file"""
 with open("saved_classes.json", "a") as file:
-    json.dump(foundry_classes, file, indent = 4)
-
+    json.dump(foundry_classes, file, indent=4)
