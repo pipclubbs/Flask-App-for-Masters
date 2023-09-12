@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
-import json
-import pprint
-import sqlite
+#import json
+#import pprint
+#import sqlite
 
 url = "https://www.ibexbouldering.co.uk/copy-of-classes-1"
 result = requests.get(url)
@@ -57,23 +57,4 @@ ibex_classes = [
 
 ]
 
-# print(ibex_classes)
 
-
-def print_classes(centre):
-    for i in centre:
-        for values in i.values():
-            if values == type(list):
-                for j in values:
-                    print(*j, sep="\n")
-            else:
-                print(values)
-            
-
-
-print_classes(ibex_classes)
-'''
-"""convert dictionary to json and append to external json file"""
-with open("saved_classes.json", "a") as file:
-    json.dump(ibex_classes, file, indent=4)
-'''

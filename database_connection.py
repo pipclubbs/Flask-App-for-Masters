@@ -1,51 +1,95 @@
 import sqlite3
+import os
 
-conn = sqlite3.connect(':memory:')
+conn = sqlite3.connect('database.db')
 print("database opened successfully")
 
-conn.execute('CREATE TABLE centres (name TEXT, url TEXT)')
-print("database table created successfully")
-conn.execute('CREATE TABLE classes (url TEXT, title TEXT, description TEXT)')
-print("database table created successfully")
+try:
+    conn.execute(
+        'CREATE TABLE centres (name TEXT UNIQUE, url TEXT)')
+    conn.execute(
+        'CREATE TABLE classes (url TEXT, title TEXT, description TEXT unique)')
+    print("database tables created successfully")
+except:
+    print("database already exists")
+
+
+test_dict = [
+    {
+        "name": "The Pool",
+        "url": "www.thepool.com",
+        "title": "this class",
+        "description": "description 1"
+    },
+    {
+        "name": "The Pool",
+        "url": "www.thepool.com",
+        "title": "that class",
+        "description": "description 2"
+    },
+    {
+        "name": "The Pool",
+        "url": "www.thepool.com",
+        "title": "that class",
+        "description": "description 3"
+    },
+    {
+        "name": "The Pool1",
+        "url": "www.thepool1.com",
+        "title": "also this class",
+        "description": "description 4"
+    }
+]
 
 cur = conn.cursor()
-cur.execute(
-    'INSERT INTO centres (name, url) VALUES ("The Pool", "www.thepool.com")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "this class", "description 1")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "this class", "description 2")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "this class", "description 3")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "this class", "description 4")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "this class", "description 5")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "that class", "description 6")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "that class", "description 7")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "that class", "description 8")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "that class", "description 9")')
-cur.execute(
-    'INSERT INTO classes (url, title, description) VALUES ("www.thepool.com", "that class", "description 0")')
+cur.executemany(
+    'INSERT OR REPLACE INTO centres (name, url) VALUES (:name, :url);', test_dict)
+cur.executemany(
+    'INSERT or replace INTO classes (url, title, description) VALUES (:url, :title, :description);', test_dict)
 
 conn.commit()
 print("Records successfully added")
 
 cursor = conn.execute(
-    "select title, description from classes where url = 'www.thepool.com'")
-title = ""
-description = []
-for row in cursor:
-    if row[0] != title:
-        title = row[0]
-        print(title)
+    "SELECT * FROM classes LEFT JOIN centres USING (url);")
 
-    description.append(row[1])
+for row in cursor:
+    print(row)
+
+name = ''
+url = ''
+title = ''
+description = []
+
+for row in cursor:
+    if row[3] != name:
+        name = row[3]
+        print(f'\n{name}')
+
+    if row[0] != url:
+        url = row[0]
+        print(url)
+
+    if row[1] != title:
+        title = row[1]
+        print(f'\n{title}')
+
+    description.append(row[2])
     for d in description:
         print(d)
-    description = []
-    continue
+        description = []
+        continue
+
+conn.close()
+
+
+def remove_db():
+    """function to remove database after process has completed so that it can begin again"""
+    user_input = input(f"\ndo you want to remove the database?")
+    if user_input == "y":
+        os.remove("database.db")
+    else:
+        return
+
+
+remove_db()

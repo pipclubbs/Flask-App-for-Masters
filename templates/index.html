@@ -25,6 +25,7 @@
           <strong>What will you search for today?</strong>
         </p>
       </div>
+
       <div class="grid-item">
         <div id="hero-img">
         <img
@@ -33,6 +34,7 @@
         />
         </div>
       </div>
+
       <div class="grid-item search-box">
         <h3>Climbing walls</h3>
         <p class="search-boxes">
@@ -41,9 +43,19 @@
           Search here for climbing walls in your area.
         </p>
         <form  class="search-inputs" method="POST" action="/walls">
-        <input type="text" name="wallsearch" placeholder="Search...">
+          <select name="wallsearch">
+            <option value="choose">Choose an area...</option>
+            <option value="north-east">North east England</option>
+            <option value="north-west">North west England</option>
+            <option value="yorkshire">Yorkshire</option>
+            <option value="midlands">Midlands</option>
+            <option value="south-east">South east England</option>
+            <option value="south-west">South west England</option>
+          </select>
+          <button type="submit">Submit</button>
         </form>
       </div>
+
       <div class="grid-item search-box">
         <h3>Classes</h3>
         <p class="search-boxes">
@@ -52,9 +64,19 @@
           Search here for climbing classes in your area.
         </p>
         <form  class="search-inputs" method="POST" action="/classes">
-        <input type="text" name="classsearch" placeholder="Search...">
+          <select name="classsearch">
+            <option value="choose">Choose an area...</option>
+            <option value="north-east">North east England</option>
+            <option value="north-west">North west England</option>
+            <option value="yorkshire">Yorkshire</option>
+            <option value="midlands">Midlands</option>
+            <option value="south-east">South east England</option>
+            <option value="south-west">South west England</option>
+          </select>
+          <button type="submit">Submit</button>
         </form>
       </div>
+
       <div class="grid-item search-box">
         <h3>Competitions and events</h3>
         <p class="search-boxes">
@@ -63,9 +85,19 @@
           Search here for events in your area.
         </p>
         <form  class="search-inputs" method="POST" action="/events">
-        <input type="text" name="eventsearch" placeholder="Search...">
+          <select name="eventsearch">
+            <option value="choose">Choose an area...</option>
+            <option value="north-east">North east England</option>
+            <option value="north-west">North west England</option>
+            <option value="yorkshire">Yorkshire</option>
+            <option value="midlands">Midlands</option>
+            <option value="south-east">South east England</option>
+            <option value="south-west">South west England</option>
+          </select>
+          <button type="submit">Submit</button>
         </form>
       </div>
+
       <div class="grid-item search-box">
         <h3>Climbing clubs</h3>
         <p class="search-boxes">
@@ -74,16 +106,25 @@
           Search here for climbing clubs in your area.
         </p>
         <form  class="search-inputs" method="POST" action="/clubs">
-        <input type="text" name="clubsearch" placeholder="Search...">
+          <select name="clubsearch">
+            <option value="choose">Choose an area...</option>
+            <option value="north-east">North east England</option>
+            <option value="north-west">North west England</option>
+            <option value="yorkshire">Yorkshire</option>
+            <option value="midlands">Midlands</option>
+            <option value="south-east">South east England</option>
+            <option value="south-west">South west England</option>
+          </select>
+          <button type="submit">Submit</button>
         </form>
       </div>
+
     </div>
     <div>
       <form method="GET" action="/about">
         <button type="submit" value="about-me">About</button>
       </form>
     </div>
-
 
     <footer>
         <p class="copyright-line">

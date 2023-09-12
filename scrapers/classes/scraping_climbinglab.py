@@ -1,6 +1,6 @@
+"""Web scraper to gather class data from Climbing Lab"""
 from bs4 import BeautifulSoup
 import requests
-import json
 
 url = "https://www.climbinglab.co.uk/your-visit-begin/"
 result = requests.get(url)
@@ -8,12 +8,14 @@ soup = BeautifulSoup(result.text, "html.parser")
 
 
 def find_h3():
+    """Find all the h3 tags on the page and return as a list"""
     h3_tag = soup.find_all('h3')
     h3_tag_list = [e.string for e in h3_tag]
     return h3_tag_list
 
 
 def find_p():
+    """Find all the p tags on the page and return as a list"""
     list_1 = []
     list_2 = []
     p_tag = soup.find_all('p')
@@ -37,7 +39,3 @@ climbinglab_classes = {
     "description_2": [find_p[13], find_p[16]],
     "url": "https://www.climbinglab.co.uk/your-visit-begin/"
 }
-
-"""convert dictionary to json and append to external json file"""
-with open("saved_classes.json", "a") as file:
-    json.dump(climbinglab_classes, file, indent = 4)

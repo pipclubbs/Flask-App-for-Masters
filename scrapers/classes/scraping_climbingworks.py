@@ -1,6 +1,6 @@
+"""Web scraper to gather class data from Climbing Works"""
 from bs4 import BeautifulSoup
 import requests
-import json
 
 url = "https://www.climbingworks.com/adult-classes"
 result = requests.get(url)
@@ -8,6 +8,7 @@ soup = BeautifulSoup(result.text, "html.parser")
 
 
 def search_tags(tag):
+    """Find all the tags of the type in the parameter on the page and return as a list"""
     list_1 = []
     searched_soup = soup.find_all(tag)
     tag_list = [e.string for e in searched_soup]
@@ -42,4 +43,4 @@ climbingworks_classes = {
 
 """convert dictionary to json and append to external json file"""
 with open("saved_classes.json", "a") as file:
-    json.dump(climbingworks_classes, file, indent = 4)
+    json.dump(climbingworks_classes, file, indent=4)

@@ -46,6 +46,7 @@ def climb_classes():
     class_search = ''
     if request.method == "POST" and "classsearch" in request.form:
         class_search = request.form.get('classsearch')
+    # need to add something to instruct the scrapers for each area to go
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
