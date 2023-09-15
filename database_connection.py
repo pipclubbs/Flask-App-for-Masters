@@ -1,6 +1,8 @@
 import sqlite3
 import os
 
+from northeast_classes import NorthEastClasses
+
 conn = sqlite3.connect('database.db')
 print("database opened successfully")
 
@@ -92,4 +94,6 @@ def remove_db():
         return
 
 
+class_list = NorthEastClasses()
+class_list.assign_values()
 remove_db()

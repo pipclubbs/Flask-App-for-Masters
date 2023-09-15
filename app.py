@@ -1,4 +1,6 @@
 from flask import Flask, request, render_template, redirect
+from northeast_classes import NorthEastClasses
+import sqlite3
 
 app = Flask(__name__)
 
@@ -43,10 +45,23 @@ def climb_walls():
 @app.route('/classes', methods=['GET', 'POST'])
 def climb_classes():
     """the page where the information for climbing classes will display after scraping"""
+    output = []
     class_search = ''
+    list_of_classes = ''
     if request.method == "POST" and "classsearch" in request.form:
         class_search = request.form.get('classsearch')
     # need to add something to instruct the scrapers for each area to go
+        if class_search == "north-east":
+            list_of_classes = NorthEastClasses()
+            return display_class_text(list_of_classes)
+
+        '''elif class_search == "north-west":
+            list_of_classes = NorthWestClasses()
+            return display_class_text(list_of_classes)
+
+        elif class_search == "yorkshire":
+            list_of_classes = YorkshireClasses()
+            return display_class_text(list_of_classes)'''
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -54,7 +69,6 @@ def climb_classes():
     if request.method == "GET" and "about-me" in request.form:
         return returnAboutMe()
 
-    return render_template("classes.html", class_search=class_search)
     # need to add in information here for parsing the information in from the scrape
 
 
@@ -100,6 +114,46 @@ def about_me():
 
     return render_template("about.html")
     # need to think about whether to add something in here
+
+
+def display_class_text(list):
+    list_of_classes = list.assign_values()
+
+    conn = sqlite3.connect('database.db')
+    data = conn.execute(
+        "SELECT * FROM classes LEFT JOIN centres USING (url);")
+
+    name = ''
+    url = ''
+    title = ''
+    description = []
+    list_of_classes = []
+
+    for row in data:
+        if row[3] != name:
+            name = (f'{row[3]}')
+            list_of_classes.append(name)
+            # print(f'\n{name}')
+
+        if row[0] != url:
+            url = row[0]
+            list_of_classes.append(url)
+            # print(url)
+
+        if row[1] != title:
+            title = (f'\n{row[1]}')
+            list_of_classes.append(title)
+            # print(f'\n{title}')
+
+        description.append(row[2])
+        for d in description:
+            list_of_classes.append(d)
+            # print(d)
+            description = []
+            continue
+
+    conn.close()
+    return render_template("classes.html", class_search=list_of_classes)
 
 
 returnHome = returnHome()

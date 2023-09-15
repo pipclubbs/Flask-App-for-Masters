@@ -3,13 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
     <title>Class search</title>
   </head>
   <body>
     <h2>Climbing class search results</h2>
     <div>
-      {% if class_search %}
-      <p>you typed {{ class_search }}</p>
+      {% if class_search %}{% for item in class_search %} {% if "http" in item
+      %}
+      <a href="{{ item }}" target="blank"
+        >Click here for the link to the website</a
+      >
+      {% else %}
+      <p>{{ item }}</p>
+      {% endif %} {% endfor %} {% else %}
+      <p>No classes in your area</p>
       {% endif %}
     </div>
 

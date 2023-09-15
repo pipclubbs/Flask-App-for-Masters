@@ -3,11 +3,12 @@ import requests
 import json
 
 """This script requests the html for the classes page at Climb Newcastle,
-and returns the relevant sorted scraped data to a json file""" 
-
+and returns the relevant sorted scraped data to a json file"""
+# class NorthEastClasses() {
 url = "https://www.climbnewcastle.com/index.php?route=extension/cn/essentials"
 result = requests.get(url)
 soup = BeautifulSoup(result.text, "html.parser")
+
 
 def find_h1():
     """search the html for an <h1> tag and return the content"""
@@ -30,7 +31,7 @@ def final_p_list(p_tags):
         if p != None and "shopping cart" not in p and "Climb Newcastle Ltd" not in p and "Pick a date" not in p:
             list_1.append(p)
     return list_1
-        
+
 
 def find_p():
     """search the html for <p> tags and return the content as a list
@@ -39,25 +40,27 @@ def find_p():
     p_tag_list = [e.string for e in p_tag]
     return final_p_list(p_tag_list)
 
-"""run the functions above and assign the returned values to a dictionary"""    
+
+"""run the functions above and assign the returned values to a dictionary"""
 find_h1 = find_h1()
 find_h4 = find_h4()
 find_p = find_p()
 
-valley_classes = {
-    "venue": "Climb Valley, Newcastle",
-    "title": find_h1,
-    "description_1": find_p[0],
-    "class_title_1": find_h4[0],
-    "description_2": find_p[1],
-    "class_title_2": find_h4[1],
-    "description_3": find_p[2],
-    "session_title": find_h4[2],
-    "session_details": [find_p[3], find_p[4], find_p[5]],
-    "url": url
-}
+valley_classes = [
+    {
+        "name": "Climb Valley, Newcastle",
+        "url": "https://www.climbnewcastle.com/index.php?route=extension/cn/essentials",
+        "title": find_h1,
+        "description_1": find_p[0],
+        "class_title_1": find_h4[0],
+        "description_2": find_p[1],
+        "class_title_2": find_h4[1],
+        "description_3": find_p[2],
+        "session_title": find_h4[2],
+        "session_details": [find_p[3], find_p[4], find_p[5]]
+    }
+]
 
 """convert dictionary to json and append to external json file"""
 with open("saved_classes.json", "a") as file:
-    json.dump(valley_classes, file, indent = 4)
-
+    json.dump(valley_classes, file, indent=4)
