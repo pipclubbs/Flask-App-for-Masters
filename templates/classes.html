@@ -12,19 +12,29 @@
   </head>
   <body>
     <h2>Climbing class search results</h2>
-    <div>
-      {% if class_search %}{% for item in class_search %} {% if "http" in item
-      %}
-      <a href="{{ item }}" target="blank"
-        >Click here for the link to the website</a
-      >
-      {% else %}
-      <p>{{ item }}</p>
-      {% endif %} {% endfor %} {% else %}
-      <p>No classes in your area</p>
-      {% endif %}
+    <div class="grid-container-results">
+      <div class="grid-item search-box">
+        <div>
+          {% if class_search %}{% for item in class_search %} {% if "http" in
+          item %}
+          <a href="{{ item }}" target="blank"
+            >Click here to visit the website directly</a
+          >
+          {% elif "\n\n" in item %}
+          <h3 class="search-result-title">
+            <hr />
+            <br />{{ item }}
+          </h3>
+          {% elif "\n" in item %}
+          <h4>{{ item }}</h4>
+          {% else %}
+          <p class="search-results">{{ item }}</p>
+          {% endif %} {% endfor %} {% else %}
+          <p class="search-results">No classes in your area</p>
+          {% endif %}
+        </div>
+      </div>
     </div>
-
     <!--
       need to add some jinja tags here to display the text that was returned from the web scraper. 
       do I also need to add a button at the end of the page so that they can delete the database when they are done. 

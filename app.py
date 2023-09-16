@@ -45,7 +45,7 @@ def climb_walls():
 @app.route('/classes', methods=['GET', 'POST'])
 def climb_classes():
     """the page where the information for climbing classes will display after scraping"""
-    output = []
+    # output = []
     class_search = ''
     list_of_classes = ''
     if request.method == "POST" and "classsearch" in request.form:
@@ -132,7 +132,7 @@ def display_class_text(list):
     for row in data:
         if row[3] != name:
             name = (f'{row[3]}')
-            list_of_classes.append(name)
+            list_of_classes.append(f'\n\n{name}')
             # print(f'\n{name}')
 
         if row[0] != url:
@@ -141,8 +141,8 @@ def display_class_text(list):
             # print(url)
 
         if row[1] != title:
-            title = (f'\n{row[1]}')
-            list_of_classes.append(title)
+            title = (row[1])
+            list_of_classes.append(f'\n{title}')
             # print(f'\n{title}')
 
         description.append(row[2])

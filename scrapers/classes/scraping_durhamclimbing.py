@@ -78,9 +78,8 @@ def find_li():
         if p != None:
             list_1.append(p)
     return list_1
-    
 
-find_h1 = find_h1()
+
 find_h2 = find_h2()
 find_h3 = find_h3()
 find_div = find_div()
@@ -99,10 +98,10 @@ durham_classes = {
     "title_4": find_h3[1],
     "description_4": [find_div[11], find_p[6], find_p[7]],
     "title_5": find_h2[2],
-    "description_5": [find_div[12], find_p[8]], 
+    "description_5": [find_div[12], find_p[8]],
     "url": "https://www.durhamclimbingcentre.co.uk/coaching"
 }
 
 """convert dictionary to json and append to external json file"""
 with open("saved_classes.json", "a") as file:
-    json.dump(durham_classes, file, indent = 4)
+    json.dump(durham_classes, file, indent=4)

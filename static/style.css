@@ -12,6 +12,7 @@
         'Times New Roman',
         serif;
     --main-text-colour: #41413F;
+    --brand-text-colour: #5D7074;
 }
 
 body {
@@ -22,7 +23,7 @@ body {
 
 h1.hero-text {
     font-family: var(--brand-font-family);
-    color: #5D7074;
+    color: var(--brand-text-colour);
     margin: 15px 10px;
 }
 
@@ -41,19 +42,36 @@ h3 {
     font-size: 14pt;
 }
 
+h3.search-result-title {
+    color: var(--brand-text-colour);
+}
+
+h4 {
+    color: var(--main-text-colour);
+    font-family: var(--main-font-family);
+    margin-bottom: 5px;
+    font-size: 12pt;
+}
+
 p.copyright-line {
     font-family: monospace;
     font-size: 8;
     font-weight: lighter;
 }
 
-p.search-boxes {
+p.search-boxes, p.search-results {
     color: var(--main-text-colour);
     font-family: var(--main-font-family);
     margin-top: 5px;
     font-size: 10pt;
 }
 
+a {
+    color: blue;
+    font-family: var(--main-font-family);
+    margin-top: 5px;
+    font-size: 10pt;
+}
 #hero-img {
     display: grid;
     place-items: center;
@@ -80,6 +98,13 @@ p.search-boxes {
     justify-content: center;
     align-items: center;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 20px 0;
+}
+
+.grid-container-results {
+    display: grid;
+    justify-content: center;
+    align-items: center;
     margin: 20px 0;
 }
 
