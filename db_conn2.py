@@ -31,7 +31,7 @@ class DatabaseConnection:
         cur.executemany(
             'INSERT OR REPLACE INTO centres (name, url) VALUES (:name, :url);', class_list)
         cur.executemany(
-            'INSERT or replace INTO classes (url, title, description) VALUES (:url, :title, :description);', class_list)
+            'INSERT or REPLACE INTO classes (url, title, description) VALUES (:url, :title, :description);', class_list)
         conn.commit()
         print("Records successfully added")
         conn.close()

@@ -1,54 +1,14 @@
-from bs4 import BeautifulSoup
-import requests
+# from bs4 import BeautifulSoup
+# import requests
 import db_conn2
+from class_scrapers import ClassScraper
 
 
-class NorthEastClasses:
+class NorthEastClasses(ClassScraper):
     def __init__(self):
-        self.name = ""
-        self.url = ""
-        self.title = ""
-        self.description = ""
-
-    def get_html(self, url):
-        result = requests.get(url)
-        soup = BeautifulSoup(result.text, "html.parser")
-        return soup
-
-    def search_tags(self, tag, url):
-        url = url
-        soup = self.get_html(url)
-        searched_soup = soup.find_all(tag)
-        tag_list = [e.string for e in searched_soup]
-        return tag_list
-
-    def remove_blanks(self, list):
-        new_list = []
-        for i in list:
-            if i != None:
-                new_list.append(i)
-        return new_list
-
-    def do_join(self, list):
-        list = list
-        new_list = []
-        for j in list:
-            j = " ".join(j.split())
-            new_list.append(j)
-        return new_list
-
-    def find_p_durham(self, url):
-        url = url
-        soup = self.get_html(url)
-        p_tags = []
-        p_tag_list = soup.find_all('p')
-        for e in p_tag_list:
-            e = e.text
-            p_tags.append(e)
-        return p_tags
+        super().__init__()
 
     def assign_values(self):
-
         output = []
         p_tag_list = []
         scraped_classes = []
@@ -62,8 +22,8 @@ class NorthEastClasses:
                 "url": "https://www.durhamclimbingcentre.co.uk/coaching",
             },
             {
-                "name": "Friction Bouldering, Gateshead",
-                "url": "https://www.frictionbouldering.co.uk/kids",
+                "name": "Sunderland Wall, Sunderland",
+                "url": "https://sunderlandwall.com/courses/",
             },
             {
                 "name": "Newcastle Climbing Centre, Byker",
@@ -74,7 +34,6 @@ class NorthEastClasses:
         for c in centres:
             if c["name"] == "Climb Valley, Newcastle":
                 url = c["url"]
-                # valley_classes = []
                 h1_tag = self.search_tags('h1', url)
                 h4_tag = self.search_tags('h4', url)
                 p_tag = self.search_tags('p', url)
@@ -121,8 +80,6 @@ class NorthEastClasses:
 
             elif c["name"] == "Durham Climbing Centre, Durham":
                 url = c["url"]
-                # durham_classes = []
-
                 h2_tags = self.search_tags('h2', url)
                 h2_tags = self.do_join(h2_tags)
 
@@ -143,7 +100,7 @@ class NorthEastClasses:
                         div_tags.append(i)
                 div_tags = self.do_join(div_tags)
 
-                p_tags = self.find_p_durham(url)
+                p_tags = self.search_tags_alternative('p', url)
 
                 class_list = [
                     {
@@ -411,7 +368,138 @@ class NorthEastClasses:
                 for i in class_list:
                     scraped_classes.append(i)
 
+            if c["name"] == "Sunderland Wall, Sunderland":
+                url = c["url"]
+
+                h3_tags = self.search_tags('h3', url)
+                h4_tags = self.search_tags('h4', url)
+                p_tags = self.search_tags('p', url)
+
+                li_tags = []
+                li_tag_list = self.search_tags_alternative('li', url)
+                li_tag_list = self.remove_blanks(li_tag_list)
+                for t in li_tag_list:
+                    if len(t) > 25:
+                        li_tags.append(t)
+
+                class_list = [
+                    {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[0],
+                        "description": p_tags[1]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[0],
+                        "description": li_tags[6]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[0],
+                        "description": li_tags[7]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[0],
+                        "description": li_tags[8]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[0],
+                        "description": li_tags[9]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[0],
+                        "description": li_tags[10]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": p_tags[2]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": li_tags[11]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": li_tags[12]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": li_tags[13]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": h4_tags[0]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": p_tags[3]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": h4_tags[1]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": p_tags[4]
+                    }
+                ]
+                for i in class_list:
+                    scraped_classes.append(i)
+
         output.append(db_conn2.DatabaseConnection(scraped_classes))
-        # print(f'ne_classes: {type(output)}')
-        # print(output)
         return output
+
+    '''def __init__(self):
+        self.name = ""
+        self.url = ""
+        self.title = ""
+        self.description = ""
+
+    def get_html(self, url):
+        result = requests.get(url)
+        soup = BeautifulSoup(result.text, "html.parser")
+        return soup
+
+    def search_tags(self, tag, url):
+        url = url
+        soup = self.get_html(url)
+        searched_soup = soup.find_all(tag)
+        tag_list = [e.string for e in searched_soup]
+        return tag_list
+
+    def search_tags_alternative(self, tag, url):
+        url = url
+        soup = self.get_html(url)
+        tag_list = []
+        tags = soup.find_all(tag)
+        for e in tags:
+            e = e.text
+            tag_list.append(e)
+        return tag_list
+
+    def remove_blanks(self, list):
+        new_list = []
+        for i in list:
+            if i != None:
+                new_list.append(i)
+        return new_list
+
+    def do_join(self, list):
+        list = list
+        new_list = []
+        for j in list:
+            j = " ".join(j.split())
+            new_list.append(j)
+        return new_list'''

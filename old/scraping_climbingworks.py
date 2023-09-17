@@ -1,6 +1,7 @@
 """Web scraper to gather class data from Climbing Works"""
 from bs4 import BeautifulSoup
 import requests
+import json
 
 url = "https://www.climbingworks.com/adult-classes"
 result = requests.get(url)
