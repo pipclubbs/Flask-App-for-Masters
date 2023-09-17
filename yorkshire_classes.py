@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 from class_scrapers import ClassScraper
 import db_conn2
-import json
+# import json
 
 
 class YorkshireClasses(ClassScraper):
@@ -23,12 +23,12 @@ class YorkshireClasses(ClassScraper):
                 "url": "https://www.climbingworks.com/adult-classes",
             },
             {
-                "name": "Mad Valume, Hull",
-                "url": "",
+                "name": "Mad Volume, Hull",
+                "url": "https://www.madvolume.co.uk/climbing-classes/",
             },
             {
                 "name": "Climbing Lab, Leeds",
-                "url": "",
+                "url": "https://www.climbinglab.co.uk/your-visit-begin/",
             }
         ]
 
@@ -111,7 +111,7 @@ class YorkshireClasses(ClassScraper):
                 for p in p_tag_list:
                     if p != None and p != '\u200b':
                         p_tags.append(p)
-                print(p_tags)
+                # print(p_tags)
 
                 h2_tags = []
                 h2_tag_list = self.search_tags('h2', url)
@@ -127,13 +127,6 @@ class YorkshireClasses(ClassScraper):
                 for i in span_tags_list:
                     if i != None and i != "\u200b":
                         span_tags.append(i)
-                # with open("saved_classes.json", "a") as file:
-                #    json.dump(span_tags, file, indent=4)
-                '''print(type(span_tag_list))
-                for i in span_tag_list:
-                    if "If you are a novice" in i or "The ABCs of climbing" in i or "A free coaching session" in i or "Three sessions to get" in i or "Take your climbing outdoors" in i or "coaching sessions with our experienced" in i:
-                        span_tags.append(i)
-                print(span_tags)'''
 
                 class_list = [
                     {
@@ -215,7 +208,76 @@ class YorkshireClasses(ClassScraper):
                 ]
                 for i in class_list:
                     scraped_classes.append(i)
-                # print(scraped_classes)
+
+            elif c["name"] == "Mad Volume, Hull":
+                url = c["url"]
+
+                span_tags = []
+                span_tag_list = self.search_tags('span', url)
+                span_tag_list = self.remove_blanks(span_tag_list)
+                for p in span_tag_list:
+                    if p != "\xa0":
+                        span_tags.append(p)
+
+                div_tags = []
+                div_tag_list = self.search_tags('div', url)
+                div_tag_list = self.remove_blanks(div_tag_list)
+                for p in div_tag_list:
+                    if p != "\xa0" and p != "\n":
+                        div_tags.append(p)
+
+                class_list = [
+                    {
+                        "name": c["name"],
+                        "url": url,
+                        "title": span_tags[3],
+                        "description": div_tags[0]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": span_tags[5],
+                        "description": div_tags[3]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": span_tags[8],
+                        "description": div_tags[5]
+                    }
+                ]
+                for i in class_list:
+                    scraped_classes.append(i)
+
+            elif c["name"] == "Climbing Lab, Leeds":
+                url = c["url"]
+
+                h3_tags = self.search_tags('h3', url)
+
+                p_tags = []
+                p_tag_list = self.search_tags_alternative('p', url)
+                for p in p_tag_list:
+                    if p != "\xa0":
+                        p_tags.append(p)
+
+                class_list = [
+                    {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[1],
+                        "description": p_tags[12]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[2],
+                        "description": p_tags[13]
+                    }, {
+                        "name": c["name"],
+                        "url": url,
+                        "title": h3_tags[2],
+                        "description": p_tags[16]
+                    }
+                ]
+                for i in class_list:
+                    scraped_classes.append(i)
 
         output.append(db_conn2.DatabaseConnection(scraped_classes))
         return output

@@ -10,8 +10,9 @@ class DatabaseConnection:
         self.insert_data(self.class_list)
 
     def create_tables(self):
+        os.remove("database.db")
         conn = sqlite3.connect('database.db')
-        print("database opened successfully")
+        print("database created successfully")
 
         try:
             conn.execute(

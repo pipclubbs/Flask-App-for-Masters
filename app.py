@@ -1,6 +1,9 @@
 from flask import Flask, request, render_template, redirect
 from northeast_classes import NorthEastClasses
 from yorkshire_classes import YorkshireClasses
+from midlands_classes import MidlandsClasses
+from northwest_classes import NorthWestClasses
+
 import sqlite3
 
 app = Flask(__name__)
@@ -60,9 +63,13 @@ def climb_classes():
             list_of_classes = YorkshireClasses()
             return display_class_text(list_of_classes)
 
-        '''elif class_search == "north-west":
+        elif class_search == "midlands":
+            list_of_classes = MidlandsClasses()
+            return display_class_text(list_of_classes)
+
+        elif class_search == "north-west":
             list_of_classes = NorthWestClasses()
-            return display_class_text(list_of_classes)'''
+            return display_class_text(list_of_classes)
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
