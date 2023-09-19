@@ -8,83 +8,82 @@ class MidlandsClasses(ClassScraper):
 
     def assign_values(self):
         output = []
-        p_tag_list = []
         scraped_classes = []
         centres = [
             {
+                "area": "midlands",
                 "name": "YMCA Lincolnshire, Lincoln",
-                "url": "https://www.lincsymca.co.uk/heath-wellbeing/climbing-bouldering/lessons-sessions/",
+                "classUrl": "https://www.lincsymca.co.uk/heath-wellbeing/climbing-bouldering/lessons-sessions/",
             },
-            {
-                "name": "",
-                "url": "",
-            },
-            {
-                "name": "",
-                "url": "",
-            },
-            {
-                "name": "",
-                "url": "",
-            }
         ]
 
         for c in centres:
             if c["name"] == "YMCA Lincolnshire, Lincoln":
-                url = c["url"]
+                area = c["area"]
+                classUrl = c["classUrl"]
 
-                p_tags = self.search_tags('p', url)
-                h2_tags = self.search_tags('h2', url)
+                p_tags = self.search_tags('p', classUrl)
+                h2_tags = self.search_tags('h2', classUrl)
 
                 class_list = [
                     {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[1],
                         "description": p_tags[5]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[1],
                         "description": p_tags[6]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[2],
                         "description": p_tags[7]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[2],
                         "description": p_tags[8]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[3],
                         "description": p_tags[9]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[3],
                         "description": p_tags[10]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[4],
                         "description": p_tags[11]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[4],
                         "description": p_tags[12]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[5],
                         "description": p_tags[13]
                     }, {
+                        "area": area,
                         "name": c["name"],
-                        "url": url,
+                        "classUrl": classUrl,
                         "title": h2_tags[5],
                         "description": p_tags[14]
                     }

@@ -3,14 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
     <title>Wall search</title>
   </head>
   <body>
     <h2>Climbing wall search results</h2>
-    <div>
-      {% if wall_search %}
-      <p>you chose {{ wall_search }}</p>
-      {% endif %}
+    <div class="grid-container-results">
+      <div class="grid-item search-box">
+        <div>
+          {% if wall_search %} {% for item in wall_search %} {% if "http" in
+          item %}
+          <a href="{{ item }}" target="blank"
+            >Click here to visit the website directly</a
+          >
+          {% elif "\n\n" in item %}
+          <h3 class="search-result-title">
+            <hr />
+            <br />{{ item }}
+          </h3>
+          {% else %}
+          <p class="search-results">{{ item }}</p>
+          {% endif %} {% endfor %} {% else %}
+          <p class="search-results">No centres in your area</p>
+          {% endif %}
+        </div>
+      </div>
     </div>
 
     <div>

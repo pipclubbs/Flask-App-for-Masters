@@ -52,8 +52,11 @@
             <option value="south-east">South east England</option>
             <option value="south-west">South west England</option>
           </select>
-          <button type="submit">Submit</button>
+          <button type="submit" id="submitButton">Submit</button>
         </form>
+        <div id="workingSymbol" style="display: none">
+            Working...
+        </div>
       </div>
 
       <div class="grid-item search-box">
@@ -73,8 +76,11 @@
             <option value="south-east">South east England</option>
             <option value="south-west">South west England</option>
           </select>
-          <button type="submit">Submit</button>
+          <button type="submit" id="submitButton">Submit</button>
         </form>
+        <div id="workingSymbol" style="display: none">
+            Working...
+        </div>
       </div>
 
       <div class="grid-item search-box">
@@ -94,8 +100,11 @@
             <option value="south-east">South east England</option>
             <option value="south-west">South west England</option>
           </select>
-          <button type="submit">Submit</button>
+          <button type="submit" id="submitButton">Submit</button>
         </form>
+        <div id="workingSymbol" style="display: none">
+            Working...
+        </div>
       </div>
 
       <div class="grid-item search-box">
@@ -115,8 +124,11 @@
             <option value="south-east">South east England</option>
             <option value="south-west">South west England</option>
           </select>
-          <button type="submit">Submit</button>
+          <button type="submit" id="submitButton">Submit</button>
         </form>
+        <div id="workingSymbol" style="display: none">
+            Working...
+        </div>
       </div>
 
     </div>
@@ -133,6 +145,14 @@
             <script>document.write(new Date().getFullYear())</script>
         </p>    
     </footer>
-    <script src="src/scripts.js"></script>
+    <script src="src/scripts.js">
+
+      function showWorkingSymbol() {
+        document.getElementById('workingSymbol').style.display = 'block';
+      }
+
+      document.getElementById('submitButton').addEventListener('click', showWorkingSymbol);
+      
+    </script>
   </body>
 </html>
