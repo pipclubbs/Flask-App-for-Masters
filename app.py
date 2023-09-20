@@ -39,7 +39,7 @@ def climb_walls():
         if wall_search == "north-west":
             search = NorthWestContacts()
             search.assign_values()
-            return display_centre_text()
+            return display_centre_text("north-west")
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -181,16 +181,17 @@ def display_class_text(area):
     return render_template("classes.html", class_search=list_of_classes)
 
 
-def display_centre_text():
+def display_centre_text(area):
+    area = area
     conn = sqlite3.connect('database.db')
-    data = conn.execute(
-        "SELECT * FROM centres;")
+    query = "SELECT * FROM centres WHERE area = ?;"
+    data = conn.execute(query, (area,))
 
     list_of_centres = []
 
     for row in data:
-        # print(row)
-        if row[0] == "north-west":
+        if row[0] == area and row[2] != None:
+            print(f'row in data is {row}')
             list_of_centres.append(f'\n\n{row[1]}')
             list_of_centres.append(row[5])
             list_of_centres.append(row[6])
@@ -199,6 +200,8 @@ def display_centre_text():
             list_of_centres.append(row[9])
             list_of_centres.append(row[10])
             list_of_centres.append(row[2])
+        else:
+            continue
 
     conn.close()
     # print(list_of_centres)

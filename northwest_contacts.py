@@ -15,6 +15,11 @@ class NorthWestContacts(ClassScraper):
                 "name": "Eden Rock, Carlisle",
                 "contactUrl": "https://www.edenrockclimbing.com/contact-carlisle",
                 "homeUrl": "https://www.edenrockclimbing.com/carlisle-home"
+            },
+            {
+                "name": "Blochaus Climbing, Manchester",
+                "contactUrl": "",
+                "homeUrl": ""
             }
         ]
 
@@ -26,8 +31,8 @@ class NorthWestContacts(ClassScraper):
                 # print(span_tags)
                 span_tags = [i for n, i in enumerate(
                     span_tags) if i not in span_tags[:n]]
-                for i, tag in enumerate(span_tags):
-                    print(i, tag)
+                # for i, tag in enumerate(span_tags):
+                #    print(i, tag)
 
                 centre_details = [
                     {
@@ -50,6 +55,6 @@ class NorthWestContacts(ClassScraper):
                  #   print(j)
 
         output.append(db_conn2.DatabaseConnection(scraped_centres))
-        for i in output:
-            print(i)
+        # for i in output:
+        #    print(i)
         return output

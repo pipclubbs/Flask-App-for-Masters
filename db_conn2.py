@@ -32,6 +32,28 @@ class DatabaseConnection:
         print("database tables created successfully")
         conn.close()
 
+    def check_rows_exist(self, data):
+        input_data = data
+        conn = sqlite3.connect('database.db')
+        cur = conn.cursor()
+
+        for row in input_data:
+            area_from_data = row["area"]
+            name_from_data = row["name"]
+
+        cur.execute(
+            "SELECT * FROM centres WHERE area = ? AND name = ?", (area_from_data, name_from_data))
+        find = cur.fetchall()
+
+        if find:
+            for row in find:
+                if row[0] == area_from_data and row[1] == name_from_data:
+                    return True
+            else:
+                return False
+        else:
+            return False
+
     def insert_data(self, data_to_insert):
         data = data_to_insert
         conn = sqlite3.connect('database.db')
@@ -56,18 +78,26 @@ class DatabaseConnection:
 
     def insert_centre_data(self, data_to_insert):
         data = data_to_insert
+        # classUrl may exist in the database - don't want to overwrite it
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
 
-        cur.executemany('''
-                        INSERT OR REPLACE INTO centres (
-                        area, name, homeUrl, contactUrl, street, 
-                        street_area, city, postcode, email, phone
-                        ) VALUES (:area, :name, :homeUrl, :contactUrl, 
-                        :street, :street_area, :city, :postcode, :email, :phone
-                        );
-                        ''', data
-                        )
+        # will be true if the area and name are in a line on the database
+        check = self.check_rows_exist(data)
+
+        if check == True:
+            # If classUrl in the incoming data is '' it is from centre search. if the class search is already done, the name will be there
+            cur.executemany('''
+                    UPDATE centres SET homeUrl = :homeUrl, contactUrl = :contactUrl, street = :street, 
+                    street_area = :street_area, city = :city, postcode = :postcode, email = :email, phone = :phone 
+                            WHERE name = :name;''', data)
+
+        else:
+            # centre doesn't exist in table insert all values as a new line
+            cur.executemany('''INSERT INTO centres (area, name, homeUrl, contactUrl, street,
+                            street_area, city, postcode, email, phone) VALUES (:area, :name, :homeUrl, :contactUrl, :street,
+                            :street_area, :city, :postcode, :email, :phone);''', data)
+
         conn.commit()
         print("Records successfully added")
         conn.close()
