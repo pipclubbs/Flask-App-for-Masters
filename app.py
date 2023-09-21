@@ -27,7 +27,6 @@ def climb_home():
         return returnAboutMe()
 
     return render_template("index.html")
-    # need to add code here for where the user would type in their queries
 
 
 @app.route('/walls', methods=['GET', 'POST'])
@@ -46,10 +45,6 @@ def climb_walls():
 
     if request.method == "GET" and "about-me" in request.form:
         return returnAboutMe()
-
-    # return render_template("walls.html", wall_search=wall_search)
-
-    # need to add in information here for parsing the information in from the scraper
 
 
 @app.route('/classes', methods=['GET', 'POST'])
@@ -87,8 +82,6 @@ def climb_classes():
     if request.method == "GET" and "about-me" in request.form:
         return returnAboutMe()
 
-    # need to add in information here for parsing the information in from the scrape
-
 
 @app.route('/events', methods=['GET', 'POST'])
 def climb_events():
@@ -104,7 +97,6 @@ def climb_events():
         return returnAboutMe()
 
     return render_template("events.jinja2", event_search=event_search)
-    # need to add in information here for parsing the information in from the scraper
 
 
 @app.route('/clubs', methods=['GET', 'POST'])
@@ -121,7 +113,6 @@ def climb_clubs():
         return returnAboutMe()
 
     return render_template("clubs.jinja2", club_search=club_search)
-    # need to add in information here for parsing the information in from the scraper
 
 
 @app.route('/about')
@@ -152,28 +143,22 @@ def display_class_text(area):
     description = []
     list_of_classes = []
 
-    # for row in data:
-    #    print(row)
     for row in data:
         if row[0] != name:
             name = (f'{row[0]}')
             list_of_classes.append(f'\n\n{name}')
-            # print(f'\n{name}')
 
         if row[1] != url:
             url = row[1]
             list_of_classes.append(url)
-            # print(url)
 
         if row[2] != title:
             title = (row[2])
             list_of_classes.append(f'\n{title}')
-            # print(f'\n{title}')
 
         description.append(row[3])
         for d in description:
             list_of_classes.append(d)
-            # print(d)
             description = []
             continue
 
@@ -187,28 +172,16 @@ def display_centre_text(area):
     query = "SELECT * FROM centres WHERE area = ?;"
     data = conn.execute(query, (area,))
 
-    list_of_centres = []
-
     for row in data:
-        if row[0] == area and row[2] != None:
-            print(f'row in data is {row}')
-            list_of_centres.append(f'\n\n{row[1]}')
-            list_of_centres.append(row[5])
-            list_of_centres.append(row[6])
-            list_of_centres.append(row[7])
-            list_of_centres.append(row[8])
-            list_of_centres.append(row[9])
-            list_of_centres.append(row[10])
-            list_of_centres.append(row[2])
-        else:
-            continue
+        if row[0] == area and row[2] is not None:
+            list_of_centres = [
+                f'\n\n{row[1]}', row[5], row[6],
+                row[7], row[8], row[9], row[10], row[2]]
 
     conn.close()
-    # print(list_of_centres)
     return render_template("walls.jinja2", wall_search=list_of_centres)
 
 
 returnHome = returnHome()
-
 
 app.run()

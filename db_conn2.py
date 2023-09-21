@@ -14,25 +14,35 @@ class DatabaseConnection:
         correct class method for insertion into the
         database """
 
-    def __init__(self, scraped_data):
-        self.data_list = scraped_data
-        self.create_tables()
-        data = []
-        data2 = []
-        for data_dict in self.data_list:
-            # check if the data_list has come from a centre or class search
-            if 'title' not in data_dict:
-                # if 'title' isn't there it is centre data
-                data.append(data_dict)
-            else:
-                # if it is it is class data
-                data2.append(data_dict)
+    def __init__(self, input_value):
+        if isinstance(input_value, str):
+            self.data_string = input_value
+            check_centres = self.check_centre_table(self.data_string)
+            check_classes = self.check_class_table(self.data_string)
+            print("this shouldn't fire so if it does something has gone horribly wrong!")
 
-        if len(data) > 0:
-            # check if values were added to data
-            self.insert_centre_data(data)
+        elif isinstance(input_value, list):
+            self.data_list = input_value
+            self.create_tables()
+            data = []
+            data2 = []
+            for data_dict in self.data_list:
+                # check if the data_list has come from a centre or class search
+                if 'title' not in data_dict:
+                    # if 'title' isn't there it is centre data
+                    data.append(data_dict)
+                else:
+                    # if it is it is class data
+                    data2.append(data_dict)
+
+            if len(data) > 0:
+                # check if values were added to data
+                self.insert_centre_data(data)
+            else:
+                self.insert_data(data2)
+
         else:
-            self.insert_data(data2)
+            raise ValueError("Input must be a string or a list")
 
     """create a database file and the tables"""
 
@@ -54,6 +64,28 @@ class DatabaseConnection:
         print("database and tables created successfully")
         conn.close()
 
+    def check_centre_table(self, area):
+        searched_area = area
+        conn = sqlite3.connect('database.db')
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT * FROM centres WHERE area = ? ", (searched_area))
+        find = cur.fetchall()
+
+        return any(row[0] == searched_area for row in find)
+
+    def check_class_table(self, area):
+        searched_area = area
+        conn = sqlite3.connect('database.db')
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT * FROM classes WHERE area = ? ", (searched_area))
+        find = cur.fetchall()
+
+        return any(row[0] == searched_area for row in find)
+
     """method to check whether the row already exists for 
         a centre. Return is a Boolean that tells the 
         insert_centre_data() method which insert statement to 
@@ -72,14 +104,8 @@ class DatabaseConnection:
             "SELECT * FROM centres WHERE area = ? AND name = ?", (area_from_data, name_from_data))
         find = cur.fetchall()
 
-        if find:
-            for row in find:
-                if row[0] == area_from_data and row[1] == name_from_data:
-                    return True
-            else:
-                return False
-        else:
-            return False
+        # use a generator expression with any() to check if there are any rows that contain the name and row
+        return any(row[0] == area_from_data and row[1] == name_from_data for row in find)
 
     """ method to insert class data into the classes and centre tables"""
     # need to update this so that it doesn't overwrite the values if the
