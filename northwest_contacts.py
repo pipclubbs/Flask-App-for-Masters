@@ -26,8 +26,9 @@ class NorthWestContacts(ClassScraper):
         for c in centres:
             if c["name"] == "Eden Rock, Carlisle":
                 contactUrl = c["contactUrl"]
+                soup = self.get_html(contactUrl)
 
-                span_tags = self.search_tags('span', contactUrl)
+                span_tags = self.search_tags('span', soup)
                 # print(span_tags)
                 span_tags = [i for n, i in enumerate(
                     span_tags) if i not in span_tags[:n]]

@@ -26,9 +26,9 @@ class NorthWestClasses(ClassScraper):
             if c["name"] == "Eden Rock, Carlisle":
                 area = c["area"]
                 classUrl = c["classUrl"]
-
-                p_tags = self.search_tags_alternative('p', classUrl)
-                h6_tags = self.search_tags('h6', classUrl)
+                soup = self.get_html(classUrl)
+                p_tags = self.search_tags_alternative('p', soup)
+                h6_tags = self.search_tags('h6', soup)
 
                 class_list = [
                     {
@@ -99,8 +99,9 @@ class NorthWestClasses(ClassScraper):
             elif c["name"] == "Blochaus Climbing, Manchester":
                 area = c["area"]
                 classUrl = c["classUrl"]
+                soup = self.get_html(classUrl)
 
-                span_tags = self.search_tags('span', classUrl)
+                span_tags = self.search_tags('span', soup)
                 span_tags = self.remove_blanks(span_tags)
                 span_tags = [i for n, i in enumerate(
                     span_tags) if i not in span_tags[:n]]

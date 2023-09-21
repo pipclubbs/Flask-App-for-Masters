@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-# import db_conn2
 
 
 class ClassScraper:
@@ -15,18 +14,18 @@ class ClassScraper:
         soup = BeautifulSoup(result.text, "html.parser")
         return soup
 
-    def search_tags(self, tag, url):
-        url = url
-        soup = self.get_html(url)
-        searched_soup = soup.find_all(tag)
+    def search_tags(self, tag, input_soup):
+        searched_tag = tag
+        soup = input_soup
+        searched_soup = soup.find_all(searched_tag)
         tag_list = [e.string for e in searched_soup]
         return tag_list
 
-    def search_tags_alternative(self, tag, url):
-        url = url
-        soup = self.get_html(url)
+    def search_tags_alternative(self, tag, input_soup):
+        searched_tag = tag
+        soup = input_soup
         tag_list = []
-        tags = soup.find_all(tag)
+        tags = soup.find_all(searched_tag)
         for e in tags:
             e = e.text
             tag_list.append(e)

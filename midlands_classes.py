@@ -21,9 +21,10 @@ class MidlandsClasses(ClassScraper):
             if c["name"] == "YMCA Lincolnshire, Lincoln":
                 area = c["area"]
                 classUrl = c["classUrl"]
+                soup = self.get_html(classUrl)
 
-                p_tags = self.search_tags('p', classUrl)
-                h2_tags = self.search_tags('h2', classUrl)
+                p_tags = self.search_tags('p', soup)
+                h2_tags = self.search_tags('h2', soup)
 
                 class_list = [
                     {

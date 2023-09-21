@@ -37,8 +37,9 @@ class YorkshireClasses(ClassScraper):
             if c["name"] == "The Foundry, Sheffield":
                 area = c["area"]
                 classUrl = c["classUrl"]
+                soup = self.get_html(classUrl)
 
-                p_tags = self.search_tags_alternative('p', classUrl)
+                p_tags = self.search_tags_alternative('p', soup)
 
                 class_list = [
                     {
@@ -121,16 +122,17 @@ class YorkshireClasses(ClassScraper):
             elif c["name"] == "Climbing Works, Sheffield":
                 area = c["area"]
                 classUrl = c["classUrl"]
+                soup = self.get_html(classUrl)
 
                 p_tags = []
-                p_tag_list = self.search_tags('p', classUrl)
+                p_tag_list = self.search_tags('p', soup)
                 for p in p_tag_list:
                     if p != None and p != '\u200b':
                         p_tags.append(p)
                 # print(p_tags)
 
                 h2_tags = []
-                h2_tag_list = self.search_tags('h2', classUrl)
+                h2_tag_list = self.search_tags('h2', soup)
                 for i in h2_tag_list:
                     i = i.lower()
                     i = i.title()
@@ -139,7 +141,7 @@ class YorkshireClasses(ClassScraper):
                     h2_tags.append(i)
 
                 span_tags = []
-                span_tags_list = self.search_tags('span', classUrl)
+                span_tags_list = self.search_tags('span', soup)
                 for i in span_tags_list:
                     if i != None and i != "\u200b":
                         span_tags.append(i)
@@ -243,16 +245,17 @@ class YorkshireClasses(ClassScraper):
             elif c["name"] == "Mad Volume, Hull":
                 area = c["area"]
                 classUrl = c["classUrl"]
+                soup = self.get_html(classUrl)
 
                 span_tags = []
-                span_tag_list = self.search_tags('span', classUrl)
+                span_tag_list = self.search_tags('span', soup)
                 span_tag_list = self.remove_blanks(span_tag_list)
                 for p in span_tag_list:
                     if p != "\xa0":
                         span_tags.append(p)
 
                 div_tags = []
-                div_tag_list = self.search_tags('div', classUrl)
+                div_tag_list = self.search_tags('div', soup)
                 div_tag_list = self.remove_blanks(div_tag_list)
                 for p in div_tag_list:
                     if p != "\xa0" and p != "\n":
@@ -285,11 +288,12 @@ class YorkshireClasses(ClassScraper):
             elif c["name"] == "Climbing Lab, Leeds":
                 area = c["area"]
                 classUrl = c["classUrl"]
+                soup = self.get_html(classUrl)
 
-                h3_tags = self.search_tags('h3', classUrl)
+                h3_tags = self.search_tags('h3', soup)
 
                 p_tags = []
-                p_tag_list = self.search_tags_alternative('p', classUrl)
+                p_tag_list = self.search_tags_alternative('p', soup)
                 for p in p_tag_list:
                     if p != "\xa0":
                         p_tags.append(p)

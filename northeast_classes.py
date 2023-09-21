@@ -37,9 +37,11 @@ class NorthEastClasses(ClassScraper):
             if c["name"] == "Climb Valley, Newcastle":
                 area = c["area"]
                 classUrl = c["classUrl"]
-                h1_tag = self.search_tags('h1', classUrl)
-                h4_tag = self.search_tags('h4', classUrl)
-                p_tag = self.search_tags('p', classUrl)
+                soup = self.get_html(classUrl)
+
+                h1_tag = self.search_tags('h1', soup)
+                h4_tag = self.search_tags('h4', soup)
+                p_tag = self.search_tags('p', soup)
 
                 for p in p_tag:
                     if p != None and "shopping cart" not in p and "Climb Newcastle Ltd" not in p and "Pick a date" not in p:
@@ -90,27 +92,28 @@ class NorthEastClasses(ClassScraper):
             elif c["name"] == "Durham Climbing Centre, Durham":
                 area = c["area"]
                 classUrl = c["classUrl"]
-                h2_tags = self.search_tags('h2', classUrl)
+                soup = self.get_html(classUrl)
+                h2_tags = self.search_tags('h2', soup)
                 h2_tags = self.do_join(h2_tags)
 
-                h3_tags = self.search_tags('h3', classUrl)
+                h3_tags = self.search_tags('h3', soup)
                 h3_tags = self.remove_blanks(h3_tags)
                 h3_tags = self.do_join(h3_tags)
 
-                span_tags = self.search_tags('span', classUrl)
+                span_tags = self.search_tags('span', soup)
                 span_tags = self.remove_blanks(span_tags)
 
-                li_tags = self.search_tags('li', classUrl)
+                li_tags = self.search_tags('li', soup)
                 li_tags = self.remove_blanks(li_tags)
 
                 div_tags = []
-                div_tag_list = self.search_tags('div', classUrl)
+                div_tag_list = self.search_tags('div', soup)
                 for i in div_tag_list:
                     if i != None and "\xa0" not in i and "Contact Us" not in i and "Stay tuned" not in i:
                         div_tags.append(i)
                 div_tags = self.do_join(div_tags)
 
-                p_tags = self.search_tags_alternative('p', classUrl)
+                p_tags = self.search_tags_alternative('p', soup)
 
                 class_list = [
                     {
@@ -193,27 +196,28 @@ class NorthEastClasses(ClassScraper):
             elif c["name"] == "Newcastle Climbing Centre, Byker":
                 area = c["area"]
                 classUrl = c["classUrl"]
-                h2_tags = self.search_tags('h2', classUrl)
+                soup = self.get_html(classUrl)
+                h2_tags = self.search_tags('h2', soup)
 
                 span_tags = []
-                span_tags_list = self.search_tags('span', classUrl)
+                span_tags_list = self.search_tags('span', soup)
                 for l in span_tags_list:
                     if l != None and "Facebook" not in l and "Twitter" not in l and "Instagram" not in l and "Book online" not in l and "Select Page" not in l:
                         span_tags.append(l)
 
                 p_tags = []
-                p_tag_list = self.search_tags('p', classUrl)
+                p_tag_list = self.search_tags('p', soup)
                 for j in p_tag_list:
                     if j != None and "Book online" not in j and "Select page" not in j and "Please note that" not in j:
                         p_tags.append(j)
 
                 div_tags = []
-                div_tag_list = self.search_tags('div', classUrl)
+                div_tag_list = self.search_tags('div', soup)
                 for k in div_tag_list:
                     if k != None and "Indoor Courses" not in k and "Our Friends and Sponsors" not in k and "\xa0" not in k:
                         div_tags.append(k)
 
-                strong_tags = self.search_tags('strong', classUrl)
+                strong_tags = self.search_tags('strong', soup)
                 strong_tags = self.remove_blanks(strong_tags)
 
                 class_list = [
@@ -428,13 +432,14 @@ class NorthEastClasses(ClassScraper):
             if c["name"] == "Sunderland Wall, Sunderland":
                 area = c["area"]
                 classUrl = c["classUrl"]
+                soup = self.get_html(classUrl)
 
-                h3_tags = self.search_tags('h3', classUrl)
-                h4_tags = self.search_tags('h4', classUrl)
-                p_tags = self.search_tags('p', classUrl)
+                h3_tags = self.search_tags('h3', soup)
+                h4_tags = self.search_tags('h4', soup)
+                p_tags = self.search_tags('p', soup)
 
                 li_tags = []
-                li_tag_list = self.search_tags_alternative('li', classUrl)
+                li_tag_list = self.search_tags_alternative('li', soup)
                 li_tag_list = self.remove_blanks(li_tag_list)
                 for t in li_tag_list:
                     if len(t) > 25:
