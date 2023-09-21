@@ -103,7 +103,7 @@ def climb_events():
     if request.method == "GET" and "about-me" in request.form:
         return returnAboutMe()
 
-    return render_template("events.html", event_search=event_search)
+    return render_template("events.jinja2", event_search=event_search)
     # need to add in information here for parsing the information in from the scraper
 
 
@@ -120,7 +120,7 @@ def climb_clubs():
     if request.method == "GET" and "about-me" in request.form:
         return returnAboutMe()
 
-    return render_template("clubs.html", club_search=club_search)
+    return render_template("clubs.jinja2", club_search=club_search)
     # need to add in information here for parsing the information in from the scraper
 
 
@@ -178,7 +178,7 @@ def display_class_text(area):
             continue
 
     conn.close()
-    return render_template("classes.html", class_search=list_of_classes)
+    return render_template("classes.jinja2", class_search=list_of_classes)
 
 
 def display_centre_text(area):
@@ -205,7 +205,7 @@ def display_centre_text(area):
 
     conn.close()
     # print(list_of_centres)
-    return render_template("walls.html", wall_search=list_of_centres)
+    return render_template("walls.jinja2", wall_search=list_of_centres)
 
 
 returnHome = returnHome()
