@@ -5,6 +5,7 @@
 
 import sqlite3
 import os
+print("SQLite Version:", sqlite3.sqlite_version)
 
 
 class DatabaseConnection:
@@ -15,36 +16,41 @@ class DatabaseConnection:
         database """
 
     def __init__(self, input_value):
-        if isinstance(input_value, str):
-            self.data_string = input_value
-            check_centres = self.check_centre_table(self.data_string)
-            check_classes = self.check_class_table(self.data_string)
-            print("this shouldn't fire so if it does something has gone horribly wrong!")
+        self.data_list = input_value
+        self.create_tables()
 
-        elif isinstance(input_value, list):
-            self.data_list = input_value
-            self.create_tables()
-            data = []
-            data2 = []
-            for data_dict in self.data_list:
-                # check if the data_list has come from a centre or class search
-                if 'title' not in data_dict:
-                    # if 'title' isn't there it is centre data
-                    data.append(data_dict)
-                else:
-                    # if it is it is class data
-                    data2.append(data_dict)
+        # print(f'data_list: {self.data_list}')
+        data = []  # empty list to append centre only data to
+        data2 = []  # empty list to append class and centre data to
+        for data_dict in self.data_list:
+            # print(f'data_dict: {data_dict}')
+            # check if the data_list has come from a centre or class search
+            if 'title' not in data_dict:
+                # if 'title' isn't there it is centre data
+                # put the data into the centre only list
+                data.append(data_dict)
 
-            if len(data) > 0:
-                # check if values were added to data
-                self.insert_centre_data(data)
             else:
-                self.insert_data(data2)
+                # if it is there it is class data
+                # put the data into the class and centre list
+                data2.append(data_dict)
 
+        if data:
+            self.insert_centre_data(data)
         else:
-            raise ValueError("Input must be a string or a list")
+            self.insert_data(data2)
+        '''else:
+            raise ValueError("Input must be a string or a list")'''
 
     """create a database file and the tables"""
+
+    def return_check(self, check_result):
+        if check_result:
+            print("this is true here")
+            return True
+        else:
+            print("this is false")
+            return False
 
     def create_tables(self):
         # os.remove("database.db")
@@ -64,28 +70,6 @@ class DatabaseConnection:
         print("database and tables created successfully")
         conn.close()
 
-    def check_centre_table(self, area):
-        searched_area = area
-        conn = sqlite3.connect('database.db')
-        cur = conn.cursor()
-
-        cur.execute(
-            "SELECT * FROM centres WHERE area = ? ", (searched_area))
-        find = cur.fetchall()
-
-        return any(row[0] == searched_area for row in find)
-
-    def check_class_table(self, area):
-        searched_area = area
-        conn = sqlite3.connect('database.db')
-        cur = conn.cursor()
-
-        cur.execute(
-            "SELECT * FROM classes WHERE area = ? ", (searched_area))
-        find = cur.fetchall()
-
-        return any(row[0] == searched_area for row in find)
-
     """method to check whether the row already exists for 
         a centre. Return is a Boolean that tells the 
         insert_centre_data() method which insert statement to 
@@ -95,17 +79,29 @@ class DatabaseConnection:
         input_data = data
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
+        print('check_rows_exist_is_running')
+        print(f'input data: {input_data}')
 
+        found_rows = []
         for row in input_data:
+            print(f'check rows exist row: {row}')
             area_from_data = row["area"]
             name_from_data = row["name"]
+            print(f'assigned values {area_from_data}, {name_from_data}')
 
-        cur.execute(
-            "SELECT * FROM centres WHERE area = ? AND name = ?", (area_from_data, name_from_data))
-        find = cur.fetchall()
+            cur.execute(
+                "SELECT * FROM centres WHERE area = ? AND name = ?", (area_from_data, name_from_data))
+            find = cur.fetchall()
+            # for row in find:
+            # print(f'find:{row[0]} and {row[1]}')
+            for row in find:
+                if row[0] == area_from_data and row[1] == name_from_data:
+                    found_rows.append(row)
 
-        # use a generator expression with any() to check if there are any rows that contain the name and row
-        return any(row[0] == area_from_data and row[1] == name_from_data for row in find)
+        if found_rows:
+            return True
+        else:
+            return False
 
     """ method to insert class data into the classes and centre tables"""
     # need to update this so that it doesn't overwrite the values if the
@@ -116,27 +112,32 @@ class DatabaseConnection:
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
 
-        check = self.check_rows_exist(data)
-
-        if check == False:
-            cur.executemany('''INSERT OR REPLACE INTO centres (
-                        area, name, classUrl
-                        ) VALUES (
-                        :area, :name, :classUrl);
-                        ''', data)
-
-        else:
-            cur.executemany(
-                '''UPDATE centres SET classUrl = :classUrl WHERE name =:name;''', data)
-
-        cur.executemany('''INSERT or REPLACE INTO classes (
-                            area, classUrl, title, description
+        print(f'data in insert data is: {data}')
+        for row in data:
+            print(f'row in insert_data: {row}')
+            check = self.check_rows_exist(data)
+            print(f'check value is {check}')
+            if not check:
+                cur.executemany('''INSERT OR REPLACE INTO centres (
+                            area, name, classUrl
                             ) VALUES (
-                            :area, :classUrl, :title, :description);
-                            ''', data
-                        )
+                            :area, :name, :classUrl);
+                            ''', data)
+                print('new centre added')
+            else:
+                cur.executemany(
+                    '''UPDATE centres SET classUrl = :classUrl WHERE name =:name;''', data)
+                print('centre updated')
+
+            cur.executemany('''INSERT or REPLACE INTO classes (
+                                area, classUrl, title, description
+                                ) VALUES (
+                                :area, :classUrl, :title, :description);
+                                ''', data
+                            )
+        print('classes added')
         conn.commit()
-        # print("Records successfully added")
+        print("Records successfully added")
         conn.close()
 
     def insert_centre_data(self, data_to_insert):
@@ -147,6 +148,7 @@ class DatabaseConnection:
 
         # will be true if the area and name are in a line on the database
         check = self.check_rows_exist(data)
+        print(f'the check to see if the rows already existed came out {check}')
 
         if check == True:
             # If classUrl in the incoming data is '' it is from centre search. if the class search is already done, the name will be there

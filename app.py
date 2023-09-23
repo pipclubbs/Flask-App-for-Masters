@@ -5,8 +5,10 @@ from yorkshire_classes import YorkshireClasses
 from midlands_classes import MidlandsClasses
 from northwest_classes import NorthWestClasses
 from northwest_contacts import NorthWestContacts
+# from db_conn2 import DatabaseConnection
 
 import sqlite3
+import os
 
 app = Flask(__name__)
 
@@ -36,9 +38,14 @@ def climb_walls():
     if request.method == "POST" and "wallsearch" in request.form:
         wall_search = request.form.get('wallsearch')
         if wall_search == "north-west":
-            search = NorthWestContacts()
-            search.assign_values()
-            return display_centre_text("north-west")
+            check = centre_data_exists("north-west")
+            print(f'this is where the final outcome is: {check}')
+            if not check:
+                search = NorthWestContacts()
+                search.assign_values()
+                return display_centre_text("north-west")
+            else:
+                return display_centre_text("north-west")
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -172,14 +179,132 @@ def display_centre_text(area):
     query = "SELECT * FROM centres WHERE area = ?;"
     data = conn.execute(query, (area,))
 
+    # for row in data:
+    #    print(row)
+    list_of_centres = []
+
     for row in data:
         if row[0] == area and row[2] is not None:
-            list_of_centres = [
-                f'\n\n{row[1]}', row[5], row[6],
-                row[7], row[8], row[9], row[10], row[2]]
-
+            list_of_centres.append(f'\n\n{row[1]}')
+            list_of_centres.append(row[5])
+            list_of_centres.append(row[6])
+            list_of_centres.append(row[7])
+            list_of_centres.append(row[8])
+            list_of_centres.append(row[9])
+            list_of_centres.append(row[10])
+            list_of_centres.append(f'{row[2]}')
+    # print(list_of_centres)
     conn.close()
     return render_template("walls.jinja2", wall_search=list_of_centres)
+
+
+def check_class_table(area):
+    searched_area = area
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT * FROM classes WHERE area = ?", (searched_area,))
+    find = cur.fetchall()
+
+    found_rows = []
+    for row in find:
+        if row[0] == searched_area:
+            found_rows.append(row)
+
+    if found_rows:
+        return True
+    else:
+        return False
+
+
+def check_centre_table(area):
+    searched_area = area
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+
+    print(f'searched_area in check centre data = {searched_area}')
+    cur.execute(
+        "SELECT * FROM centres WHERE area = ? ", (searched_area,))
+    find = cur.fetchall()
+    print(f'find: {find}')
+
+    found_rows = []
+    for row in find:
+        if row[0] == searched_area:
+            found_rows.append(row)
+        print(f'found_rows in check data centre: {found_rows}')
+
+    if found_rows:
+        return True
+    else:
+        return False
+
+
+def check_rows_for_info(area):
+    searched_area = area
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    print(f'searched_area: {searched_area}')
+
+    cur.execute("SELECT * FROM centres WHERE area = ? ",
+                (searched_area,))
+    find = cur.fetchall()
+
+    print(f'find:{find}')
+
+    found_rows = []
+    for row in find:
+        print(f'check rows found rows: {row}')
+        if row[2] != None:
+            found_rows.append(row)
+
+    if found_rows:
+        return True
+    else:
+        return False
+
+        # returns true is any are true
+
+
+def centre_data_exists(area):
+    search_area = area
+    if not os.path.isfile('database.db'):
+        return False
+
+    else:
+        check_centres = check_centre_table(search_area)
+        if check_centres:
+            check_2 = check_rows_for_info(search_area)
+            if check_2:  # if this is true, then there is full centre data
+                return True
+            else:
+                return False
+        else:
+            return False
+
+
+'''def data_exists(area):
+    search_area = area
+    if not os.path.isfile('database.db'):
+        return False
+
+    else:
+        check_classes = check_class_table(search_area)
+        if check_classes:
+            checked_classes = True
+        else:
+            checked_classes = False
+
+        check_centres = check_centre_table(search_area)
+        if check_centres:
+            check_2 = check_rows_for_info(search_area)
+            if check_2:  # if this is true, then there is full centre data
+                checked_centres = True
+            else:
+                checked_centres = False
+
+        return checked_centres, checked_classes'''
 
 
 returnHome = returnHome()
