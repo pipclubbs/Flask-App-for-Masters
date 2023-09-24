@@ -1,48 +1,36 @@
-data_dict = {'type': 'club', 'area': 'north-east', 'name': 'Durham Mountain Sports', 'url': 'https://durhammountainsports.org.uk/wp/about/', 'intro': '', 'title': '', 'subtitle': '', 'description': 'Activities often take place over the course of a weekend (particularly bank holidays), typically camping in the summer but using cottages, youth hostels, camping barns or walking huts in the winter. Popular venues include the Lake District, Yorkshire Dales, North Yorkshire Moors, Northumberland and Scotland.'}
+import re
 
-if 'type' in data_dict:
-    print(True)
-else:
-    print(False)
+p_tags = ['Mountaineering, rock climbing, hill walking and other mountain sports',
+          '\nMenu\n',
+          'CORONAVIRUS – March 2023',
+          'Club activities are fully resumed, including Tuesday evening indoor climbing at Creation, day walks, social events, climbing trips and weekend camping and hut meets. We are now back to being our active, lively, sociable selves, and are hope to continue this for all 2023.\xa0',
+          'Make Friends – Find Activity Partners – Gain Skills – Adventure Outdoors !\n\nSolihull Mountaineering Club welcomes rock climbers, mountaineers and hillwalkers from Solihull, Birmingham and across the West Midlands.\nWe are an active club, with a busy programme of weekends away, as well as social events, lectures and more.', 'Outdoor Mountaineering, Climbing and more!\nEvery month we have scheduled weekend meets, staying in mountaineering club cottages, bunkhouses or camping. We also have many day and social events organised,\xa0 and an enthusiastic network of members who arrange additional days out and weekends away.', 'Indoor Climbing\nWe climb indoors at Creation Climbing Centre, 582 Moseley Rd, Birmingham B12 9AA on Tuesday evenings.', 'Club members regularly go bouldering at The Depot, 10 Sherlock St, Birmingham B5 6LU and also at Birmingham Bouldering Centre,\xa0 2 Water St, Birmingham, B3 1HL.\n', 'Other Club Activities\nOther activities such as lectures, dinners and training events are often held at Old Edwardians Sports Club, Streetsbrook Road, Solihull, B90 3PE.', 'Climbing and mountaineering are activities with a danger of personal injury or death. Participants in these activities should be aware of and accept these risks and be responsible for their own actions.']
+span_tags = ['Menu', 'Outdoors adventures with SMC - lead climbing on sea cliffs', "Classic rock climbs with SMC - the Devil's Slide on Lundy", 'Alpine climbing in the French Alps near Chamonix', 'Club members regularly go bouldering at The Depot, 10 Sherlock St, Birmingham B5 6LU and also at Birmingham Bouldering Centre,\xa0 2 Water St, Birmingham, B3 1HL.\n', '10 Sherlock St, Birmingham B5 6LU ', 'Pages', 'Recent Posts', 'Solihull Mountaineering Club', 'Spacious', 'WordPress']
+
+p_tag_list = []
+p_tags_updated = []
+for tag in p_tags:
+    p_tag_list.append(tag.replace("\n\n", ""))
+for tag in p_tag_list:
+    p_tags_updated.append(tag.replace("\n", ""))
 
 
 
 
 
 
-'''import re
 
-p_tags = ["Get out and about with Durham's friendliest outdoor club!", 'We are the North East’s fastest growing multi-activity outdoor pursuits club that meets in Framwellgate Moor on the outskirts of Durham City. Our members are from all parts of the county and beyond and we’re always eager to welcome new members (who incidentally, must be over 18).', 'The club is affiliated to the\xa0BMC\xa0and is run by its members for its members. Within our ranks we have\xa0walkers,\xa0climbers,\xa0skiers\xa0and\xa0mountain-bikers\xa0representing every level of competence from highly experienced to complete beginner.', 'We aim to provide a friendly, supportive environment where experienced club members can pass on their skills or can recommend appropriate training.', 'Activities often take place over the course of a weekend (particularly bank holidays), typically camping in the summer but using cottages, youth hostels, camping barns or walking huts in the winter. Popular venues include the Lake District, Yorkshire Dales, North Yorkshire Moors, Northumberland and Scotland.', 'If you love the outdoors and want to make lots of new friends who have similar interests, come along and meet us. However, if you find the prospect of turning up knowing no-one daunting, then why not contact us first? Check out our contact page. ']
 print("p")
-for i, tag in enumerate(p_tags):
+for i, tag in enumerate(p_tags_updated):
     print(i, tag)
 
-print("H2")
-for i, tag in enumerate(h2_tags):
+print("span")
+for i, tag in enumerate(span_tags):
     print(i, tag)
 
-print("p")
-for i, tag in enumerate(p_tags):
-    print(i, tag)
-
-
+'''
 club_list = [
     {
-        "intro": p_tags[0],
-        "title": '',
-        "subtitle": '',
-        "description": p_tags[1]
-    },{
-        "intro": '',
-        "title": '',
-        "subtitle": '',
-        "description": p_tags[2]
-    },{
-        "intro": '',
-        "title": '',
-        "subtitle": '',
-        "description": p_tags[3]
-    },{
         "intro": '',
         "title": '',
         "subtitle": '',
@@ -52,10 +40,25 @@ club_list = [
         "title": '',
         "subtitle": '',
         "description": p_tags[5]
+    },{
+        "intro": '',
+        "title": '',
+        "subtitle": '',
+        "description": p_tags[6]
+    },{
+        "intro": '',
+        "title": '',
+        "subtitle": '',
+        "description": p_tags[7]
+    },{
+        "intro": '',
+        "title": '',
+        "subtitle": '',
+        "description": p_tags[8]
     }
 ]
 
 #print(centre_details)
-for line in centre_details:
+for line in club_list:
     for key, value in line.items():
         print(key, ":", value)'''

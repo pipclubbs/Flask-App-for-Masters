@@ -9,6 +9,8 @@ from northeast_contacts import NorthEastContacts
 from midlands_contacts import MidlandsContacts
 from yorkshire_contacts import YorkshireContacts
 from northeast_clubs import NorthEastClubs
+from northwest_clubs import NorthWestClubs
+from midlands_clubs import MidlandsClubs
 # from db_conn2 import DatabaseConnection
 
 import sqlite3
@@ -146,6 +148,14 @@ def climb_clubs():
             list_of_clubs = NorthEastClubs()
             list_of_clubs.assign_values()
             return display_club_text("north-east")
+        elif club_search == "north-west":
+            list_of_clubs = NorthWestClubs()
+            list_of_clubs.assign_values()
+            return display_club_text("north-west")
+        elif club_search == "midlands":
+            list_of_clubs = MidlandsClubs()
+            list_of_clubs.assign_values()
+            return display_club_text("midlands")
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -235,7 +245,6 @@ def display_centre_text(area):
 
 
 def display_club_text(area):
-    searched_area = area
     conn = sqlite3.connect('database.db')
     query = "SELECT * FROM clubs WHERE area = ?;"
     data = conn.execute(query, (area,))
