@@ -8,6 +8,7 @@ from northwest_contacts import NorthWestContacts
 from northeast_contacts import NorthEastContacts
 from midlands_contacts import MidlandsContacts
 from yorkshire_contacts import YorkshireContacts
+from northeast_clubs import NorthEastClubs
 # from db_conn2 import DatabaseConnection
 
 import sqlite3
@@ -124,6 +125,8 @@ def climb_events():
     if request.method == "POST" and "eventsearch" in request.form:
         event_search = request.form.get('eventsearch')
 
+        # return render_template("events.jinja2", event_search=event_search)
+
     if request.method == "GET" and "home" in request.form:
         return returnHome()
 
@@ -139,6 +142,10 @@ def climb_clubs():
     club_search = ''
     if request.method == "POST" and "clubsearch" in request.form:
         club_search = request.form.get('clubsearch')
+        if club_search == "north-east":
+            list_of_clubs = NorthEastClubs()
+            list_of_clubs.assign_values()
+            return display_club_text("north-east")
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -225,6 +232,51 @@ def display_centre_text(area):
     print(list_of_centres)
     conn.close()
     return render_template("walls.jinja2", wall_search=list_of_centres)
+
+
+def display_club_text(area):
+    searched_area = area
+    conn = sqlite3.connect('database.db')
+    query = "SELECT * FROM clubs WHERE area = ?;"
+    data = conn.execute(query, (area,))
+
+    name = ''
+    url = ''
+    intro = ''
+    title = ''
+    subtitle = ''
+    description = []
+    list_of_clubs = []
+
+    for row in data:
+        if row[1] != name:
+            name = (f'{row[1]}')
+            list_of_clubs.append(f'\n\n{name}')
+
+        if row[2] != url:
+            url = row[2]
+            list_of_clubs.append(url)
+
+        if row[3] != intro:
+            intro = (row[3])
+            list_of_clubs.append(f'{intro}')
+
+        if row[4] != title:
+            title = (row[4])
+            list_of_clubs.append(f'\n{title}')
+
+        if row[5] != subtitle:
+            subtitle = (row[5])
+            list_of_clubs.append(f'\n{subtitle}')
+
+        description.append(row[6])
+        for d in description:
+            list_of_clubs.append(d)
+            description = []
+            continue
+
+    conn.close()
+    return render_template("clubs.jinja2", class_search=list_of_clubs)
 
 
 def check_class_table(area):

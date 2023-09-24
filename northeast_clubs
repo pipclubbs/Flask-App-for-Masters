@@ -1,2 +1,0 @@
-import db_conn2
-from class_scrapers import ClassScraper

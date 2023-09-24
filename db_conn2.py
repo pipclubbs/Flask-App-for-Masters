@@ -22,23 +22,31 @@ class DatabaseConnection:
         # print(f'data_list: {self.data_list}')
         data = []  # empty list to append centre only data to
         data2 = []  # empty list to append class and centre data to
+        data3 = []  # empty list to append club data to
         for data_dict in self.data_list:
-            # print(f'data_dict: {data_dict}')
+            print(f'data_dict: {data_dict}')
             # check if the data_list has come from a centre or class search
             if 'title' not in data_dict:
                 # if 'title' isn't there it is centre data
                 # put the data into the centre only list
                 data.append(data_dict)
 
-            else:
+            elif 'type' not in data_dict:
                 # if it is there it is class data
                 # put the data into the class and centre list
                 data2.append(data_dict)
 
+            else:
+                data3.append(data_dict)
+
         if data:
             self.insert_centre_data(data)
-        else:
+        elif data2:
             self.insert_data(data2)
+        elif data3:
+            print(f'the data is {data3}')
+            self.insert_club_data(data3)
+
         '''else:
             raise ValueError("Input must be a string or a list")'''
 
@@ -66,6 +74,11 @@ class DatabaseConnection:
             CREATE TABLE IF NOT EXISTS classes (
                      area TEXT NOT NULL, classUrl TEXT NOT NULL, 
                      title TEXT, description TEXT UNIQUE)
+                     ''')
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS clubs (
+                     area TEXT NOT NULL, name TEXT NOT NULL, url TEXT NOT NULL,
+                     intro TEXT, title TEXT, subtitle TEXT, description TEXT UNIQUE)
                      ''')
         print("database and tables created successfully")
         conn.close()
@@ -162,6 +175,18 @@ class DatabaseConnection:
             cur.executemany('''INSERT INTO centres (area, name, homeUrl, contactUrl, street,
                             street_area, city, postcode, email, phone) VALUES (:area, :name, :homeUrl, :contactUrl, :street,
                             :street_area, :city, :postcode, :email, :phone);''', data)
+
+        conn.commit()
+        print("Records successfully added")
+        conn.close()
+
+    def insert_club_data(self, data_to_insert):
+        data = data_to_insert
+        conn = sqlite3.connect('database.db')
+        cur = conn.cursor()
+
+        cur.executemany('''INSERT OR REPLACE INTO clubs (area, name, url, intro, title, subtitle, description) 
+                        VALUES (:area, :name, :url, :intro, :title, :subtitle, :description);''', data)
 
         conn.commit()
         print("Records successfully added")

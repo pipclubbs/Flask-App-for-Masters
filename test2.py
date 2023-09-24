@@ -1,24 +1,61 @@
-import re
+data_dict = {'type': 'club', 'area': 'north-east', 'name': 'Durham Mountain Sports', 'url': 'https://durhammountainsports.org.uk/wp/about/', 'intro': '', 'title': '', 'subtitle': '', 'description': 'Activities often take place over the course of a weekend (particularly bank holidays), typically camping in the summer but using cottages, youth hostels, camping barns or walking huts in the winter. Popular venues include the Lake District, Yorkshire Dales, North Yorkshire Moors, Northumberland and Scotland.'}
 
-p_tags = ['Our open plan centre is a great social space to climb with friends! It features our unique top-out boulder, comp room, overhanging, slab and vertical walls, all set with our state of the art climbing hold selection from the best manufacturers around.', 'The large dedicated kids and beginners area is available for you to learn or bring your kids down before progressing to the main centre.', 'Need to hire some equipment for your session? we offer climbing shoe hire in a huge range of sizes, chalk bag hire and a shop selling all the bits you need and merchandise.', 'There is ample free on-site parking, and a large bike storage. our location is just a 15 min walk from Burley Park train station and 30 min walk from Leeds central train station.', 'The doors open at 6am every weekday morning and there are plush changing rooms with showers, lockers, and toilets so you can get ready for your day after an early climb. grab a free filter coffee before 9am to power up your climb!', 'Waiver', 'We have different prices to suit your pocket : Pay per Visit, Monthly Memberships, Annual Memberships & 10 Climb Passes.', 'Prices', 'Once you have completed your Adult Intro session, you can climb independently in the centre. When you feel confident you may also supervise 2 guests per visit; it’s a great way to introduce your friends and family to bouldering', 'Units 12, 14 & 15', 'Kirkstall Industrial Park', 'Leeds', 'LS4 2AZ', 'info@climbinglab.co.uk', 'Tel: 01132632742', 'Monday to Friday: 6:00am - 10pm ', 'Saturday/Sunday: 10am - 9pm', '© Copyright  2023   The Climbing Lab  ']
+if 'type' in data_dict:
+    print(True)
+else:
+    print(False)
 
-'''for i, tag in enumerate(p_tags):
-    print(i, tag)'''
 
 
-p_tags_phone = re.sub(r'[([T][e][l](: )', r'', p_tags[14])
-print(p_tags_phone)
-print(type(p_tags_phone))
 
-centre_details = [
+
+
+'''import re
+
+p_tags = ["Get out and about with Durham's friendliest outdoor club!", 'We are the North East’s fastest growing multi-activity outdoor pursuits club that meets in Framwellgate Moor on the outskirts of Durham City. Our members are from all parts of the county and beyond and we’re always eager to welcome new members (who incidentally, must be over 18).', 'The club is affiliated to the\xa0BMC\xa0and is run by its members for its members. Within our ranks we have\xa0walkers,\xa0climbers,\xa0skiers\xa0and\xa0mountain-bikers\xa0representing every level of competence from highly experienced to complete beginner.', 'We aim to provide a friendly, supportive environment where experienced club members can pass on their skills or can recommend appropriate training.', 'Activities often take place over the course of a weekend (particularly bank holidays), typically camping in the summer but using cottages, youth hostels, camping barns or walking huts in the winter. Popular venues include the Lake District, Yorkshire Dales, North Yorkshire Moors, Northumberland and Scotland.', 'If you love the outdoors and want to make lots of new friends who have similar interests, come along and meet us. However, if you find the prospect of turning up knowing no-one daunting, then why not contact us first? Check out our contact page. ']
+print("p")
+for i, tag in enumerate(p_tags):
+    print(i, tag)
+
+print("H2")
+for i, tag in enumerate(h2_tags):
+    print(i, tag)
+
+print("p")
+for i, tag in enumerate(p_tags):
+    print(i, tag)
+
+
+club_list = [
     {
-        "street": p_tags[9],
-        "street_area": p_tags[10],
-        "city": p_tags[11],
-        "postcode": p_tags[12],
-        "email": p_tags[13],
-        "phone": p_tags_phone
+        "intro": p_tags[0],
+        "title": '',
+        "subtitle": '',
+        "description": p_tags[1]
+    },{
+        "intro": '',
+        "title": '',
+        "subtitle": '',
+        "description": p_tags[2]
+    },{
+        "intro": '',
+        "title": '',
+        "subtitle": '',
+        "description": p_tags[3]
+    },{
+        "intro": '',
+        "title": '',
+        "subtitle": '',
+        "description": p_tags[4]
+    },{
+        "intro": '',
+        "title": '',
+        "subtitle": '',
+        "description": p_tags[5]
     }
 ]
 
-print(centre_details)
+#print(centre_details)
+for line in centre_details:
+    for key, value in line.items():
+        print(key, ":", value)'''

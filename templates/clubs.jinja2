@@ -3,20 +3,28 @@
 {% block content %}
 
 <h2>Climbing club search results</h2>
-<div>
-  {% if club_search %}
-  <p>you typed {{ club_search }}</p>
-  {% endif %}
-</div>
-<div>
-  <form method="GET" action="/">
-    <button type="submit" value="home">Home</button>
-  </form>
-</div>
-<div>
-  <form method="GET" action="/about">
-    <button type="submit" value="about-me">About</button>
-  </form>
-</div>
+    <div class="grid-container-results">
+      <div class="grid-item search-box">
+        <div>
+          {% if class_search %}{% for item in class_search %} {% if "http" in
+          item %}
+          <a href="{{ item }}" target="blank"
+            >Click here to visit the website directly</a
+          >
+          {% elif "\n\n" in item %}
+          <h3 class="search-result-title">
+            <hr />
+            <br />{{ item }}
+          </h3>
+          {% elif "\n" in item %}
+          <h4>{{ item }}</h4>
+          {% else %}
+          <p class="search-results">{{ item }}</p>
+          {% endif %} {% endfor %} {% else %}
+          <p class="search-results">No classes in your area</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
 
 {% endblock %}
