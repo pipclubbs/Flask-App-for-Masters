@@ -5,6 +5,9 @@ from yorkshire_classes import YorkshireClasses
 from midlands_classes import MidlandsClasses
 from northwest_classes import NorthWestClasses
 from northwest_contacts import NorthWestContacts
+from northeast_contacts import NorthEastContacts
+from midlands_contacts import MidlandsContacts
+from yorkshire_contacts import YorkshireContacts
 # from db_conn2 import DatabaseConnection
 
 import sqlite3
@@ -46,6 +49,30 @@ def climb_walls():
                 return display_centre_text("north-west")
             else:
                 return display_centre_text("north-west")
+        elif wall_search == "north-east":
+            check = centre_data_exists("north-east")
+            if not check:
+                search = NorthEastContacts()
+                search.assign_values()
+                return display_centre_text("north-east")
+            else:
+                return display_centre_text("north-east")
+        elif wall_search == "midlands":
+            check = centre_data_exists("midlands")
+            if not check:
+                search = MidlandsContacts()
+                search.assign_values()
+                return display_centre_text("midlands")
+            else:
+                return display_centre_text("midlands")
+        elif wall_search == "yorkshire":
+            check = centre_data_exists("yorkshire")
+            if not check:
+                search = YorkshireContacts()
+                search.assign_values()
+                return display_centre_text("yorkshire")
+            else:
+                return display_centre_text("yorkshire")
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -175,6 +202,7 @@ def display_class_text(area):
 
 def display_centre_text(area):
     area = area
+    print(f'FINAL AREA: {area}')
     conn = sqlite3.connect('database.db')
     query = "SELECT * FROM centres WHERE area = ?;"
     data = conn.execute(query, (area,))
@@ -182,7 +210,8 @@ def display_centre_text(area):
     # for row in data:
     #    print(row)
     list_of_centres = []
-
+    # for row in data:
+    #    print(row)#
     for row in data:
         if row[0] == area and row[2] is not None:
             list_of_centres.append(f'\n\n{row[1]}')
@@ -193,7 +222,7 @@ def display_centre_text(area):
             list_of_centres.append(row[9])
             list_of_centres.append(row[10])
             list_of_centres.append(f'{row[2]}')
-    # print(list_of_centres)
+    print(list_of_centres)
     conn.close()
     return render_template("walls.jinja2", wall_search=list_of_centres)
 

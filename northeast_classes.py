@@ -89,7 +89,7 @@ class NorthEastClasses(ClassScraper):
                 for i in class_list:
                     scraped_classes.append(i)
 
-            elif c["name"] == "Durham Climbing Centre, Durham":
+            if c["name"] == "Durham Climbing Centre, Durham":
                 area = c["area"]
                 classUrl = c["classUrl"]
                 soup = self.get_html(classUrl)
@@ -193,7 +193,7 @@ class NorthEastClasses(ClassScraper):
                 for i in class_list:
                     scraped_classes.append(i)
 
-            elif c["name"] == "Newcastle Climbing Centre, Byker":
+            if c["name"] == "Newcastle Climbing Centre, Byker":
                 area = c["area"]
                 classUrl = c["classUrl"]
                 soup = self.get_html(classUrl)
