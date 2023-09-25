@@ -12,6 +12,7 @@ from northeast_clubs import NorthEastClubs
 from northwest_clubs import NorthWestClubs
 from midlands_clubs import MidlandsClubs
 from yorkshire_clubs import YorkshireClubs
+from events import Events
 # from db_conn2 import DatabaseConnection
 
 import sqlite3
@@ -46,7 +47,6 @@ def climb_walls():
         wall_search = request.form.get('wallsearch')
         if wall_search == "north-west":
             check = centre_data_exists("north-west")
-            print(f'this is where the final outcome is: {check}')
             if not check:
                 search = NorthWestContacts()
                 search.assign_values()
@@ -127,8 +127,9 @@ def climb_events():
     event_search = ''
     if request.method == "POST" and "eventsearch" in request.form:
         event_search = request.form.get('eventsearch')
-
-        # return render_template("events.jinja2", event_search=event_search)
+        list_of_events = Events()
+        list_of_events.assign_values()
+        return render_template("events.jinja2", event_search=list_of_events)
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()

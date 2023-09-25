@@ -46,3 +46,12 @@ class ClassScraper:
             j = " ".join(j.split())
             new_list.append(j)
         return new_list
+
+    def strip_spaces_and_breaks(self, data):
+        input_list = data
+        new_tag_list = []
+
+        for tag in input_list:
+            tag = re.sub(r'\s+', ' ', tag).strip()
+            new_tag_list.append(tag)
+        return new_tag_list
