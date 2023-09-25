@@ -1,60 +1,40 @@
 import re
 
-p_tags = ['Mountaineering, rock climbing, hill walking and other mountain sports',
-          '\nMenu\n',
-          'CORONAVIRUS – March 2023',
-          'Club activities are fully resumed, including Tuesday evening indoor climbing at Creation, day walks, social events, climbing trips and weekend camping and hut meets. We are now back to being our active, lively, sociable selves, and are hope to continue this for all 2023.\xa0',
-          'Make Friends – Find Activity Partners – Gain Skills – Adventure Outdoors !\n\nSolihull Mountaineering Club welcomes rock climbers, mountaineers and hillwalkers from Solihull, Birmingham and across the West Midlands.\nWe are an active club, with a busy programme of weekends away, as well as social events, lectures and more.', 'Outdoor Mountaineering, Climbing and more!\nEvery month we have scheduled weekend meets, staying in mountaineering club cottages, bunkhouses or camping. We also have many day and social events organised,\xa0 and an enthusiastic network of members who arrange additional days out and weekends away.', 'Indoor Climbing\nWe climb indoors at Creation Climbing Centre, 582 Moseley Rd, Birmingham B12 9AA on Tuesday evenings.', 'Club members regularly go bouldering at The Depot, 10 Sherlock St, Birmingham B5 6LU and also at Birmingham Bouldering Centre,\xa0 2 Water St, Birmingham, B3 1HL.\n', 'Other Club Activities\nOther activities such as lectures, dinners and training events are often held at Old Edwardians Sports Club, Streetsbrook Road, Solihull, B90 3PE.', 'Climbing and mountaineering are activities with a danger of personal injury or death. Participants in these activities should be aware of and accept these risks and be responsible for their own actions.']
-span_tags = ['Menu', 'Outdoors adventures with SMC - lead climbing on sea cliffs', "Classic rock climbs with SMC - the Devil's Slide on Lundy", 'Alpine climbing in the French Alps near Chamonix', 'Club members regularly go bouldering at The Depot, 10 Sherlock St, Birmingham B5 6LU and also at Birmingham Bouldering Centre,\xa0 2 Water St, Birmingham, B3 1HL.\n', '10 Sherlock St, Birmingham B5 6LU ', 'Pages', 'Recent Posts', 'Solihull Mountaineering Club', 'Spacious', 'WordPress']
+p_tags = ['Home', 'Activities', 'Calendar', 'Trip Reports', 'Join Us', 'Blog', 'Contact Us', 'Links', "The Club's calendar of activities includes:", 'Our members will also be found taking part in mountain marathons, fell running, mountain biking, road biking, orienteering, and possibly even caving.', '']
+td_tags = ["York Alpine Club was founded in 1981, and exists for the encouragement of all kinds of mountain activities, including walking, climbing, skiing and biking, and is affiliated to the BMC. We pride ourselves on being friendly and welcoming to new members, whatever your level of experience. The Club's calendar of activities includes: Weekend meets, staying in huts or camping Mid-week evening and weekend climbing, on local crags in the summer and at local climbing walls during the winter Regular social events Our members will also be found taking part in mountain marathons, fell running, mountain biking, road biking, orienteering, and possibly even caving. For more details see the Join Us page Check our blog to see what we have been up to recently. Latest Blog: Richard Payne Meet 2023 by Simon C [Thursday 16th March, 2023] As the 3-day Laggan meet grew near, were were treated to the traditional mega-thaw …", 'York Alpine Club was founded in 1981, and exists for the encouragement of all kinds of mountain activities, including walking, climbing, skiing and biking, and is affiliated to the BMC. We pride ourselves on being friendly and welcoming to new members, whatever your level of experience.', 'York Alpine Club was founded in 1981, and exists for the encouragement of all kinds of mountain activities, including walking, climbing, skiing and biking, and is affiliated to the BMC. We pride ourselves on being friendly and welcoming to new members, whatever your level of experience.', "The Club's calendar of activities includes: Weekend meets, staying in huts or camping Mid-week evening and weekend climbing, on local crags in the summer and at local climbing walls during the winter Regular social events Our members will also be found taking part in mountain marathons, fell running, mountain biking, road biking, orienteering, and possibly even caving. For more details see the Join Us page Check our blog to see what we have been up to recently.", '', '', 'Latest Blog: Richard Payne Meet 2023 by Simon C [Thursday 16th March, 2023] As the 3-day Laggan meet grew near, were were treated to the traditional mega-thaw …', 'Richard Payne Meet 2023 by Simon C [Thursday 16th March, 2023] As the 3-day Laggan meet grew near, were were treated to the traditional mega-thaw …', '', 'BMC Participation Statement', '', 'This site is maintained by Simon Caldwell All photos are by me unless otherwise credited']
+li_tags = ['Weekend meets, staying in huts or camping', 'Mid-week evening and weekend climbing, on local crags in the summer and at local climbing walls during the winter', 'Regular social events']
 
-p_tag_list = []
+'''p_tag_list = []
 p_tags_updated = []
 for tag in p_tags:
-    p_tag_list.append(tag.replace("\n\n", ""))
-for tag in p_tag_list:
-    p_tags_updated.append(tag.replace("\n", ""))
+    p_tag_list.append(tag.replace("\n", ""))'''
 
-
-
-
-
-
-
-print("p")
-for i, tag in enumerate(p_tags_updated):
+for i, tag in enumerate(p_tags):
+    print(i, tag)
+    
+print("td")
+for i, tag in enumerate(td_tags):
     print(i, tag)
 
-print("span")
+print("li")
+for i, tag in enumerate(li_tags):
+    print(i, tag)
+
+'''print("h3")
+for i, tag in enumerate(h3_tags):
+    print(i, tag)'''
+
+'''print("span")
 for i, tag in enumerate(span_tags):
-    print(i, tag)
-
+    print(i, tag)'''
+    
 '''
 club_list = [
     {
-        "intro": '',
+        "intro": td_tags[2],
         "title": '',
         "subtitle": '',
-        "description": p_tags[4]
-    },{
-        "intro": '',
-        "title": '',
-        "subtitle": '',
-        "description": p_tags[5]
-    },{
-        "intro": '',
-        "title": '',
-        "subtitle": '',
-        "description": p_tags[6]
-    },{
-        "intro": '',
-        "title": '',
-        "subtitle": '',
-        "description": p_tags[7]
-    },{
-        "intro": '',
-        "title": '',
-        "subtitle": '',
-        "description": p_tags[8]
+        "description": td_tags[3]
     }
 ]
 

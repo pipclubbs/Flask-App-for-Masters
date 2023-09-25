@@ -11,6 +11,7 @@ from yorkshire_contacts import YorkshireContacts
 from northeast_clubs import NorthEastClubs
 from northwest_clubs import NorthWestClubs
 from midlands_clubs import MidlandsClubs
+from yorkshire_clubs import YorkshireClubs
 # from db_conn2 import DatabaseConnection
 
 import sqlite3
@@ -156,6 +157,10 @@ def climb_clubs():
             list_of_clubs = MidlandsClubs()
             list_of_clubs.assign_values()
             return display_club_text("midlands")
+        elif club_search == "yorkshire":
+            list_of_clubs = YorkshireClubs()
+            list_of_clubs.assign_values()
+            return display_club_text("yorkshire")
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
