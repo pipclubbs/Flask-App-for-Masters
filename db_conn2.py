@@ -23,6 +23,8 @@ class DatabaseConnection:
         data = []  # empty list to append centre only data to
         data2 = []  # empty list to append class and centre data to
         data3 = []  # empty list to append club data to
+        data4 = []  # empty list to append event data to
+
         for data_dict in self.data_list:
             print(f'data_dict: {data_dict}')
             # check if the data_list has come from a centre or class search
@@ -31,22 +33,26 @@ class DatabaseConnection:
                 # put the data into the centre only list
                 data.append(data_dict)
 
-            elif 'type' not in data_dict:
+            elif 'type' not in data_dict and 'event' not in data_dict:
                 # if it is there it is class data
                 # put the data into the class and centre list
                 data2.append(data_dict)
 
-            else:
+            elif 'event' not in data_dict:
                 data3.append(data_dict)
+
+            else:
+                data4.append(data_dict)
 
         if data:
             self.insert_centre_data(data)
         elif data2:
             self.insert_data(data2)
         elif data3:
-            print(f'the data is {data3}')
+            # print(f'the data is {data3}')
             self.insert_club_data(data3)
-
+        elif data4:
+            self.insert_event_data(data4)
         '''else:
             raise ValueError("Input must be a string or a list")'''
 
@@ -79,6 +85,11 @@ class DatabaseConnection:
             CREATE TABLE IF NOT EXISTS clubs (
                      area TEXT NOT NULL, name TEXT NOT NULL, url TEXT NOT NULL,
                      intro TEXT, title TEXT, subtitle TEXT, description TEXT UNIQUE)
+                     ''')
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS events (
+                    name TEXT NOT NULL, url NOT NULL, intro TEXT, title TEXT, 
+                    subtitle TEXT, description TEXT UNIQUE)
                      ''')
         print("database and tables created successfully")
         conn.close()
@@ -187,6 +198,18 @@ class DatabaseConnection:
 
         cur.executemany('''INSERT OR REPLACE INTO clubs (area, name, url, intro, title, subtitle, description) 
                         VALUES (:area, :name, :url, :intro, :title, :subtitle, :description);''', data)
+
+        conn.commit()
+        print("Records successfully added")
+        conn.close()
+
+    def insert_event_data(self, data_to_insert):
+        data = data_to_insert
+        conn = sqlite3.connect('database.db')
+        cur = conn.cursor()
+
+        cur.executemany('''INSERT OR REPLACE INTO events (name, url, intro, title, subtitle, description) 
+                        VALUES (:name, :url, :intro, :title, :subtitle, :description);''', data)
 
         conn.commit()
         print("Records successfully added")

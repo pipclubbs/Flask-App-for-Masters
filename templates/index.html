@@ -80,23 +80,16 @@
       </div>
 
       <div class="grid-item search-box">
-        <h3>Competitions and events</h3>
+        <h3>Events</h3>
         <p class="search-boxes">
-          Want to compete? Or see a speaker?
+          Looking for climbing talks or symposiums?
           <br> 
-          Search here for events in your area.
+          Search here for events in the UK.
         </p>
-        <form  class="search-inputs" method="POST" action="/events">
-          <select name="eventsearch">
-            <option value="choose">Choose an area...</option>
-            <option value="north-east">North East</option>
-            <option value="north-west">North West</option>
-            <option value="yorkshire">Yorkshire</option>
-            <option value="midlands">Midlands</option>
-          </select>
-          <button type="submit" id="submitButton">Submit</button>
+        <form  name="eventsearch" class="search-inputs" method="POST" action="/events">
+          <button name="eventsearch" type="submit" id="submitButton">Submit</button>
         </form>
-        <div id="workingSymbol" style="display: none">
+        <div name="eventsearch" id="workingSymbol" style="display: none">
             Working...
         </div>
       </div>
