@@ -1,3 +1,6 @@
+import sqlite3
+import os
+
 from flask import Flask, request, render_template, redirect
 from class_scrapers import ClassScraper
 from northeast_classes import NorthEastClasses
@@ -12,14 +15,8 @@ from northeast_clubs import NorthEastClubs
 from northwest_clubs import NorthWestClubs
 from midlands_clubs import MidlandsClubs
 from yorkshire_clubs import YorkshireClubs
-<<<<<<< Updated upstream
-# from db_conn2 import DatabaseConnection
-=======
 from events import Events
->>>>>>> Stashed changes
 
-import sqlite3
-import os
 
 app = Flask(__name__)
 
@@ -50,7 +47,6 @@ def climb_walls():
         wall_search = request.form.get('wallsearch')
         if wall_search == "north-west":
             check = centre_data_exists("north-west")
-            print(f'this is where the final outcome is: {check}')
             if not check:
                 search = NorthWestContacts()
                 search.assign_values()
@@ -128,11 +124,11 @@ def climb_classes():
 @app.route('/events', methods=['GET', 'POST'])
 def climb_events():
     """the page where the information for climbing events will display after scraping"""
-    event_search = ''
+    # event_search = ''
     if request.method == "POST" and "eventsearch" in request.form:
-        event_search = request.form.get('eventsearch')
-
-        # return render_template("events.jinja2", event_search=event_search)
+        list_of_events = Events()
+        list_of_events.assign_values()
+        return display_event_text()
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -140,7 +136,7 @@ def climb_events():
     if request.method == "GET" and "about-me" in request.form:
         return returnAboutMe()
 
-    return render_template("events.jinja2", event_search=event_search)
+    # return render_template("events.jinja2", event_search=event_search)
 
 
 @app.route('/clubs', methods=['GET', 'POST'])
@@ -172,7 +168,7 @@ def climb_clubs():
     if request.method == "GET" and "about-me" in request.form:
         return returnAboutMe()
 
-    return render_template("clubs.jinja2", club_search=club_search)
+    # return render_template("clubs.jinja2", club_search=club_search)
 
 
 @app.route('/about')
@@ -295,6 +291,50 @@ def display_club_text(area):
 
     conn.close()
     return render_template("clubs.jinja2", class_search=list_of_clubs)
+
+
+def display_event_text():
+    conn = sqlite3.connect('database.db')
+    data = conn.execute("SELECT * FROM events;")
+
+    name = ''
+    url = ''
+    intro = ''
+    title = ''
+    subtitle = ''
+    description = []
+    list_of_events = []
+
+    for row in data:
+        print(f'display event text: {row}')
+        if row[0] != name:
+            name = row[0]
+            list_of_events.append(f'\n\n{row[0]}')
+
+        if row[1] != url:
+            url = row[1]
+            list_of_events.append(url)
+
+        if row[2] != intro:
+            intro = row[2]
+            list_of_events.append(row[2])
+
+        if row[3] != title:
+            title = row[3]
+            list_of_events.append(f'\n{row[3]}')
+
+        if row[4] != subtitle:
+            subtitle = row[4]
+            list_of_events.append(f'\n{row[4]}')
+
+        description.append(row[5])
+        for d in description:
+            list_of_events.append(d)
+            description = []
+            continue
+
+    conn.close()
+    return render_template("events.jinja2", event_search=list_of_events)
 
 
 def check_class_table(area):

@@ -7,7 +7,6 @@ class YorkshireClubs(ClassScraper):
     def __init__(self):
         super().__init__()
 
-
     def assign_values(self):
         output = []
         scraped_clubs = []
@@ -149,7 +148,7 @@ class YorkshireClubs(ClassScraper):
                 p_tags = self.search_tags('p', soup)
                 p_tags = self.remove_blanks(p_tags)
                 p_tags = self.strip_spaces_and_breaks(p_tags)
-               
+
                 td_tags = self.search_tags_alternative('td', soup)
                 td_tags = self.strip_spaces_and_breaks(td_tags)
 
@@ -173,25 +172,5 @@ class YorkshireClubs(ClassScraper):
 
             # print(scraped_clubs)
 
-<<<<<<< Updated upstream
-
-        output.append(db_conn2.DatabaseConnection(scraped_clubs))
-=======
         output.append(db_conn.DatabaseConnection(scraped_clubs))
->>>>>>> Stashed changes
         return output
-
-    def strip_spaces_and_breaks(self, data):
-        input_list = data
-        new_tag_list = []
-        
-        for tag in input_list:
-            tag = re.sub(r'\s+', ' ', tag).strip()
-            new_tag_list.append(tag)
-
-        return new_tag_list
-
-
-            
-#instance = YorkshireClubs()
-#instance.assign_values()
