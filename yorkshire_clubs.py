@@ -1,4 +1,4 @@
-import db_conn2
+import db_conn
 import re
 from class_scrapers import ClassScraper
 
@@ -173,8 +173,12 @@ class YorkshireClubs(ClassScraper):
 
             # print(scraped_clubs)
 
+<<<<<<< Updated upstream
 
         output.append(db_conn2.DatabaseConnection(scraped_clubs))
+=======
+        output.append(db_conn.DatabaseConnection(scraped_clubs))
+>>>>>>> Stashed changes
         return output
 
     def strip_spaces_and_breaks(self, data):

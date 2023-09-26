@@ -1,4 +1,4 @@
-import db_conn2
+import db_conn
 from class_scrapers import ClassScraper
 
 
@@ -178,5 +178,5 @@ class NorthWestClasses(ClassScraper):
                 for i in class_list:
                     scraped_classes.append(i)
 
-        output.append(db_conn2.DatabaseConnection(scraped_classes))
+        output.append(db_conn.DatabaseConnection(scraped_classes))
         return output

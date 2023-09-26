@@ -1,4 +1,4 @@
-import db_conn2
+import db_conn
 from class_scrapers import ClassScraper
 
 
@@ -84,7 +84,7 @@ class NorthWestContacts(ClassScraper):
                 for i in centre_details:
                     scraped_centres.append(i)
 
-        output.append(db_conn2.DatabaseConnection(scraped_centres))
+        output.append(db_conn.DatabaseConnection(scraped_centres))
         # for i in output:
         #    print(i)
         return output

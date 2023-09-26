@@ -1,4 +1,4 @@
-import db_conn2
+import db_conn
 from class_scrapers import ClassScraper
 
 
@@ -170,7 +170,7 @@ class MidlandsClubs(ClassScraper):
 
             # print(scraped_clubs)
 
-        output.append(db_conn2.DatabaseConnection(scraped_clubs))
+        output.append(db_conn.DatabaseConnection(scraped_clubs))
         return output
 
 

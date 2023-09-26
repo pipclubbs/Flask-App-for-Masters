@@ -12,7 +12,11 @@ from northeast_clubs import NorthEastClubs
 from northwest_clubs import NorthWestClubs
 from midlands_clubs import MidlandsClubs
 from yorkshire_clubs import YorkshireClubs
+<<<<<<< Updated upstream
 # from db_conn2 import DatabaseConnection
+=======
+from events import Events
+>>>>>>> Stashed changes
 
 import sqlite3
 import os

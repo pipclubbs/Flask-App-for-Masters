@@ -1,4 +1,4 @@
-import db_conn2
+import db_conn
 from class_scrapers import ClassScraper
 
 
@@ -29,7 +29,7 @@ class NorthWestClubs(ClassScraper):
         ]
 
         for c in clubs:
-            '''if c["name"] == "West Cumbria Mountaineering Club":
+            if c["name"] == "West Cumbria Mountaineering Club":
                 area = c["area"]
                 url = c["url"]
                 soup = self.get_html(url)
@@ -172,7 +172,7 @@ class NorthWestClubs(ClassScraper):
                     }
                 ]
                 for i in club_list:
-                    scraped_clubs.append(i)'''
+                    scraped_clubs.append(i)
 
             if c["name"] == "The Wayfarer's Club":
                 area = c["area"]
@@ -226,7 +226,7 @@ class NorthWestClubs(ClassScraper):
 
             # print(scraped_clubs)
 
-        output.append(db_conn2.DatabaseConnection(scraped_clubs))
+        output.append(db_conn.DatabaseConnection(scraped_clubs))
         return output
 
 

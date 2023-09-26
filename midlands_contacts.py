@@ -1,5 +1,5 @@
 import re
-import db_conn2
+import db_conn
 from class_scrapers import ClassScraper
 
 
@@ -30,7 +30,7 @@ class MidlandsContacts(ClassScraper):
                 p_tags_address_list = self.split_string(p_tags[15])
                 p_tags_phone = self.extract_contacts(p_tags[12])
                 p_tags_email = self.extract_contacts(p_tags[13])
-                
+
                 centre_details = [
                     {
                         "area": area,
@@ -49,12 +49,11 @@ class MidlandsContacts(ClassScraper):
                 for i in centre_details:
                     scraped_centres.append(i)
 
-
         '''for line in scraped_centres:
             for key, value in line.items():
                 print(key, ":", value)'''
         # print(scraped_centres)
-        output.append(db_conn2.DatabaseConnection(scraped_centres))
+        output.append(db_conn.DatabaseConnection(scraped_centres))
         # for i in output:
         #    print(i)
         return output
@@ -88,5 +87,5 @@ class MidlandsContacts(ClassScraper):
         return word_list
 
 
-#instance = MidlandsContacts()
-#instance.assign_values()
+# instance = MidlandsContacts()
+# instance.assign_values()
