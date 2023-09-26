@@ -17,7 +17,6 @@ from midlands_clubs import MidlandsClubs
 from yorkshire_clubs import YorkshireClubs
 from events import Events
 
-
 app = Flask(__name__)
 
 
@@ -32,11 +31,10 @@ def returnAboutMe():
 @app.route('/', methods=['GET', 'POST'])
 def climb_home():
     """home page for the scraper"""
-
     if request.method == "GET" and "about-me" in request.form:
-        return returnAboutMe()
+        return returnAboutMe()  # open about me page if button is clicked
 
-    return render_template("index.html")
+    return render_template("index.html")  # else render homepage
 
 
 @app.route('/walls', methods=['GET', 'POST'])
@@ -46,12 +44,15 @@ def climb_walls():
     if request.method == "POST" and "wallsearch" in request.form:
         wall_search = request.form.get('wallsearch')
         if wall_search == "north-west":
+            # check database for existing data
             check = centre_data_exists("north-west")
             if not check:
-                search = NorthWestContacts()
-                search.assign_values()
+                search = NorthWestContacts()  # create instance of object
+                search.assign_values()  # call method
+                # display returned text
                 return display_centre_text("north-west")
             else:
+                # if already in database
                 return display_centre_text("north-west")
         elif wall_search == "north-east":
             check = centre_data_exists("north-east")
@@ -88,12 +89,10 @@ def climb_walls():
 @app.route('/classes', methods=['GET', 'POST'])
 def climb_classes():
     """the page where the information for climbing classes will display after scraping"""
-    # output = []
     class_search = ''
     list_of_classes = ''
     if request.method == "POST" and "classsearch" in request.form:
         class_search = request.form.get('classsearch')
-    # need to add something to instruct the scrapers for each area to go
         if class_search == "north-east":
             list_of_classes = NorthEastClasses()
             list_of_classes.assign_values()
@@ -124,11 +123,14 @@ def climb_classes():
 @app.route('/events', methods=['GET', 'POST'])
 def climb_events():
     """the page where the information for climbing events will display after scraping"""
-    # event_search = ''
     if request.method == "POST" and "eventsearch" in request.form:
-        list_of_events = Events()
-        list_of_events.assign_values()
-        return display_event_text()
+        check = event_data_exists()
+        if not check:
+            list_of_events = Events()
+            list_of_events.assign_values()
+            return display_event_text()
+        else:
+            return display_event_text()
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -146,21 +148,37 @@ def climb_clubs():
     if request.method == "POST" and "clubsearch" in request.form:
         club_search = request.form.get('clubsearch')
         if club_search == "north-east":
-            list_of_clubs = NorthEastClubs()
-            list_of_clubs.assign_values()
-            return display_club_text("north-east")
+            check = club_data_exists("north-east")
+            if not check:
+                list_of_clubs = NorthEastClubs()
+                list_of_clubs.assign_values()
+                return display_club_text("north-east")
+            else:
+                return display_club_text("north-east")
         elif club_search == "north-west":
-            list_of_clubs = NorthWestClubs()
-            list_of_clubs.assign_values()
-            return display_club_text("north-west")
+            check = club_data_exists("north-west")
+            if not check:
+                list_of_clubs = NorthWestClubs()
+                list_of_clubs.assign_values()
+                return display_club_text("north-west")
+            else:
+                return display_club_text("north-west")
         elif club_search == "midlands":
-            list_of_clubs = MidlandsClubs()
-            list_of_clubs.assign_values()
-            return display_club_text("midlands")
+            check = club_data_exists("midlands")
+            if not check:
+                list_of_clubs = MidlandsClubs()
+                list_of_clubs.assign_values()
+                return display_club_text("midlands")
+            else:
+                return display_club_text("midlands")
         elif club_search == "yorkshire":
-            list_of_clubs = YorkshireClubs()
-            list_of_clubs.assign_values()
-            return display_club_text("yorkshire")
+            check = club_data_exists("yorkshire")
+            if not check:
+                list_of_clubs = YorkshireClubs()
+                list_of_clubs.assign_values()
+                return display_club_text("yorkshire")
+            else:
+                return display_club_text("yorkshire")
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -362,17 +380,55 @@ def check_centre_table(area):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
 
-    print(f'searched_area in check centre data = {searched_area}')
+    # print(f'searched_area in check centre data = {searched_area}')
     cur.execute(
         "SELECT * FROM centres WHERE area = ? ", (searched_area,))
     find = cur.fetchall()
-    print(f'find: {find}')
+    # print(f'find: {find}')
 
     found_rows = []
     for row in find:
         if row[0] == searched_area:
             found_rows.append(row)
-        print(f'found_rows in check data centre: {found_rows}')
+        # print(f'found_rows in check data centre: {found_rows}')
+
+    if found_rows:
+        return True
+    else:
+        return False
+
+
+def check_clubs_table(area):
+    searched_area = area
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT * FROM clubs WHERE area = ? ", (searched_area,))
+    find = cur.fetchall()
+
+    found_rows = []
+    for row in find:
+        if row[0] == searched_area:
+            found_rows.append(row)
+
+    if found_rows:
+        return True
+    else:
+        return False
+
+
+def check_events_table():
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM events;")
+    find = cur.fetchall()
+
+    found_rows = []
+    for row in find:
+        if row:
+            found_rows.append(row)
 
     if found_rows:
         return True
@@ -402,7 +458,6 @@ def check_rows_for_info(area):
         return True
     else:
         return False
-
         # returns true is any are true
 
 
@@ -419,6 +474,31 @@ def centre_data_exists(area):
                 return True
             else:
                 return False
+        else:
+            return False
+
+
+def club_data_exists(area):
+    search_area = area
+    if not os.path.isfile('database.db'):
+        return False
+
+    else:
+        check_clubs = check_clubs_table(search_area)
+        if check_clubs:
+            return True
+        else:
+            return False
+
+
+def event_data_exists():
+    if not os.path.isfile('database.db'):
+        return False
+
+    else:
+        check_events = check_events_table()
+        if check_events:
+            return True
         else:
             return False
 
