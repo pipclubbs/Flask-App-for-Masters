@@ -330,7 +330,7 @@ class NorthEastClasses(ClassScraper):
                         "title": h2_tags[3],
                         "description": div_tags[1]
                     }, {
-                        "area": area, "area": area,
+                        "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h2_tags[3],

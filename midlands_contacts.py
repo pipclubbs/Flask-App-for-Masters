@@ -49,13 +49,7 @@ class MidlandsContacts(ClassScraper):
                 for i in centre_details:
                     scraped_centres.append(i)
 
-        '''for line in scraped_centres:
-            for key, value in line.items():
-                print(key, ":", value)'''
-        # print(scraped_centres)
         output.append(db_conn.DatabaseConnection(scraped_centres))
-        # for i in output:
-        #    print(i)
         return output
 
     def extract_contacts(self, string):
@@ -85,7 +79,3 @@ class MidlandsContacts(ClassScraper):
         # string_list = [word for word in string_list if word]
 
         return word_list
-
-
-# instance = MidlandsContacts()
-# instance.assign_values()
