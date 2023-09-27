@@ -1,14 +1,19 @@
-import re
-import db_conn
+"""module containing the class that scrapes websites for climbing 
+event data"""
 
+#import re
+import db_conn
 from class_scrapers import ClassScraper
 
 
 class Events(ClassScraper):
+    """class containing the web scraping information for events websites"""
     def __init__(self):
         super().__init__()
 
     def assign_values(self):
+        """method that defines the sites to scrape, then runs through each in 
+        turn, and sorts the results into dictionaries ready for storing in the database"""
         output = []
         scraped_events = []
         events = [
@@ -30,13 +35,14 @@ class Events(ClassScraper):
         for e in events:
             if e["name"] == "Brit Rock Film Tour":
                 url = e["url"]
-                soup = self.get_html(url)
-                event = e["event"]
-
+                soup = self.get_html(url) # get the html via the parent class method
+                
+                # search for the tags in the html 
                 h1_tags = self.search_tags_alternative('h1', soup)
                 p_tags = self.search_tags_alternative('p', soup)
                 p_tags = self.strip_spaces_and_breaks(p_tags)
 
+                # allocate the results to a dictionary for storing in the database
                 event_list = [
                     {
                         "event": "event",
@@ -88,14 +94,16 @@ class Events(ClassScraper):
                         "description": p_tags[13]
                     }
                 ]
+                # add each dictionary entry to a list 
+                # list will be combined with other lists  
                 for i in event_list:
                     scraped_events.append(i)
 
             if e["name"] == "Women's Climbing Symposium":
                 url = e["url"]
                 soup = self.get_html(url)
-                event = e["event"]
 
+                # retrive tag content from html, with extra tidies 
                 h1_tags = self.search_tags_alternative('h1', soup)
                 h1_tag_list = []
                 for tag in h1_tags:
@@ -139,12 +147,11 @@ class Events(ClassScraper):
             if e["name"] == "Speakers from the Edge":
                 url = e["url"]
                 soup = self.get_html(url)
-                event = e["event"]
 
                 a_tags = self.search_tags_alternative('a', soup)
                 a_tags = self.strip_spaces_and_breaks(a_tags)
                 a_tags = self.remove_blanks(a_tags)
-                a_tags = list(dict.fromkeys(a_tags))
+                a_tags = list(dict.fromkeys(a_tags)) # remove duplicate tags 
 
                 p_tags = self.search_tags_alternative('p', soup)
                 p_tags = self.strip_spaces_and_breaks(p_tags)
@@ -188,5 +195,7 @@ class Events(ClassScraper):
                 for i in event_list:
                     scraped_events.append(i)
 
+        """send the compiled scraped events list to the database module,
+        and append the result to the output list"""
         output.append(db_conn.DatabaseConnection(scraped_events))
         return output
