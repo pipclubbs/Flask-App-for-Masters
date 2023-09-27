@@ -1,5 +1,6 @@
 """this is the main application page that controls the homepage
 and menu choices"""
+import datetime
 import sqlite3
 import os
 
@@ -48,6 +49,8 @@ def climb_walls():
     # if user uses the search for climbing walls
     if request.method == "POST" and "wallsearch" in request.form:
         wall_search = request.form.get('wallsearch')
+        # clear old data from tables
+        check_age_of_data()
 
         if wall_search == "north-west":
             # check the database exists
@@ -101,6 +104,9 @@ def climb_classes():
     list_of_classes = ''
     if request.method == "POST" and "classsearch" in request.form:
         class_search = request.form.get('classsearch')
+        # clear old data from tables
+        check_age_of_data()
+
     # need to add database checks
         if class_search == "north-east":
             list_of_classes = NorthEastClasses()
@@ -133,13 +139,15 @@ def climb_classes():
 def climb_events():
     """the page where the information for climbing events will display after scraping"""
     if request.method == "POST" and "eventsearch" in request.form:
+        # clear old data from tables
+        check_age_of_data()
+
         check = event_data_exists()
         if not check:
             list_of_events = Events()
             list_of_events.assign_values()
             return display_event_text()
-        else:
-            return display_event_text()
+        return display_event_text()
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -156,38 +164,40 @@ def climb_clubs():
     club_search = ''
     if request.method == "POST" and "clubsearch" in request.form:
         club_search = request.form.get('clubsearch')
+        # clear old data from tables
+        check_age_of_data()
+
         if club_search == "north-east":
             check = club_data_exists("north-east")
             if not check:
                 list_of_clubs = NorthEastClubs()
                 list_of_clubs.assign_values()
                 return display_club_text("north-east")
-            else:
-                return display_club_text("north-east")
-        elif club_search == "north-west":
+            return display_club_text("north-east")
+
+        if club_search == "north-west":
             check = club_data_exists("north-west")
             if not check:
                 list_of_clubs = NorthWestClubs()
                 list_of_clubs.assign_values()
                 return display_club_text("north-west")
-            else:
-                return display_club_text("north-west")
-        elif club_search == "midlands":
+            return display_club_text("north-west")
+
+        if club_search == "midlands":
             check = club_data_exists("midlands")
             if not check:
                 list_of_clubs = MidlandsClubs()
                 list_of_clubs.assign_values()
                 return display_club_text("midlands")
-            else:
-                return display_club_text("midlands")
-        elif club_search == "yorkshire":
+            return display_club_text("midlands")
+
+        if club_search == "yorkshire":
             check = club_data_exists("yorkshire")
             if not check:
                 list_of_clubs = YorkshireClubs()
                 list_of_clubs.assign_values()
                 return display_club_text("yorkshire")
-            else:
-                return display_club_text("yorkshire")
+            return display_club_text("yorkshire")
 
     if request.method == "GET" and "home" in request.form:
         return returnHome()
@@ -361,6 +371,27 @@ def display_event_text():
 
     conn.close()
     return render_template("events.jinja2", event_search=list_of_events)
+
+
+def check_age_of_data():
+    if not os.path.isfile('database.db'):
+        return
+
+    max_time = datetime.datetime.now() - datetime.timedelta(minutes=60)
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    cur.execute(
+        "DELETE FROM centres WHERE created < ?", (max_time,))
+    cur.execute(
+        "DELETE FROM classes WHERE created < ?", (max_time,))
+    cur.execute(
+        "DELETE FROM clubs WHERE created < ?", (max_time,))
+    cur.execute(
+        "DELETE FROM events WHERE created < ?", (max_time,))
+
+    conn.commit()
+    print("old data has been deleted from the tables")
+    conn.close()
 
 
 def check_class_table(area):

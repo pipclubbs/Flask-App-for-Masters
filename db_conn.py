@@ -110,10 +110,10 @@ class DatabaseConnection:
 
         found_rows = []
         for row in input_data:
-            print(f'check rows exist row: {row}')
+            # print(f'check rows exist row: {row}')
             area_from_data = row["area"]
             name_from_data = row["name"]
-            print(f'assigned values {area_from_data}, {name_from_data}')
+            # print(f'assigned values {area_from_data}, {name_from_data}')
 
             cur.execute(
                 "SELECT * FROM centres WHERE area = ? AND name = ?", (area_from_data, name_from_data))
@@ -137,26 +137,26 @@ class DatabaseConnection:
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
 
-        for row in data:
-            check = self.check_rows_exist(data)
-            if not check:
-                cur.executemany('''INSERT OR REPLACE INTO centres (
-                            area, name, classUrl, created
-                            ) VALUES (
-                            :area, :name, :classUrl, :created);
-                            ''', data)
-                print('new centre added')
-            else:
-                cur.executemany(
-                    '''UPDATE centres SET classUrl = :classUrl, created = :created WHERE name =:name;''', data)
-                print('centre updated')
+        check = self.check_rows_exist(data)
+        if not check:
+            cur.executemany('''INSERT OR REPLACE INTO centres (
+                        area, name, classUrl, created
+                        ) VALUES (
+                        :area, :name, :classUrl, :created);
+                        ''', data)
 
-            cur.executemany('''INSERT or REPLACE INTO classes (
-                                area, classUrl, title, description, created
-                                ) VALUES (
-                                :area, :classUrl, :title, :description, :created);
-                                ''', data
-                            )
+            print('new centre added')
+        else:
+            cur.executemany(
+                '''UPDATE centres SET classUrl = :classUrl, created = :created WHERE name =:name;''', data)
+            print('centre updated')
+
+        cur.executemany('''INSERT or REPLACE INTO classes (
+                            area, classUrl, title, description, created
+                            ) VALUES (
+                            :area, :classUrl, :title, :description, :created);
+                            ''', data
+                        )
         print('classes added')
         conn.commit()
         print("Records successfully added")
@@ -170,8 +170,6 @@ class DatabaseConnection:
 
         # will be true if the area and name are in a line on the database
         check = self.check_rows_exist(data)
-        print(f'the check to see if the rows already existed came out {check}')
-
         if check == True:
             # If classUrl in the incoming data is '' it is from centre search. if the class search is already done, the name will be there
             cur.executemany('''
