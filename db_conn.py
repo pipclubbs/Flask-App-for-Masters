@@ -5,7 +5,7 @@
 
 import sqlite3
 import os
-print("SQLite Version:", sqlite3.sqlite_version)
+import datetime
 
 
 class DatabaseConnection:
@@ -74,22 +74,26 @@ class DatabaseConnection:
                      area TEXT NOT NULL, name TEXT UNIQUE NOT NULL,
                      homeUrl TEXT, contactUrl TEXt, classUrl TEXT, 
                      street TEXT, street_area TEXT, city TEXT, 
-                     postcode TEXT, email TEXT, phone NUM)
+                     postcode TEXT, email TEXT, phone NUM,
+                     created TIMESTAMP NOT NULL)
                      ''')
         conn.execute('''
             CREATE TABLE IF NOT EXISTS classes (
                      area TEXT NOT NULL, classUrl TEXT NOT NULL, 
-                     title TEXT, description TEXT UNIQUE)
+                     title TEXT, description TEXT UNIQUE,
+                     created TIMESTAMP NOT NULL)
                      ''')
         conn.execute('''
             CREATE TABLE IF NOT EXISTS clubs (
                      area TEXT NOT NULL, name TEXT NOT NULL, url TEXT NOT NULL,
-                     intro TEXT, title TEXT, subtitle TEXT, description TEXT UNIQUE)
+                     intro TEXT, title TEXT, subtitle TEXT, description TEXT UNIQUE,
+                     created TIMESTAMP NOT NULL)
                      ''')
         conn.execute('''
             CREATE TABLE IF NOT EXISTS events (
                     name TEXT NOT NULL, url NOT NULL, intro TEXT, title TEXT, 
-                    subtitle TEXT, description TEXT UNIQUE)
+                    subtitle TEXT, description TEXT UNIQUE,
+                    created TIMESTAMP NOT NULL)
                      ''')
         print("database and tables created successfully")
         conn.close()
@@ -103,8 +107,6 @@ class DatabaseConnection:
         input_data = data
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
-        print('check_rows_exist_is_running')
-        print(f'input data: {input_data}')
 
         found_rows = []
         for row in input_data:
@@ -116,8 +118,7 @@ class DatabaseConnection:
             cur.execute(
                 "SELECT * FROM centres WHERE area = ? AND name = ?", (area_from_data, name_from_data))
             find = cur.fetchall()
-            # for row in find:
-            # print(f'find:{row[0]} and {row[1]}')
+
             for row in find:
                 if row[0] == area_from_data and row[1] == name_from_data:
                     found_rows.append(row)
@@ -136,27 +137,24 @@ class DatabaseConnection:
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
 
-        print(f'data in insert data is: {data}')
         for row in data:
-            print(f'row in insert_data: {row}')
             check = self.check_rows_exist(data)
-            print(f'check value is {check}')
             if not check:
                 cur.executemany('''INSERT OR REPLACE INTO centres (
-                            area, name, classUrl
+                            area, name, classUrl, created
                             ) VALUES (
-                            :area, :name, :classUrl);
+                            :area, :name, :classUrl, :created);
                             ''', data)
                 print('new centre added')
             else:
                 cur.executemany(
-                    '''UPDATE centres SET classUrl = :classUrl WHERE name =:name;''', data)
+                    '''UPDATE centres SET classUrl = :classUrl, created = :created WHERE name =:name;''', data)
                 print('centre updated')
 
             cur.executemany('''INSERT or REPLACE INTO classes (
-                                area, classUrl, title, description
+                                area, classUrl, title, description, created
                                 ) VALUES (
-                                :area, :classUrl, :title, :description);
+                                :area, :classUrl, :title, :description, :created);
                                 ''', data
                             )
         print('classes added')
@@ -178,14 +176,14 @@ class DatabaseConnection:
             # If classUrl in the incoming data is '' it is from centre search. if the class search is already done, the name will be there
             cur.executemany('''
                     UPDATE centres SET homeUrl = :homeUrl, contactUrl = :contactUrl, street = :street, 
-                    street_area = :street_area, city = :city, postcode = :postcode, email = :email, phone = :phone 
+                    street_area = :street_area, city = :city, postcode = :postcode, email = :email, phone = :phone, created = :created 
                             WHERE name = :name;''', data)
 
         else:
             # centre doesn't exist in table insert all values as a new line
             cur.executemany('''INSERT INTO centres (area, name, homeUrl, contactUrl, street,
-                            street_area, city, postcode, email, phone) VALUES (:area, :name, :homeUrl, :contactUrl, :street,
-                            :street_area, :city, :postcode, :email, :phone);''', data)
+                            street_area, city, postcode, email, phone, created) VALUES (:area, :name, :homeUrl, :contactUrl, :street,
+                            :street_area, :city, :postcode, :email, :phone, :created);''', data)
 
         conn.commit()
         print("Records successfully added")
@@ -196,8 +194,8 @@ class DatabaseConnection:
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
 
-        cur.executemany('''INSERT OR REPLACE INTO clubs (area, name, url, intro, title, subtitle, description) 
-                        VALUES (:area, :name, :url, :intro, :title, :subtitle, :description);''', data)
+        cur.executemany('''INSERT OR REPLACE INTO clubs (area, name, url, intro, title, subtitle, description, created) 
+                        VALUES (:area, :name, :url, :intro, :title, :subtitle, :description, :created);''', data)
 
         conn.commit()
         print("Records successfully added")
@@ -208,8 +206,8 @@ class DatabaseConnection:
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
 
-        cur.executemany('''INSERT OR REPLACE INTO events (name, url, intro, title, subtitle, description) 
-                        VALUES (:name, :url, :intro, :title, :subtitle, :description);''', data)
+        cur.executemany('''INSERT OR REPLACE INTO events (name, url, intro, title, subtitle, description, created) 
+                        VALUES (:name, :url, :intro, :title, :subtitle, :description, :created);''', data)
 
         conn.commit()
         print("Records successfully added")

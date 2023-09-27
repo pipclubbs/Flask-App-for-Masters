@@ -1,4 +1,5 @@
 import re
+import datetime
 import db_conn
 from class_scrapers import ClassScraper
 
@@ -9,6 +10,7 @@ class MidlandsContacts(ClassScraper):
 
     def assign_values(self):
         # chosen_area = area
+        created = datetime.datetime.now()
         output = []
         scraped_centres = []
         centres = [
@@ -43,7 +45,8 @@ class MidlandsContacts(ClassScraper):
                         "city": p_tags_address_list[4],
                         "postcode": f'{p_tags_address_list[5]} {p_tags_address_list[6]}',
                         "email": p_tags_email[0][0],
-                        "phone": p_tags_phone[1][0][2]
+                        "phone": p_tags_phone[1][0][2],
+                        "created": created
                     }
                 ]
                 for i in centre_details:

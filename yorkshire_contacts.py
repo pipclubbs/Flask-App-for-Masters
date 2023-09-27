@@ -1,3 +1,4 @@
+import datetime
 import re
 import db_conn
 from class_scrapers import ClassScraper
@@ -8,7 +9,7 @@ class YorkshireContacts(ClassScraper):
         super().__init__()
 
     def assign_values(self):
-        # chosen_area = area
+        created = datetime.datetime.now()
         output = []
         scraped_centres = []
         centres = [
@@ -65,7 +66,8 @@ class YorkshireContacts(ClassScraper):
                         "city": div_tags_address[0],
                         "postcode": f'{div_tags_address[2]} {div_tags_address[3]}',
                         "email": a_tags[33],
-                        "phone": a_tags[32]
+                        "phone": a_tags[32],
+                        "created": created
                     }
                 ]
                 for i in centre_details:
@@ -94,7 +96,8 @@ class YorkshireContacts(ClassScraper):
                         "city": span_tags_address[11],
                         "postcode": span_tags[43],
                         "email": span_tags[39],
-                        "phone": span_tags[40]
+                        "phone": span_tags[40],
+                        "created": created
                     }
                 ]
                 for i in centre_details:
@@ -127,7 +130,8 @@ class YorkshireContacts(ClassScraper):
                         "city": "Hull",
                         "postcode": div_tags[87],
                         "email": span_tags[0],
-                        "phone": f'{span_tags[94]}'
+                        "phone": f'{span_tags[94]}',
+                        "created": created
                     }
                 ]
                 for i in centre_details:
@@ -156,21 +160,14 @@ class YorkshireContacts(ClassScraper):
                         "city": p_tags[11],
                         "postcode": p_tags[12],
                         "email": p_tags[13],
-                        "phone": ''
+                        "phone": '',
+                        "created": created
                     }
                 ]
                 for i in centre_details:
                     scraped_centres.append(i)
 
-        print(scraped_centres)
-
-        '''for line in scraped_centres:
-            for key, value in line.items():
-                print(key, ":", value)'''
-        # print(scraped_centres)
         output.append(db_conn.DatabaseConnection(scraped_centres))
-        # for i in output:
-        #    print(i)
         return output
 
     def extract_contacts(self, string):
@@ -207,8 +204,3 @@ class YorkshireContacts(ClassScraper):
             if i != '\xa0' and i != '\n':
                 new_list.append(i)
         return new_list
-
-
-# instance = YorkshireContacts()
-
-# instance.assign_values()

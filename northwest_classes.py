@@ -1,3 +1,4 @@
+import datetime
 import db_conn
 from class_scrapers import ClassScraper
 
@@ -7,6 +8,7 @@ class NorthWestClasses(ClassScraper):
         super().__init__()
 
     def assign_values(self):
+        created = datetime.datetime.now()
         output = []
         scraped_classes = []
         centres = [
@@ -36,61 +38,71 @@ class NorthWestClasses(ClassScraper):
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[0],
-                        "description": p_tags[6]
+                        "description": p_tags[6],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[1],
-                        "description": p_tags[9]
+                        "description": p_tags[9],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[2],
-                        "description": p_tags[12]
+                        "description": p_tags[12],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[2],
-                        "description": p_tags[14]
+                        "description": p_tags[14],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[2],
-                        "description": p_tags[16]
+                        "description": p_tags[16],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[3],
-                        "description": p_tags[18]
+                        "description": p_tags[18],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[4],
-                        "description": p_tags[20]
+                        "description": p_tags[20],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[5],
-                        "description": p_tags[23]
+                        "description": p_tags[23],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[6],
-                        "description": p_tags[26]
+                        "description": p_tags[26],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": h6_tags[6],
-                        "description": p_tags[28]
+                        "description": p_tags[28],
+                        "created": created
                     }
                 ]
                 for i in class_list:
@@ -112,67 +124,78 @@ class NorthWestClasses(ClassScraper):
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[9],
-                        "description": span_tags[10]
+                        "description": span_tags[10],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[9],
-                        "description": span_tags[11]
+                        "description": span_tags[11],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[16],
-                        "description": span_tags[17]
+                        "description": span_tags[17],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[16],
-                        "description": span_tags[18]
+                        "description": span_tags[18],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[21],
-                        "description": span_tags[22]
+                        "description": span_tags[22],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[21],
-                        "description": span_tags[23]
+                        "description": span_tags[23],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[21],
-                        "description": span_tags[24]
+                        "description": span_tags[24],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[21],
-                        "description": span_tags[25]
+                        "description": span_tags[25],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[28],
-                        "description": span_tags[29]
+                        "description": span_tags[29],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[28],
-                        "description": span_tags[30]
+                        "description": span_tags[30],
+                        "created": created
                     }, {
                         "area": area,
                         "name": c["name"],
                         "classUrl": classUrl,
                         "title": span_tags[28],
-                        "description": span_tags[32]
+                        "description": span_tags[32],
+                        "created": created
                     }
                 ]
                 for i in class_list:

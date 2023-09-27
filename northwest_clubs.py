@@ -1,3 +1,4 @@
+import datetime
 import db_conn
 from class_scrapers import ClassScraper
 
@@ -7,6 +8,7 @@ class NorthWestClubs(ClassScraper):
         super().__init__()
 
     def assign_values(self):
+        created = datetime.datetime.now()
         output = []
         scraped_clubs = []
         clubs = [
@@ -46,7 +48,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": f'{span_tags[0]}{span_tags[1]}',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[0]
+                        "description": p_tags[0],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -55,7 +58,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[1]
+                        "description": p_tags[1],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -64,7 +68,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[2]
+                        "description": p_tags[2],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -73,7 +78,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[3]
+                        "description": p_tags[3],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -96,7 +102,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[0],
                         "subtitle": '',
-                        "description": p_tags[1]
+                        "description": p_tags[1],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -105,7 +112,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[0],
                         "subtitle": '',
-                        "description": p_tags[2]
+                        "description": p_tags[2],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -114,7 +122,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[1],
                         "subtitle": '',
-                        "description": p_tags[5]
+                        "description": p_tags[5],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -123,7 +132,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[1],
                         "subtitle": '',
-                        "description": p_tags[6]
+                        "description": p_tags[6],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -132,7 +142,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[1],
                         "subtitle": '',
-                        "description": p_tags[7]
+                        "description": p_tags[7],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -141,7 +152,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[1],
                         "subtitle": '',
-                        "description": p_tags[8]
+                        "description": p_tags[8],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -150,7 +162,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[2],
                         "subtitle": '',
-                        "description": p_tags[9]
+                        "description": p_tags[9],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -159,7 +172,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[2],
                         "subtitle": '',
-                        "description": p_tags[10]
+                        "description": p_tags[10],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -168,7 +182,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[2],
                         "subtitle": '',
-                        "description": p_tags[11]
+                        "description": p_tags[11],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -191,7 +206,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": h2_tags[0],
                         "subtitle": '',
-                        "description": p_tags[8]
+                        "description": p_tags[8],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -200,7 +216,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[9]
+                        "description": p_tags[9],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -209,7 +226,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[10]
+                        "description": p_tags[10],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -218,7 +236,8 @@ class NorthWestClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[11]
+                        "description": p_tags[11],
+                        "created": created
                     }
                 ]
                 for i in club_list:

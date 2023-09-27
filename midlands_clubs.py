@@ -1,4 +1,5 @@
 import db_conn
+import datetime
 from class_scrapers import ClassScraper
 
 
@@ -33,6 +34,7 @@ class MidlandsClubs(ClassScraper):
                 area = c["area"]
                 url = c["url"]
                 soup = self.get_html(url)
+                created = datetime.datetime.now()
 
                 p_tags = self.search_tags_alternative('p', soup)
                 p_tag_list = []
@@ -51,7 +53,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags_updated[4]
+                        "description": p_tags_updated[4],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -60,7 +63,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags_updated[5]
+                        "description": p_tags_updated[5],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -69,7 +73,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags_updated[6]
+                        "description": p_tags_updated[6],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -78,7 +83,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags_updated[7]
+                        "description": p_tags_updated[7],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -87,7 +93,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags_updated[8]
+                        "description": p_tags_updated[8],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -97,6 +104,7 @@ class MidlandsClubs(ClassScraper):
                 area = c["area"]
                 url = c["url"]
                 soup = self.get_html(url)
+                created = datetime.datetime.now()
 
                 h1_tags = self.search_tags('h1', soup)
                 h2_tags = self.search_tags('h2', soup)
@@ -111,7 +119,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": p_tags[1],
                         "title": '',
                         "subtitle": h1_tags[1],
-                        "description": p_tags[2]
+                        "description": p_tags[2],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -121,6 +130,7 @@ class MidlandsClubs(ClassScraper):
                 area = c["area"]
                 url = c["url"]
                 soup = self.get_html(url)
+                create = datetime.datetime.now()
 
                 p_tags = self.search_tags('p', soup)
                 h2_tags = self.search_tags('h2', soup)
@@ -135,7 +145,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": h2_tags[0],
                         "title": '',
                         "subtitle": '',
-                        "description": h2_tags[2]
+                        "description": h2_tags[2],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -144,7 +155,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[1]
+                        "description": p_tags[1],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -153,7 +165,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[2]
+                        "description": p_tags[2],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -162,7 +175,8 @@ class MidlandsClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": h3_tags[0],
-                        "description": p_tags[3]
+                        "description": p_tags[3],
+                        "created": created
                     }
                 ]
                 for i in club_list:

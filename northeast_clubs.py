@@ -1,3 +1,4 @@
+import datetime
 import db_conn
 from class_scrapers import ClassScraper
 
@@ -7,6 +8,7 @@ class NorthEastClubs(ClassScraper):
         super().__init__()
 
     def assign_values(self):
+        created = datetime.datetime.now()
         output = []
         scraped_clubs = []
         clubs = [
@@ -46,7 +48,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": h4_tags[1],  # the club caters for
                         "title": h4_tags[2],  # a little bit...
                         "subtitle": h4_tags[3],  # social
-                        "description": p_tags[2]
+                        "description": p_tags[2],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -55,7 +58,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": h4_tags[1],  # the club caters for
                         "title": h4_tags[2],  # a little bit...
                         "subtitle": h4_tags[4],  # experienced
-                        "description": p_tags[3]
+                        "description": p_tags[3],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -64,7 +68,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": h4_tags[1],  # the club caters for
                         "title": h4_tags[2],  # a little bit...
                         "subtitle": h4_tags[5],  # active
-                        "description": p_tags[4]
+                        "description": p_tags[4],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -86,7 +91,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": '',
                         "title": span_tags[2],  # climbing
                         "subtitle": '',
-                        "description": span_tags[4]
+                        "description": span_tags[4],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -95,7 +101,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": '',
                         "title": span_tags[2],  # climbing
                         "subtitle": '',
-                        "description": span_tags[5]
+                        "description": span_tags[5],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -104,7 +111,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": '',
                         "title": span_tags[2],  # climbing
                         "subtitle": '',
-                        "description": span_tags[6]
+                        "description": span_tags[6],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -126,7 +134,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": p_tags[0],
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[1]
+                        "description": p_tags[1],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -135,7 +144,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[2]
+                        "description": p_tags[2],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -144,7 +154,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[3]
+                        "description": p_tags[3],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -153,7 +164,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[4]
+                        "description": p_tags[4],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -162,7 +174,8 @@ class NorthEastClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[5]
+                        "description": p_tags[5],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -172,5 +185,3 @@ class NorthEastClubs(ClassScraper):
 
         output.append(db_conn.DatabaseConnection(scraped_clubs))
         return output
-# instance = NorthEastClubs()
-# instance.assign_values()

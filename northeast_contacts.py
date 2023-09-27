@@ -1,4 +1,5 @@
 import re
+import datetime
 import db_conn
 from class_scrapers import ClassScraper
 
@@ -8,7 +9,7 @@ class NorthEastContacts(ClassScraper):
         super().__init__()
 
     def assign_values(self):
-        # chosen_area = area
+        created = datetime.datetime.now()
         output = []
         scraped_centres = []
         centres = [
@@ -61,6 +62,7 @@ class NorthEastContacts(ClassScraper):
                         "postcode": f'{p_tags_address_list[10]} {p_tags_address_list[11]}',
                         "email": p_tags_contacts_list[0][0],
                         "phone": p_tags_contacts_list[1][0][0],
+                        "created": created
                     }
                 ]
                 for i in centre_details:
@@ -89,7 +91,8 @@ class NorthEastContacts(ClassScraper):
                         "city": li_tags_address_list[6],
                         "postcode": f'{li_tags_address_list[9]} {li_tags_address_list[10]}',
                         "email": "Please visit website directly for email address",
-                        "phone": li_tags_phone[1][0][0]
+                        "phone": li_tags_phone[1][0][0],
+                        "created": created
                     }
                 ]
                 for i in centre_details:
@@ -118,7 +121,8 @@ class NorthEastContacts(ClassScraper):
                         "city": p_tags_address[0],
                         "postcode": f'{p_tags_address[6]} {p_tags_address[7]}',
                         "email": p_tags_contacts[0][0],
-                        "phone": p_tags_contacts[1][0][1]
+                        "phone": p_tags_contacts[1][0][1],
+                        "created": created
                     }
                 ]
                 for i in centre_details:
@@ -146,7 +150,8 @@ class NorthEastContacts(ClassScraper):
                         "city": f'{p_tags_address_list[9]} {p_tags_address_list[10]} {p_tags_address_list[11]}',
                         "postcode": f'{p_tags_address_list[12]} {p_tags_address_list[13]}',
                         "email": p_tags_contact_list[0][0],
-                        "phone": p_tags_contact_list[1][0][0]
+                        "phone": p_tags_contact_list[1][0][0],
+                        "created": created
                     }
                 ]
                 for i in centre_details:

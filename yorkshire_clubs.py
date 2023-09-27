@@ -1,5 +1,6 @@
+import datetime
 import db_conn
-import re
+# import re
 from class_scrapers import ClassScraper
 
 
@@ -8,6 +9,7 @@ class YorkshireClubs(ClassScraper):
         super().__init__()
 
     def assign_values(self):
+        created = datetime.datetime.now()
         output = []
         scraped_clubs = []
         clubs = [
@@ -46,7 +48,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[1]
+                        "description": p_tags[1],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -55,7 +58,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[2]
+                        "description": p_tags[2],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -64,7 +68,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[3]
+                        "description": p_tags[3],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -73,7 +78,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tags[4]
+                        "description": p_tags[4],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -98,7 +104,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tag_list[0]
+                        "description": p_tag_list[0],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -107,7 +114,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tag_list[1]
+                        "description": p_tag_list[1],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -116,7 +124,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tag_list[2]
+                        "description": p_tag_list[2],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -125,7 +134,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tag_list[3]
+                        "description": p_tag_list[3],
+                        "created": created
                     }, {
                         "type": "club",
                         "area": area,
@@ -134,7 +144,8 @@ class YorkshireClubs(ClassScraper):
                         "intro": '',
                         "title": '',
                         "subtitle": '',
-                        "description": p_tag_list[4]
+                        "description": p_tag_list[4],
+                        "created": created
                     }
                 ]
                 for i in club_list:
@@ -164,13 +175,12 @@ class YorkshireClubs(ClassScraper):
                         "intro": td_tags[2],
                         "title": '',
                         "subtitle": '',
-                        "description": td_tags[3]
+                        "description": td_tags[3],
+                        "created": created
                     }
                 ]
                 for i in club_list:
                     scraped_clubs.append(i)
-
-            # print(scraped_clubs)
 
         output.append(db_conn.DatabaseConnection(scraped_clubs))
         return output
