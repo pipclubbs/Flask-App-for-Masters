@@ -5,19 +5,20 @@ from bs4 import BeautifulSoup
 
 
 class AsyncScraper:
-    def __init__(self, urls_to_scrape):
-        self.urls_to_scrape = urls_to_scrape
+    def __init__(self):
+        self.soups = []
+
+    def start_scrape(self, urls_to_scrape):
+        self.urls = urls_to_scrape
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.main(self.urls_to_scrape))
+        loop.run_until_complete(self.main(self.urls))
 
     async def return_soup(self, soup):
-        soups = []
-        soups.append(soup)
+        self.soups.append(soup)
 
-        for soup in soup:
-            print(soup)
-        #return soups
-
+        #for soup in self.soups:
+        #    print(soup)
+        return self.soups
 
     async def scrape(self, url):
         async with aiohttp.ClientSession() as session:
@@ -33,14 +34,12 @@ class AsyncScraper:
         urls = []
         for url in urls_to_scrape:
             urls.append(url)
-        
+
         for row in urls:
             task = asyncio.create_task(self.scrape(row))
             tasks.append(task)
 
         await asyncio.gather(*tasks)
 
-        
         time_difference = time.time() - start_time
         print(f'Scraping time: %.2f seconds.' % time_difference)
-
