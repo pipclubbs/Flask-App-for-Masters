@@ -3,6 +3,7 @@ the child scraper classes"""
 
 import re
 from bs4 import BeautifulSoup
+import aiohttp
 import requests
 
 
@@ -14,11 +15,15 @@ class ClassScraper:
         self.title = ""
         self.description = ""
 
-    def get_html(self, url):
+    async def get_html(self, url):
         """method to request the html for the site and parse it
         using the Beautiful Soup module"""
-        result = requests.get(url, timeout=8)
-        soup = BeautifulSoup(result.text, "html.parser")
+        #result = requests.get(url, timeout=8)
+        #soup = BeautifulSoup(result.text, "html.parser")
+        #return soup
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=8) as response:
+                soup = BeautifulSoup(await response.text(), "html.parser")
         return soup
 
     def search_tags(self, tag, input_soup):

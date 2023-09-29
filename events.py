@@ -1,16 +1,21 @@
 """module containing the class that scrapes websites for climbing 
 event data"""
-
+import asyncio
 import datetime
+from functools import partial
+import aiohttp
+
 import db_conn
 from class_scrapers import ClassScraper
+from async_scrape import AsyncScraper
 
 
-class Events(ClassScraper):
+class Events(ClassScraper, AsyncScraper):
     """class containing the web scraping information for events websites"""
 
     def __init__(self):
         super().__init__()
+
 
     def assign_values(self):
         """method that defines the sites to scrape, then runs through each in 
@@ -34,13 +39,19 @@ class Events(ClassScraper):
             }
         ]
 
-        for e in events:
-            if e["name"] == "Brit Rock Film Tour":
-                url = e["url"]
-                # get the html via the parent class method
-                soup = self.get_html(url)
+        event_urls = []
+        for dictionary in events:
+            event_urls.append(dictionary["url"])
 
-                # search for the tags in the html
+        soups = AsyncScraper(event_urls)
+
+        for soup in soups:
+
+            if "Brit Rock Film Tour" in soup:
+                url = "https://www.britrockfilmtour.com/"
+                name = "Brit Rock Film Tour"
+
+                # search for the tags in the html soup
                 h1_tags = self.search_tags_alternative('h1', soup)
                 p_tags = self.search_tags_alternative('p', soup)
                 p_tags = self.strip_spaces_and_breaks(p_tags)
@@ -49,7 +60,7 @@ class Events(ClassScraper):
                 event_list = [
                     {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": p_tags[1],
                         "title": '',
@@ -58,7 +69,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -67,7 +78,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -76,7 +87,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -85,7 +96,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -94,7 +105,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -108,10 +119,10 @@ class Events(ClassScraper):
                 for i in event_list:
                     scraped_events.append(i)
 
-            if e["name"] == "Women's Climbing Symposium":
-                url = e["url"]
-                soup = self.get_html(url)
-
+            if "Women's Climbing Symposium" in soup:
+                url = "https://www.womensclimbingsymposium.com/wcs23"
+                name = "Women's Climbing Symposium"
+                
                 # retrive tag content from html, with extra tidies
                 h1_tags = self.search_tags_alternative('h1', soup)
                 h1_tag_list = []
@@ -126,7 +137,7 @@ class Events(ClassScraper):
                 event_list = [
                     {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": h1_tag_list[0],
@@ -135,7 +146,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -144,7 +155,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -156,9 +167,9 @@ class Events(ClassScraper):
                 for i in event_list:
                     scraped_events.append(i)
 
-            if e["name"] == "Speakers from the Edge":
-                url = e["url"]
-                soup = self.get_html(url)
+            if "Speakers from the Edge" in soup:
+                url = "https://www.speakersfromtheedge.com/theatre-tours"
+                name = "Speakers from the Edge"
 
                 a_tags = self.search_tags_alternative('a', soup)
                 a_tags = self.strip_spaces_and_breaks(a_tags)
@@ -172,7 +183,7 @@ class Events(ClassScraper):
                 event_list = [
                     {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -181,7 +192,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -190,7 +201,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -199,7 +210,7 @@ class Events(ClassScraper):
                         "created": created
                     }, {
                         "event": "event",
-                        "name": e["name"],
+                        "name": name,
                         "url": url,
                         "intro": '',
                         "title": '',
@@ -210,8 +221,12 @@ class Events(ClassScraper):
                 ]
                 for i in event_list:
                     scraped_events.append(i)
-
+        for row in scraped_events:
+            print(row)
         """send the compiled scraped events list to the database module,
         and append the result to the output list"""
-        output.append(db_conn.DatabaseConnection(scraped_events))
-        return output
+        #output.append(db_conn.DatabaseConnection(scraped_events))
+        #return output
+
+instance = Events()
+instance.assign_values()
