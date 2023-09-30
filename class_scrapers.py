@@ -4,10 +4,12 @@ the child scraper classes"""
 import re
 from bs4 import BeautifulSoup
 import requests
+import time
 
 
 class ClassScraper:
-    """class containing the methods for the web scrapers"""    
+    """class containing the methods for the web scrapers"""
+
     def __init__(self):
         self.name = ""
         self.url = ""
@@ -17,8 +19,13 @@ class ClassScraper:
     def get_html(self, url):
         """method to request the html for the site and parse it
         using the Beautiful Soup module"""
+        start_time = time.time()
+
         result = requests.get(url, timeout=8)
         soup = BeautifulSoup(result.text, "html.parser")
+
+        time_difference = time.time() - start_time
+        print(f'Scraping time: %.2f seconds.' % time_difference)
         return soup
 
     def search_tags(self, tag, input_soup):
