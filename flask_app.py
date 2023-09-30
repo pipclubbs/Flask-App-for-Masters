@@ -151,11 +151,14 @@ def climb_events():
     # event_search = ''
     if request.method == "POST" and "eventsearch" in request.form:
         check_age_of_data()
+        print("old data deleted")
 
         check = event_data_exists()
+        print(f"check = {check}")
         if not check:
             list_of_events = Events()
             list_of_events.assign_values()
+            print("this worked")
             return display_event_text()
         return display_event_text()
 
@@ -224,26 +227,42 @@ def about_me():
     return render_template("about.html")
 
 
+def table_exists(cursor, table_name):
+    cur = cursor
+    cur.execute(
+        f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+    return cur.fetchone() is not None
+
+
 def check_age_of_data():
     if not os.path.isfile('database.db'):
-        return
+        pass
 
-    max_time = datetime.datetime.now() - datetime.timedelta(hours=6)
-    print(f'max time: {max_time}')
-    conn = sqlite3.connect('database.db')
-    cur = conn.cursor()
-    cur.execute(
-        "DELETE FROM centres WHERE created < ?", (max_time,))
-    cur.execute(
-        "DELETE FROM classes WHERE created < ?", (max_time,))
-    cur.execute(
-        "DELETE FROM clubs WHERE created < ?", (max_time,))
-    cur.execute(
-        "DELETE FROM events WHERE created < ?", (max_time,))
+    else:
+        max_time = datetime.datetime.now() - datetime.timedelta(hours=6)
+        print(f'max time: {max_time}')
+        conn = sqlite3.connect('database.db')
+        cur = conn.cursor()
 
-    conn.commit()
-    print("old data has been deleted from the tables")
-    conn.close()
+        if table_exists(cur, 'centres'):
+            cur.execute(
+                "DELETE FROM centres WHERE created < ?", (max_time,))
+
+        if table_exists(cur, 'classes'):
+            cur.execute(
+                "DELETE FROM classes WHERE created < ?", (max_time,))
+
+        if table_exists(cur, 'clubs'):
+            cur.execute(
+                "DELETE FROM clubs WHERE created < ?", (max_time,))
+
+        if table_exists(cur, 'events'):
+            cur.execute(
+                "DELETE FROM events WHERE created < ?", (max_time,))
+
+        conn.commit()
+        print("old data has been deleted from the tables")
+        conn.close()
 
 
 def display_class_text(area):
@@ -467,6 +486,19 @@ def check_club_table(area):
     return False
 
 
+def check_event_table():
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT * FROM events")
+    find = cur.fetchall()
+
+    if find:
+        return True
+    return False
+
+
 def check_rows_for_info(area):
     """opens the database and searches for the search area inside it
     if it is there, it returns True"""
@@ -524,7 +556,7 @@ def club_data_exists(area):
 def event_data_exists():
     if not os.path.isfile('database.db'):
         return False
-    return True
+    # return True
 
 
 returnHome = returnHome()

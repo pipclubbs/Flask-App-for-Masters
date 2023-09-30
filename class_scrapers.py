@@ -77,3 +77,31 @@ class ClassScraper:
             tag = re.sub(r'\s+', ' ', tag).strip()
             new_tag_list.append(tag)
         return new_tag_list
+
+    def extract_contacts(self, string):
+        # Define regular expressions for email address and phone number
+        email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+        phone_pattern = r'(\b\d{4} \d{3} \d{4}\b)|(\b\d{4} \d{7}\b)|(\b\d{5} \d{3} \d{3}\b)'
+
+        # Find email addresses and phone numbers using re.findall
+        email_addresses = re.findall(email_pattern, string)
+        phone_numbers = re.findall(phone_pattern, string)
+
+        # Extracted email addresses and phone numbers
+        return [email_addresses, phone_numbers]
+
+    def split_string(self, string):
+        # Split the string into a list of strings, using the regular expression as the delimiter.
+        string_list = re.sub(
+            r'([a-z])([A-Z])', r'\1 \2', string)
+        string_list = re.sub(r'(:)([A-Z])', r'\1 \2', string_list)
+        string_list = re.sub(r'([a-z])([0-9])', r'\1 \2', string_list)
+        string_list = re.sub(r'(,)([A-Z])', r' \2', string_list)
+        words = string_list.split()
+        word_list = ' '.join(words)
+
+        word_list = re.split("\s+", word_list)
+        # Remove any empty strings from the list.
+        # string_list = [word for word in string_list if word]
+
+        return word_list

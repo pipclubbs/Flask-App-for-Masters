@@ -17,6 +17,7 @@ class DatabaseConnection:
 
     def __init__(self, input_value):
         self.data_list = input_value
+
         self.create_tables()
 
         # print(f'data_list: {self.data_list}')
@@ -26,7 +27,7 @@ class DatabaseConnection:
         event_data = []  # empty list to append event data to
 
         for data_dict in self.data_list:
-            print(f'data_dict: {data_dict}')
+            # print(f'data_dict: {data_dict}')
             # check if the data_list has come from a centre or class search
             if 'title' not in data_dict:
                 # if 'title' isn't there it is centre data
@@ -53,8 +54,8 @@ class DatabaseConnection:
             self.insert_club_data(club_data)
         elif event_data:
             self.insert_event_data(event_data)
-        '''else:
-            raise ValueError("Input must be a string or a list")'''
+        else:
+            return
 
     """create a database file and the tables"""
 

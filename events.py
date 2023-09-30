@@ -36,6 +36,7 @@ class Events(ClassScraper):
 
         for e in events:
             if e["name"] == "Brit Rock Film Tour":
+                print("brit")
                 url = e["url"]
                 # get the html via the parent class method
                 soup = self.get_html(url)
@@ -44,8 +45,8 @@ class Events(ClassScraper):
                 h1_tags = self.search_tags_alternative('h1', soup)
                 p_tags = self.search_tags_alternative('p', soup)
                 p_tags = self.strip_spaces_and_breaks(p_tags)
-
                 # allocate the results to a dictionary for storing in the database
+
                 event_list = [
                     {
                         "event": "event",
@@ -109,6 +110,7 @@ class Events(ClassScraper):
                     scraped_events.append(i)
 
             if e["name"] == "Women's Climbing Symposium":
+                print("WCS")
                 url = e["url"]
                 soup = self.get_html(url)
 
@@ -157,13 +159,15 @@ class Events(ClassScraper):
                     scraped_events.append(i)
 
             if e["name"] == "Speakers from the Edge":
+                print("speakers")
                 url = e["url"]
                 soup = self.get_html(url)
 
                 a_tags = self.search_tags_alternative('a', soup)
                 a_tags = self.strip_spaces_and_breaks(a_tags)
                 a_tags = self.remove_blanks(a_tags)
-                a_tags = list(dict.fromkeys(a_tags))  # remove duplicate tags
+                # remove duplicate tags
+                a_tags = list(dict.fromkeys(a_tags))
 
                 p_tags = self.search_tags_alternative('p', soup)
                 p_tags = self.strip_spaces_and_breaks(p_tags)
