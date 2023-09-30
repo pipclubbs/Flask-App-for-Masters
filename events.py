@@ -237,8 +237,8 @@ class Events(ClassScraper, AsyncScraper):
                     print("None of these phrases found in the soup")
 
         # print output to check it came out correctly
-        for row in scraped_events:
-            print(row)
+        # for row in scraped_events:
+        #    print(row)
 
         """send the compiled scraped events list to the database module,
         and append the result to the output list"""
