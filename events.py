@@ -213,9 +213,5 @@ class Events(ClassScraper):
 
         """send the compiled scraped events list to the database module,
         and append the result to the output list"""
-        # output.append(db_conn.DatabaseConnection(scraped_events))
-        # return output
-
-
-instance = Events()
-instance.assign_values()
+        output.append(db_conn.DatabaseConnection(scraped_events))
+        return output

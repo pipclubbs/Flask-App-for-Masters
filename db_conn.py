@@ -20,10 +20,10 @@ class DatabaseConnection:
         self.create_tables()
 
         # print(f'data_list: {self.data_list}')
-        data = []  # empty list to append centre only data to
-        data2 = []  # empty list to append class and centre data to
-        data3 = []  # empty list to append club data to
-        data4 = []  # empty list to append event data to
+        centre_data = []  # empty list to append centre only data to
+        class_and_centre_data = []  # empty list to append class and centre data to
+        club_data = []  # empty list to append club data to
+        event_data = []  # empty list to append event data to
 
         for data_dict in self.data_list:
             print(f'data_dict: {data_dict}')
@@ -31,28 +31,28 @@ class DatabaseConnection:
             if 'title' not in data_dict:
                 # if 'title' isn't there it is centre data
                 # put the data into the centre only list
-                data.append(data_dict)
+                centre_data.append(data_dict)
 
             elif 'type' not in data_dict and 'event' not in data_dict:
                 # if it is there it is class data
                 # put the data into the class and centre list
-                data2.append(data_dict)
+                class_and_centre_data.append(data_dict)
 
             elif 'event' not in data_dict:
-                data3.append(data_dict)
+                club_data.append(data_dict)
 
             else:
-                data4.append(data_dict)
+                event_data.append(data_dict)
 
-        if data:
-            self.insert_centre_data(data)
-        elif data2:
-            self.insert_data(data2)
-        elif data3:
-            # print(f'the data is {data3}')
-            self.insert_club_data(data3)
-        elif data4:
-            self.insert_event_data(data4)
+        if centre_data:
+            self.insert_centre_data(centre_data)
+        elif class_and_centre_data:
+            self.insert_data(class_and_centre_data)
+        elif club_data:
+            # print(f'the data is {club_data}')
+            self.insert_club_data(club_data)
+        elif event_data:
+            self.insert_event_data(event_data)
         '''else:
             raise ValueError("Input must be a string or a list")'''
 
