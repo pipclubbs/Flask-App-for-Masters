@@ -2,17 +2,16 @@
 
 {% block content %}
 
-  <h2>Climbing wall search results</h2>
+  <h2 class="search-result-header">Climbing wall search results</h2>
   <div class="grid-container-results">
     <div class="grid-item search-box">
       <div>
         {% if wall_search %} {% for item in wall_search %} {% if "http" in item %}
-        <a href="{{ item }}" target="blank"
-          >Click here to visit the website directly</a
-        >
+        <form style="display: inline" action="{{ item }}" method="get" target="blank">
+          <button class="submit-button">Visit the website</button>
+        </form>
         {% elif "\n\n" in item %}
         <h3 class="search-result-title">
-          <hr />
           <br />{{ item }}
         </h3>
         {% else %}

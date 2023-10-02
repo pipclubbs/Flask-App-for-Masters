@@ -22,12 +22,12 @@ class MidlandsContacts(ClassScraper):
         ]
 
         for c in centres:
-            try:
-                if c["name"] == "YMCA Lincolnshire, Lincoln":
-                    contactUrl = c["contactUrl"]
-                    area = c["area"]
-                    soup = self.get_html(contactUrl)
+            if c["name"] == "YMCA Lincolnshire, Lincoln":
+                contactUrl = c["contactUrl"]
+                area = c["area"]
+                soup = self.get_html(contactUrl)
 
+                if soup:
                     p_tags = self.search_tags_alternative('p', soup)
                     p_tags_address_list = self.split_string(p_tags[15])
                     p_tags_phone = self.extract_contacts(p_tags[12])
@@ -52,8 +52,8 @@ class MidlandsContacts(ClassScraper):
                     for i in centre_details:
                         scraped_centres.append(i)
 
-            except:
-                return output
+                else:
+                    pass
 
         output.append(db_conn.DatabaseConnection(scraped_centres))
         return output

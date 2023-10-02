@@ -1,3 +1,4 @@
+/* general styles */
 :root {
     --main-font-family: 'Trebuchet MS',
         'Lucida Sans Unicode',
@@ -35,6 +36,10 @@ h2 {
     text-align: center;
 }
 
+h2.search-result-header {
+    font-size: 30px;
+}
+
 h3 {
     color: var(--main-text-colour);
     font-family: var(--main-font-family);
@@ -57,6 +62,7 @@ p.copyright-line {
     font-family: monospace;
     font-size: 8;
     font-weight: lighter;
+    text-align: center;
 }
 
 p.search-boxes, p.search-results {
@@ -72,6 +78,7 @@ a {
     margin-top: 5px;
     font-size: 10pt;
 }
+
 #hero-img {
     display: grid;
     place-items: center;
@@ -109,7 +116,7 @@ a {
 }
 
 .grid-item {
-    padding: 0 20px;
+    padding: 0 20px 20px 20px;
 }
 
 .grid-item img {
@@ -128,4 +135,22 @@ a {
 
 .search-inputs {
     margin-bottom: 20px;
+}
+
+.submit-button {
+    background-color: var(--brand-text-colour);
+    color: #fff;
+    font-size: 10pt;
+    font-family: var(--main-font-family);
+    border-radius: 5px;
+    border: 0.5px solid var(--brand-text-colour);
+    box-shadow: 1px 1px 1px grey;
+    padding: 5px 8px;
+    text-decoration: none;
+    transition-duration: 0.5s;
+}
+
+.submit-button:hover {
+    background-color: #fff;
+    color: var(--brand-text-colour);
 }

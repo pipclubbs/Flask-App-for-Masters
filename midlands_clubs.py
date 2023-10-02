@@ -30,13 +30,14 @@ class MidlandsClubs(ClassScraper):
         ]
 
         for c in clubs:
-            try:
-                if c["name"] == "Solihull Mountaineering Club":
-                    area = c["area"]
-                    url = c["url"]
-                    soup = self.get_html(url)
-                    created = datetime.datetime.now()
 
+            if c["name"] == "Solihull Mountaineering Club":
+                area = c["area"]
+                url = c["url"]
+                soup = self.get_html(url)
+                created = datetime.datetime.now()
+
+                if soup:
                     p_tags = self.search_tags_alternative('p', soup)
                     p_tag_list = []
                     p_tags_updated = []
@@ -101,16 +102,16 @@ class MidlandsClubs(ClassScraper):
                     for i in club_list:
                         scraped_clubs.append(i)
 
-            except:
-                pass
+                else:
+                    pass
 
-            try:
-                if c["name"] == "The Midland Association of Mountaineers":
-                    area = c["area"]
-                    url = c["url"]
-                    soup = self.get_html(url)
-                    created = datetime.datetime.now()
+            if c["name"] == "The Midland Association of Mountaineers":
+                area = c["area"]
+                url = c["url"]
+                soup = self.get_html(url)
+                created = datetime.datetime.now()
 
+                if soup:
                     h1_tags = self.search_tags('h1', soup)
                     h2_tags = self.search_tags('h2', soup)
                     p_tags = self.search_tags_alternative('p', soup)
@@ -131,16 +132,16 @@ class MidlandsClubs(ClassScraper):
                     for i in club_list:
                         scraped_clubs.append(i)
 
-            except:
-                pass
+                else:
+                    pass
 
-            try:
-                if c["name"] == "Cave & Crag Club, Birmingham":
-                    area = c["area"]
-                    url = c["url"]
-                    soup = self.get_html(url)
-                    create = datetime.datetime.now()
+            if c["name"] == "Cave & Crag Club, Birmingham":
+                area = c["area"]
+                url = c["url"]
+                soup = self.get_html(url)
+                created = datetime.datetime.now()
 
+                if soup:
                     p_tags = self.search_tags('p', soup)
                     h2_tags = self.search_tags('h2', soup)
                     h3_tags = self.search_tags('h3', soup)
@@ -191,8 +192,8 @@ class MidlandsClubs(ClassScraper):
                     for i in club_list:
                         scraped_clubs.append(i)
 
-            except:
-                return output
+                else:
+                    pass
 
         output.append(db_conn.DatabaseConnection(scraped_clubs))
         return output

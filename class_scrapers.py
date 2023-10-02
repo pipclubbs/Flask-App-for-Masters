@@ -19,14 +19,17 @@ class ClassScraper:
     def get_html(self, url):
         """method to request the html for the site and parse it
         using the Beautiful Soup module"""
-        start_time = time.time()
+        try:
+            start_time = time.time()
 
-        result = requests.get(url, timeout=8)
-        soup = BeautifulSoup(result.text, "html.parser")
+            result = requests.get(url, timeout=8)
+            soup = BeautifulSoup(result.text, "html.parser")
 
-        time_difference = time.time() - start_time
-        print(f'Scraping time: %.2f seconds.' % time_difference)
-        return soup
+            time_difference = time.time() - start_time
+            print(f'Scraping time: %.2f seconds.' % time_difference)
+            return soup
+        except:
+            return
 
     def search_tags(self, tag, input_soup):
         """given the name of the tag and the html 'soup' to be 

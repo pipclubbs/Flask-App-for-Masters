@@ -19,13 +19,14 @@ class MidlandsClasses(ClassScraper):
         ]
 
         for c in centres:
-            try:
-                if c["name"] == "YMCA Lincolnshire, Lincoln":
-                    area = c["area"]
-                    classUrl = c["classUrl"]
-                    soup = self.get_html(classUrl)
-                    created = datetime.datetime.now()
 
+            if c["name"] == "YMCA Lincolnshire, Lincoln":
+                area = c["area"]
+                classUrl = c["classUrl"]
+                soup = self.get_html(classUrl)
+                created = datetime.datetime.now()
+
+                if soup:
                     p_tags = self.search_tags('p', soup)
                     h2_tags = self.search_tags('h2', soup)
 
@@ -105,8 +106,8 @@ class MidlandsClasses(ClassScraper):
                     for i in class_list:
                         scraped_classes.append(i)
 
-            except:
-                return output
+                else:
+                    pass
 
         output.append(db_conn.DatabaseConnection(scraped_classes))
         return output

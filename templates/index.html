@@ -12,6 +12,7 @@
     <title>Great Little Local | Climb Directory - Home</title>
   </head>
   <body>
+    
     <div class="grid-container">
       <div class="grid-item">
         <h1 class="hero-text">
@@ -42,41 +43,35 @@
           </br>
           Search here for climbing walls in your area.
         </p>
-        <form  class="search-inputs" method="POST" action="/walls">
-          <select name="wallsearch">
+        <form  class="search-inputs" method="POST" action="/walls" onsubmit="return formValidate()">
+          <select name="wallsearch" id="search-inputs">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
             <option value="north-west">North west</option>
             <option value="yorkshire">Yorkshire</option>
             <option value="midlands">Midlands</option>
           </select>
-          <button type="submit" id="submitButton">Submit</button>
+          <button type="submit" class="submit-button">Submit</button>
         </form>
-        <div id="workingSymbol" style="display: none">
-            Working...
-        </div>
       </div>
 
       <div class="grid-item search-box">
         <h3>Classes</h3>
         <p class="search-boxes">
-          Need a class for you or the kids? 
+          Need a class to get going? 
           <br>
           Search here for climbing classes in your area.
         </p>
-        <form  class="search-inputs" method="POST" action="/classes">
-          <select name="classsearch">
+        <form  class="search-inputs" method="POST" action="/classes" onsubmit="return formValidate()">
+          <select name="classsearch" id="search-inputs">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
             <option value="north-west">North West</option>
             <option value="yorkshire">Yorkshire</option>
             <option value="midlands">Midlands</option>
           </select>
-          <button type="submit" id="submitButton">Submit</button>
+          <button type="submit" class="submit-button" id="submit-button">Submit</button>
         </form>
-        <div id="workingSymbol" style="display: none">
-            Working...
-        </div>
       </div>
 
       <div class="grid-item search-box">
@@ -87,7 +82,7 @@
           Search here for events in the UK.
         </p>
         <form  name="eventsearch" class="search-inputs" method="POST" action="/events">
-          <button name="eventsearch" type="submit" id="submitButton">Submit</button>
+          <button name="eventsearch" type="submit" class="submit-button">Submit</button>
         </form>
         <div name="eventsearch" id="workingSymbol" style="display: none">
             Working...
@@ -101,19 +96,16 @@
           <br>
           Search here for climbing clubs in your area.
         </p>
-        <form  class="search-inputs" method="POST" action="/clubs">
-          <select name="clubsearch">
+        <form  class="search-inputs" method="POST" action="/clubs" onsubmit="return formValidate()">
+          <select name="clubsearch" id="search-inputs">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
             <option value="north-west">North West</option>
             <option value="yorkshire">Yorkshire</option>
             <option value="midlands">Midlands</option>
           </select>
-          <button type="submit" id="submitButton">Submit</button>
+          <button type="submit" class="submit-button" id="submitButton">Submit</button>
         </form>
-        <div id="workingSymbol" style="display: none">
-            Working...
-        </div>
       </div>
 
     </div>
@@ -130,14 +122,33 @@
             <script>document.write(new Date().getFullYear())</script>
         </p>    
     </footer>
-    <script src="src/scripts.js">
-
+    <script>
+      /*
       function showWorkingSymbol() {
         document.getElementById('workingSymbol').style.display = 'block';
       }
 
       document.getElementById('submitButton').addEventListener('click', showWorkingSymbol);
+      */
+
+      function formValidate() {
+        let selectedValue = document.getElementById("search-inputs").value;
+        // check if the selected value is "choose" and prevent/allow submit
+        if (selectedValue === "choose") {
+          return false;
+        }
+        return true;
+      }
+
+      //event listener to enable/disable the submit button
+      document.getElementById("search-inputs").addEventListener("change", function() {
+        let submitButton = document.getElementById("submitButton");
+        let selectedValue = this.value;
+
+        submitButton = selectedValue === "choose";
+      })
       
+
     </script>
   </body>
 </html>
