@@ -14,14 +14,16 @@
         serif;
     --main-text-colour: #41413F;
     --brand-text-colour: #5D7074;
+    --brand-background-colour: #e5eaea;
 }
 
 body {
     margin: 0 auto;
     width: 60%;
-    background-color: #e5eaea;
+    background-color: var(--brand-background-colour);
 }
 
+/* text styles */
 h1.hero-text {
     font-family: var(--brand-font-family);
     color: var(--brand-text-colour);
@@ -38,6 +40,7 @@ h2 {
 
 h2.search-result-header {
     font-size: 30px;
+    margin-top: 40px;
 }
 
 h3 {
@@ -59,13 +62,21 @@ h4 {
 }
 
 p.copyright-line {
-    font-family: monospace;
-    font-size: 8;
+    color: var(--brand-text-colour);
+    font-family: var(--main-font-family);
+    font-size: 10pt;
     font-weight: lighter;
     text-align: center;
 }
 
-p.search-boxes, p.search-results {
+a.about-link {
+    text-decoration: none;
+    font-family: var(--main-font-family);
+    font-size: 10pt;
+    font-weight: lighter;
+}
+
+p.search-boxes, p.search-results, p.about-me {
     color: var(--main-text-colour);
     font-family: var(--main-font-family);
     margin-top: 5px;
@@ -78,7 +89,9 @@ a {
     margin-top: 5px;
     font-size: 10pt;
 }
+/* end text styles */
 
+/* layout styles */
 #hero-img {
     display: grid;
     place-items: center;
@@ -105,7 +118,7 @@ a {
     justify-content: center;
     align-items: center;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 20px 0;
+    margin: 40px 0;
 }
 
 .grid-container-results {
@@ -125,6 +138,56 @@ a {
     border-radius: 5px;
     margin: 20px;
 }
+/* end layout styles */
+
+/* header bar styles */
+.header-bar {
+    border-bottom-style: solid;
+    border-bottom-color: var(--brand-text-colour);
+    border-bottom-width: thin;
+    box-shadow: 0px 0px 2px grey;
+    overflow: hidden;
+    background-color: var(--brand-background-colour);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.header-bar h2 {
+    font-family: var(--brand-font-family);
+    font-size: 18px;
+    color: var(--brand-text-colour);
+    display: inline;
+    }
+
+.nav-links a {
+    box-sizing: border-box;
+    float: right;
+    display: block;
+    text-align: center;
+    padding: 5px 10px 5px 10px;
+    text-decoration: none;
+    font-family: var(--main-font-family);
+    font-size: 14px;
+    color: var(--brand-text-colour);
+}
+
+.nav-links a:hover {
+    background: var(--brand-text-colour);
+    color: var(--brand-background-colour);
+}
+
+.logo {
+    float: left;
+    padding: 5px 10px;
+}
+
+.logo-link {
+    text-decoration: none;
+}
+
+/* end of header bar styles */
 
 .search-box {
     margin: 10px;
@@ -153,4 +216,69 @@ a {
 .submit-button:hover {
     background-color: #fff;
     color: var(--brand-text-colour);
+}
+
+@media screen and (max-width: 768px) {
+
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        width: 90%;
+    }
+
+    .grid-container-results {
+        width: 100%;
+    }
+
+    h1.hero-text {
+        display: none;
+    }
+
+    h2 {
+        font-size: 40px;
+        margin-top: 10px;
+    }
+
+    h2.search-result-header {
+        font-size: 25px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    p.search-boxes {
+        font-size: 13px;
+    }
+
+    p.about-me {
+        text-align: center;
+    }
+
+    #hero-para {
+        font-size: 10pt;
+    }
+
+    .grid-item {
+        padding-bottom: 10px;
+
+    }
+    .grid-item img {
+        width: auto;
+        max-height: 250px;
+        margin: 10px;
+    }
+    
+    .logo-top-line {
+        font-size: 12px;
+    }
+
+    .logo-bottom-line {
+        font-size: 20px;
+        line-height: 0.7;
+    }
 }

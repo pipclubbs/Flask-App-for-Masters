@@ -12,7 +12,22 @@
     <title>Great Little Local | Climb Directory - Home</title>
   </head>
   <body>
-    
+    <header>
+      <div class="header-bar">
+        <div class="logo">
+          <a href="/" class="logo-link">
+            <h2>Great Little Local</h2>
+          </a>    
+        </div>
+
+        <div class="nav-links">
+          <a href="/" title="Return home">Home</a>
+          <a href="/about" title="About me">About me</a>
+        </div>
+      </div>
+    </header>
+
+    </header>
     <div class="grid-container">
       <div class="grid-item">
         <h1 class="hero-text">
@@ -43,8 +58,8 @@
           </br>
           Search here for climbing walls in your area.
         </p>
-        <form  class="search-inputs" method="POST" action="/walls" onsubmit="return formValidate()">
-          <select name="wallsearch" id="search-inputs">
+        <form  class="search-inputs" method="POST" action="/walls" onsubmit="return formValidate('wall-search-inputs')">
+          <select name="wallsearch" id="wall-search-inputs">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
             <option value="north-west">North west</option>
@@ -56,14 +71,14 @@
       </div>
 
       <div class="grid-item search-box">
-        <h3>Classes</h3>
+        <h3>Climbing classes</h3>
         <p class="search-boxes">
           Need a class to get going? 
           <br>
           Search here for climbing classes in your area.
         </p>
-        <form  class="search-inputs" method="POST" action="/classes" onsubmit="return formValidate()">
-          <select name="classsearch" id="search-inputs">
+        <form  class="search-inputs" method="POST" action="/classes" onsubmit="return formValidate('class-search-inputs')">
+          <select name="classsearch" id="class-search-inputs">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
             <option value="north-west">North West</option>
@@ -71,6 +86,25 @@
             <option value="midlands">Midlands</option>
           </select>
           <button type="submit" class="submit-button" id="submit-button">Submit</button>
+        </form>
+      </div>
+
+      <div class="grid-item search-box">
+        <h3>Climbing clubs</h3>
+        <p class="search-boxes">
+          Want someone to climb with? 
+          <br>
+          Search here for climbing clubs in your area.
+        </p>
+        <form  class="search-inputs" method="POST" action="/clubs" onsubmit="return formValidate('club-search-inputs')">
+          <select name="clubsearch" id="club-search-inputs">
+            <option value="choose">Choose an area...</option>
+            <option value="north-east">North East</option>
+            <option value="north-west">North West</option>
+            <option value="yorkshire">Yorkshire</option>
+            <option value="midlands">Midlands</option>
+          </select>
+          <button type="submit" class="submit-button" id="submitButton">Submit</button>
         </form>
       </div>
 
@@ -88,51 +122,22 @@
             Working...
         </div>
       </div>
-
-      <div class="grid-item search-box">
-        <h3>Climbing clubs</h3>
-        <p class="search-boxes">
-          Want someone to climb with? 
-          <br>
-          Search here for climbing clubs in your area.
-        </p>
-        <form  class="search-inputs" method="POST" action="/clubs" onsubmit="return formValidate()">
-          <select name="clubsearch" id="search-inputs">
-            <option value="choose">Choose an area...</option>
-            <option value="north-east">North East</option>
-            <option value="north-west">North West</option>
-            <option value="yorkshire">Yorkshire</option>
-            <option value="midlands">Midlands</option>
-          </select>
-          <button type="submit" class="submit-button" id="submitButton">Submit</button>
-        </form>
-      </div>
-
+    
     </div>
-    <div>
-      <form method="GET" action="/about">
-        <button type="submit" value="about-me">About</button>
-      </form>
-    </div>
+
 
     <footer>
-        <p class="copyright-line">
-            <span>&#169</span> 
-            Phillippa Clubbs 
-            <script>document.write(new Date().getFullYear())</script>
-        </p>    
-    </footer>
-    <script>
-      /*
-      function showWorkingSymbol() {
-        document.getElementById('workingSymbol').style.display = 'block';
-      }
+      <p class="copyright-line">
+        <a href="https://github.com/pipclubbs/Flask-App-for-Masters" class="about-link" title="Link to GitHub page" target="_blank" rel="noreferrer">open-source code</a> by
+          Phillippa Clubbs
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+      </p>
 
-      document.getElementById('submitButton').addEventListener('click', showWorkingSymbol);
-      */
-
-      function formValidate() {
-        let selectedValue = document.getElementById("search-inputs").value;
+<script>
+      function formValidate(formName) {
+        let selectedValue = document.getElementById(formName).value;
         // check if the selected value is "choose" and prevent/allow submit
         if (selectedValue === "choose") {
           return false;
@@ -140,14 +145,29 @@
         return true;
       }
 
-      //event listener to enable/disable the submit button
-      document.getElementById("search-inputs").addEventListener("change", function() {
+      // Event listener to enable/disable the submit button on the wall search
+      document.getElementById("wall-search-inputs").addEventListener("change", function() {
         let submitButton = document.getElementById("submitButton");
         let selectedValue = this.value;
 
         submitButton = selectedValue === "choose";
-      })
-      
+      });
+
+      // Event listener to enable/disable the submit button on the class search
+      document.getElementById("class-search-inputs").addEventListener("change", function() {
+        let submitButton = document.getElementById("submitButton");
+        let selectedValue = this.value;
+
+        submitButton = selectedValue === "choose";
+      });
+
+      // Event listener to enable/disable the submit button on the club search
+      document.getElementById("club-search-inputs").addEventListener("change", function() {
+        let submitButton = document.getElementById("submitButton");
+        let selectedValue = this.value;
+
+        submitButton = selectedValue === "choose";
+      });
 
     </script>
   </body>

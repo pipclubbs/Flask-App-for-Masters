@@ -13,44 +13,88 @@
   <body>
     <!-- this page needs a header and footer added. see notes throughout for additional items.
     possibly format this as a blog type thing? could add extra info as 'release notes' maybe -->
+    <header>
+      <div class="header-bar">
+        <div class="logo">
+          <a href="/" class="logo-link">
+            <h2>Great Little Local</h2>
+          </a>
+        </div>
 
-    <h2>Information</h2>
-    <h3>About me</h3>
-    <p>
-      Hi! I'm Pip. I'm from north east England, and have a passion for sport. In
-      particular, rowing, ultrarunning, aerial and weight lifting. But when I'm
-      not doing those (or creating web apps for my Computer Science Masters
-      course) I can usually be found at a climbing wall or on a big hill or rock
-      somewhere. <br />
-      After over twenty years working in project management for academic and
-      educational publishing I decided to get back to education myself, taking a
-      big leap into the unknown, and doing a Masters in Computer Science - a
-      huge change for me! In July 2023 I started my first software development
-      job as a Junior Software Developer with Proctor & Gamble, and I am very
-      much enjoying the challenge so far.
-    </p>
-    <!--insert a photo of me here?-->
-    <p>
-      You can find me on LinkedIn at
-      <!-- insert link-->
-      or email me at
-      <!-- insert email -->
-    </p>
+        <div class="nav-links">
+          <a href="/" title="Return home">Home</a>
+          <a href="/about" title="About me">About me</a>
+        </div>
+      </div>
+    </header>
 
-    <h3>About this web app</h3>
-    For my Masters Research Project I decided to experiment with web scraping.
-    Fed up with the difficulty of locating climbing information I
-    <em>knew</em> was online somewhere but couldn't find it, I decided to
-    investigate why the search engines like Google and Bing are not so great at
-    finding information on niche topics, and to see if building a targeted,
-    climbing-specific search engine using web scrapers was possible. This web
-    application is the result of that experiment.<br />
-    As it stands, it is a protytpe, proof of concept to see if the idea is
-    feasible and to assess what I learn from putting it together.
-    <div>
-      <form method="GET" action="/">
-        <button type="submit" value="home">Home</button>
-      </form>
+    <h2 class="search-result-header">Information</h2>
+    <div class="grid-container-results">
+      <div class="grid-item search-box">
+        <div>
+          <h3>About me</h3>
+          <p class="about-me">
+            Hi! I'm Pip. I'm from north east England, and have a passion for
+            sport. In particular, rowing, ultrarunning, aerial and weight
+            lifting. But when I'm not doing those (or creating web apps for my
+            Computer Science Masters course) I can usually be found at a
+            climbing wall or on a big hill or rock somewhere.
+          </p>
+          <p class="about-me">
+            After over twenty years working in project management for academic
+            and educational publishing I decided to get back to education
+            myself, taking a big leap into the unknown, and doing a Masters in
+            Computer Science - a huge change for me! In July 2023 I started my
+            first software development job as a Junior Software Developer with
+            Proctor & Gamble, and I am very much enjoying the challenge so far.
+          </p>
+          <!--insert a photo of me here?-->
+          <p class="about-me">
+            You can find me on
+            <a
+              href="https://www.linkedin.com/in/phillippaclubbs/"
+              class="about-link"
+              target="_blank"
+              rel="noreferrer"
+              >LinkedIn</a
+            >.
+          </p>
+          <br />
+          <h3>About this web app</h3>
+          <p class="about-me">
+            For my Masters Research Project I decided to experiment with web
+            scraping. Fed up with the difficulty of locating climbing
+            information I
+            <em>knew</em> was online somewhere but couldn't find it, I decided
+            to investigate why the search engines like Google and Bing are not
+            so great at finding information on niche topics, and to see if
+            building a targeted, climbing-specific search engine using web
+            scrapers was possible. This web application is the result of that
+            experiment.
+          </p>
+          <p class="about-me">
+            As it stands, it is a protytpe, proof of concept to see if the idea
+            is feasible and to assess what I learn from putting it together.
+          </p>
+        </div>
+      </div>
     </div>
+    <footer>
+      <p class="copyright-line">
+        <span>
+          <a
+            href="https://github.com/pipclubbs/Flask-App-for-Masters"
+            class="about-link"
+            target="_blank"
+            rel="noreferrer"
+            >open-source code</a
+          >
+          by Phillippa Clubbs
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+        </span>
+      </p>
+    </footer>
   </body>
 </html>
