@@ -1,23 +1,18 @@
-"""module containing the class that scrapes websites for climbing 
+"""child class containing the class that scrapes websites for climbing 
 event data"""
-
 import datetime
-# import db_conn
 from class_scrapers import ClassScraper
 from async_scrape import AsyncScraper
 
-
 class Events(ClassScraper, AsyncScraper):
     """class containing the web scraping information for events websites"""
-
     def __init__(self):
         super().__init__()
 
+    """method that defines the sites to scrape, then runs through each in turn, 
+    and sorts the results into dictionaries ready for storing in the database"""
     def assign_values(self):
-        """method that defines the sites to scrape, then runs through each in 
-        turn, and sorts the results into dictionaries ready for storing in the database"""
         created = datetime.datetime.now()
-        # output = []
         scraped_events = []
         events = [
             {
@@ -236,17 +231,12 @@ class Events(ClassScraper, AsyncScraper):
                 else:
                     print("None of these phrases found in the soup")
 
-        # print output to check it came out correctly
-        # for row in scraped_events:
-        #    print(row)
-
         """send the compiled scraped events list to the database module,
         and append the result to the output list"""
-        # output.append(db_conn.DatabaseConnection(scraped_events))
-        # return output
+        output.append(db_conn.DatabaseConnection(scraped_events))
+        return output
 
-
-# manually start up a new instance of this class
-# this is exactly the same as when it is instantiated from flask_app.py
+"""manually start up a new instance of this class. This is 
+exactly the same as when it is instantiated from flask_app.py"""
 instance = Events()
 instance.assign_values()
