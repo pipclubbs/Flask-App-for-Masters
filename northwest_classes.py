@@ -1,12 +1,18 @@
+
+"""module containing the class that scrapes websites for climbing class data (North West)"""
 import datetime
 import db_conn
 from class_scrapers import ClassScraper
 
 
 class NorthWestClasses(ClassScraper):
+    """class containing the web scraping information for climbing classes (North West)"""
     def __init__(self):
         super().__init__()
 
+
+    """method that defines the sites to scrape, then runs through each in turn and sorts the results
+    into dictionaries ready for storing in the database"""
     def assign_values(self):
         created = datetime.datetime.now()
         output = []
@@ -28,12 +34,14 @@ class NorthWestClasses(ClassScraper):
             if c["name"] == "Eden Rock, Carlisle":
                 area = c["area"]
                 classUrl = c["classUrl"]
-                soup = self.get_html(classUrl)
+                soup = self.get_html(classUrl) # get the html via the parent class
 
                 if soup:
+                    # search for the tags in the html
                     p_tags = self.search_tags_alternative('p', soup)
                     h6_tags = self.search_tags('h6', soup)
 
+                    # allocate the results to a dictionary for storing in the database
                     class_list = [
                         {
                             "area": area,
@@ -210,5 +218,7 @@ class NorthWestClasses(ClassScraper):
                 else:
                     pass
 
+        """send the compiled class list to the database module, 
+        and append the result to the output list""" 
         output.append(db_conn.DatabaseConnection(scraped_classes))
         return output
