@@ -3,9 +3,7 @@ and menu choices"""
 import sqlite3
 import os
 import datetime
-
 from flask import Flask, request, render_template, redirect
-
 from northeast_classes import NorthEastClasses
 from yorkshire_classes import YorkshireClasses
 from midlands_classes import MidlandsClasses
@@ -49,18 +47,14 @@ def climb_walls():
     # if user uses the search for climbing walls
     if request.method == "POST" and "wallsearch" in request.form:
         wall_search = request.form.get('wallsearch')
-        check_age_of_data()
+        check_age_of_data() # run function to check how old database data is
 
         if wall_search == "north-west":
-            # check the database exists
-            check = centre_data_exists("north-west")
+            check = centre_data_exists("north-west") # check the database exists
             if not check:
-                # if doesn't...
                 search = NorthWestContacts()  # create a scraper instance
                 search.assign_values()  # run the scraper using the class method
-                # open the results page
-                return display_centre_text("north-west")
-            # if it does, open the result page
+                return display_centre_text("north-west") # open the results page
             return display_centre_text("north-west")
 
         if wall_search == "north-east":
@@ -99,7 +93,6 @@ def climb_walls():
 @app.route('/classes', methods=['GET', 'POST'])
 def climb_classes():
     """the page where the information for climbing classes will display after scraping"""
-    # output = []
     class_search = ''
     list_of_classes = ''
     if request.method == "POST" and "classsearch" in request.form:
@@ -148,13 +141,10 @@ def climb_classes():
 @app.route('/events', methods=['GET', 'POST'])
 def climb_events():
     """the page where the information for climbing events will display after scraping"""
-    # event_search = ''
     if request.method == "POST" and "eventsearch" in request.form:
         check_age_of_data()
-        print("old data deleted")
-
+        
         check = event_data_exists()
-        print(f"check = {check}")
         if not check:
             list_of_events = Events()
             list_of_events.assign_values()
@@ -168,9 +158,7 @@ def climb_events():
     if request.method == "GET" and "about-me" in request.form:
         return returnAboutMe()
 
-    # return render_template("events.jinja2", event_search=event_search)
-
-
+    
 @app.route('/clubs', methods=['GET', 'POST'])
 def climb_clubs():
     """the page where the information for climbing clubs will display after scraping"""
@@ -226,20 +214,21 @@ def about_me():
 
     return render_template("about.html")
 
-
+"""method to check that the table exists in the database"""
 def table_exists(cursor, table_name):
     cur = cursor
     cur.execute(
         f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
     return cur.fetchone() is not None
 
-
+"""method to check how that there is a database, and if so, how old the data is. 
+if it is more than 24 hours old, delete it"""
 def check_age_of_data():
     if not os.path.isfile('database.db'):
         pass
 
     else:
-        max_time = datetime.datetime.now() - datetime.timedelta(hours=6)
+        max_time = datetime.datetime.now() - datetime.timedelta(hours=24)
         print(f'max time: {max_time}')
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
@@ -265,9 +254,9 @@ def check_age_of_data():
         conn.close()
 
 
+"""method to pull the data from the class table and save it in
+a list for the jinja2 template to use"""
 def display_class_text(area):
-    """this method pulls the data from the class table and saves it in
-    a list for the jinja2 template to use"""
     conn = sqlite3.connect('database.db')
     query = '''
         SELECT name, classUrl, title, description 
@@ -306,9 +295,9 @@ def display_class_text(area):
     return render_template("classes.jinja2", class_search=list_of_classes)
 
 
+"""method to pull the data from the centre table and save it in
+a list for the jinja2 template to use"""
 def display_centre_text(area):
-    """this method pulls the data from the centre table and saves it in
-    a list for the jinja2 template to use"""
     conn = sqlite3.connect('database.db')
     query = "SELECT * FROM centres WHERE area = ?;"
     data = conn.execute(query, (area,))
@@ -329,9 +318,9 @@ def display_centre_text(area):
     return render_template("walls.jinja2", wall_search=list_of_centres)
 
 
+"""method to pull the data from the clubs table and save it in
+a list for the jinja2 template to use"""
 def display_club_text(area):
-    """this method pulls the data from the clubs table and saves it in
-    a list for the jinja2 template to use"""
     conn = sqlite3.connect('database.db')
     query = "SELECT * FROM clubs WHERE area = ?;"
     data = conn.execute(query, (area,))
@@ -375,9 +364,9 @@ def display_club_text(area):
     return render_template("clubs.jinja2", class_search=list_of_clubs)
 
 
+"""method to pull the data from the events table and save it in
+a list for the jinja2 template to use"""
 def display_event_text():
-    """this method pulls the data from the events table and saves it in
-    a list for the jinja2 template to use"""
     conn = sqlite3.connect('database.db')
     data = conn.execute("SELECT * FROM events;")
 
@@ -421,9 +410,9 @@ def display_event_text():
     return render_template("events.jinja2", event_search=list_of_events)
 
 
+"""method to check whether database file exists, and if so check whether 
+rows exist in the class table for the selected area"""
 def check_class_table(area):
-    """check whether database file exists, if so check whether rows 
-    exist in the class table for the selected area"""
     searched_area = area
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
@@ -442,19 +431,17 @@ def check_class_table(area):
     return False
 
 
+"""method to check whether database file exists, and if so check whether 
+rows exist in the centre table for the selected area"""
 def check_centre_table(area):
-    """check whether database file exists, if so check whether rows 
-    exist in the centre table for the selected area"""
     searched_area = area
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
 
-    # (f'searched_area in check centre data = {searched_area}')
     cur.execute(
         "SELECT * FROM centres WHERE area = ? ", (searched_area,))
     find = cur.fetchall()
-    # print(f'find: {find}')
-
+    
     found_rows = []
     for row in find:
         if row[0] == searched_area:
@@ -465,9 +452,9 @@ def check_centre_table(area):
     return False
 
 
+"""method to check whether database file exists, and if so check whether 
+rows exist in the class table for the selected area"""
 def check_club_table(area):
-    """check whether database file exists, if so check whether rows 
-    exist in the class table for the selected area"""
     searched_area = area
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
@@ -486,12 +473,13 @@ def check_club_table(area):
     return False
 
 
+"""method to check whether there are rows in the events
+table"""
 def check_event_table():
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
 
-    cur.execute(
-        "SELECT * FROM events")
+    cur.execute("SELECT * FROM events")
     find = cur.fetchall()
 
     if find:
@@ -499,14 +487,13 @@ def check_event_table():
     return False
 
 
+"""method to open the database and search for the search area inside 
+it. if it is there, it returns True"""
 def check_rows_for_info(area):
-    """opens the database and searches for the search area inside it
-    if it is there, it returns True"""
     searched_area = area
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
-    # print(f'searched_area: {searched_area}')
-
+    
     cur.execute("SELECT * FROM centres WHERE area = ? ",
                 (searched_area,))
     find = cur.fetchall()
@@ -521,8 +508,8 @@ def check_rows_for_info(area):
     return False
 
 
+"""method to check if the database file exists"""
 def centre_data_exists(area):
-    """checks if the database file exists"""
     search_area = area
     if not os.path.isfile('database.db'):
         return False
@@ -536,16 +523,17 @@ def centre_data_exists(area):
     return False
 
 
+"""method to check if the database exists, and if so run the class table check
+- no need to check if the centre table exists because the data needed in there 
+would only exist if the class rows exist"""
 def class_data_exists(area):
-    """checks if the database exists, and if so runs the class table check
-    - no need to check if the centre table exists because the data needed 
-    in there would only exist if the class rows exist"""
     search_area = area
     if not os.path.isfile('database.db'):
         return False
     return check_class_table(search_area)
 
 
+"""method to check the database exists, then run the club table check"""
 def club_data_exists(area):
     search_area = area
     if not os.path.isfile('database.db'):
@@ -553,12 +541,14 @@ def club_data_exists(area):
     return check_club_table(search_area)
 
 
+"""method to check the database exists, then run the event table check"""
 def event_data_exists():
     if not os.path.isfile('database.db'):
         return False
-    # return True
+    return check_event_table()
 
 
 returnHome = returnHome()
 
-app.run()
+if __name__ == "__main__":
+    app.run()
