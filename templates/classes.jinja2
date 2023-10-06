@@ -6,8 +6,7 @@
     <div class="grid-container-results">
       <div class="grid-item search-box">
         <div>
-          {% if class_search %}{% for item in class_search %} {% if "http" in
-          item %}
+          {% if class_search %} {% for item in class_search %} {% if "http" in item %}
           <form style="display: inline" action="{{ item }}" method="get" target="blank">
             <button class="submit-button">Visit the website</button>
           </form>

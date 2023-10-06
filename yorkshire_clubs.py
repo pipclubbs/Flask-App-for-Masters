@@ -1,6 +1,5 @@
 import datetime
 import db_conn
-# import re
 from class_scrapers import ClassScraper
 
 
