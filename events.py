@@ -1,6 +1,5 @@
 """module containing the class that scrapes websites for climbing 
 event data"""
-
 import datetime
 import db_conn
 from class_scrapers import ClassScraper
@@ -12,9 +11,10 @@ class Events(ClassScraper):
     def __init__(self):
         super().__init__()
 
+    
+    """method that defines the sites to scrape, then runs through each in 
+    turn, and sorts the results into dictionaries ready for storing in the database"""
     def assign_values(self):
-        """method that defines the sites to scrape, then runs through each in 
-        turn, and sorts the results into dictionaries ready for storing in the database"""
         created = datetime.datetime.now()
         output = []
         scraped_events = []
@@ -38,16 +38,15 @@ class Events(ClassScraper):
             if e["name"] == "Brit Rock Film Tour":
                 print("brit")
                 url = e["url"]
-                # get the html via the parent class method
-                soup = self.get_html(url)
+                soup = self.get_html(url) # get the html via the parent class method
 
                 if soup:
                     # search for the tags in the html
                     h1_tags = self.search_tags_alternative('h1', soup)
                     p_tags = self.search_tags_alternative('p', soup)
                     p_tags = self.strip_spaces_and_breaks(p_tags)
+                    
                     # allocate the results to a dictionary for storing in the database
-
                     event_list = [
                         {
                             "event": "event",
@@ -106,7 +105,6 @@ class Events(ClassScraper):
                         }
                     ]
                     # add each dictionary entry to a list
-                    # list will be combined with other lists
                     for i in event_list:
                         scraped_events.append(i)
                 else:
