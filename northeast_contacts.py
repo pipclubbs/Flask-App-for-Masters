@@ -1,3 +1,4 @@
+"""module containing the class that scrapes websites for climbing centre data (North East)"""
 import re
 import datetime
 import db_conn
@@ -5,9 +6,13 @@ from class_scrapers import ClassScraper
 
 
 class NorthEastContacts(ClassScraper):
+    """class containing the web scraping information for climbing centres (North East)"""
     def __init__(self):
         super().__init__()
 
+
+    """method that defines the sites to scrape, then runs through each in turn and sorts the results
+    into dictionaries ready for storing in the database"""
     def assign_values(self):
         created = datetime.datetime.now()
         output = []
@@ -43,13 +48,15 @@ class NorthEastContacts(ClassScraper):
             if c["name"] == "Climb Valley, Newcastle":
                 contactUrl = c["contactUrl"]
                 area = c["area"]
-                soup = self.get_html(contactUrl)
+                soup = self.get_html(contactUrl) # get the html via the parent class method
 
                 if soup:
+                    # search for the tags in the html
                     p_tags = self.search_tags_alternative('p', soup)
                     p_tags_address_list = self.split_string(p_tags[3])
                     p_tags_contacts_list = self.extract_contacts(p_tags[24])
 
+                    # allocate the results to a dictionary for storing in the database
                     centre_details = [
                         {
                             "area": area,
@@ -66,6 +73,7 @@ class NorthEastContacts(ClassScraper):
                             "created": created
                         }
                     ]
+                    # add each dictionary entry to a list
                     for i in centre_details:
                         scraped_centres.append(i)
 
@@ -171,5 +179,7 @@ class NorthEastContacts(ClassScraper):
                 else:
                     pass
 
+        """send the compiled centre list to the database module, 
+        and append the result to the output list"""
         output.append(db_conn.DatabaseConnection(scraped_centres))
         return output
