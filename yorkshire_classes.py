@@ -1,12 +1,17 @@
+"""module containing the class that scrapes websites for climbing class data (Yorkshire)"""
 import datetime
 from class_scrapers import ClassScraper
 import db_conn
 
 
 class YorkshireClasses(ClassScraper):
+    """class containing the web scraping information for climbing classes (Yorkshire)"""
     def __init__(self):
         super().__init__()
 
+
+    """method that defines the sites to scrape, then runs through each in turn and sorts the results 
+    into dictionaries ready for storing in the database""" 
     def assign_values(self):
         created = datetime.datetime.now()
         output = []
@@ -39,11 +44,13 @@ class YorkshireClasses(ClassScraper):
             if c["name"] == "The Foundry, Sheffield":
                 area = c["area"]
                 classUrl = c["classUrl"]
-                soup = self.get_html(classUrl)
+                soup = self.get_html(classUrl) # get html via parent class
 
                 if soup:
+                    # search for tags in the html
                     p_tags = self.search_tags_alternative('p', soup)
 
+                    # allocate the results to a dictionary for storing in the database
                     class_list = [
                         {
                             "area": area,
@@ -131,6 +138,7 @@ class YorkshireClasses(ClassScraper):
                             "created": created
                         }
                     ]
+                    # append the dictionaries to a list
                     for i in class_list:
                         scraped_classes.append(i)
                 else:
@@ -372,5 +380,7 @@ class YorkshireClasses(ClassScraper):
                 else:
                     pass
 
+        """send the compiled class list to the database module, and 
+        append the result to the output list"""
         output.append(db_conn.DatabaseConnection(scraped_classes))
         return output
