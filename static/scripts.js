@@ -1,3 +1,5 @@
+// function to decide whether the submit button should work or not
+// so that 'Choose an area...' cannot be selected and cause an error
 function formValidate(formName) {
   let selectedValue = document.getElementById(formName).value;
   // check if the selected value is "choose" and prevent/allow submit

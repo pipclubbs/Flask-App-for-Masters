@@ -89,14 +89,14 @@ a {
     margin-top: 5px;
     font-size: 10pt;
 }
-/* end text styles */
 
-/* layout styles */
 #hero-img {
     display: grid;
     place-items: center;
 }
+/* end text styles */
 
+/* layout styles */
 #hero-para {
     color: var(--main-text-colour);
     font-family: var(--main-font-family);
@@ -186,9 +186,9 @@ a {
 .logo-link {
     text-decoration: none;
 }
-
 /* end of header bar styles */
 
+/* search box and button styles */
 .search-box {
     margin: 10px;
     border-radius: 10px;
@@ -217,6 +217,7 @@ a {
     background-color: #fff;
     color: var(--brand-text-colour);
 }
+/* end of search box and button styles */
 
 @media screen and (max-width: 768px) {
 
