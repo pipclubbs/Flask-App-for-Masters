@@ -53,9 +53,9 @@ class NorthEastClubs(ClassScraper):
                             "area": area,
                             "name": c["name"],
                             "url": url,
-                            "intro": h4_tags[1],  # the club caters for
-                            "title": h4_tags[2],  # a little bit...
-                            "subtitle": h4_tags[3],  # social
+                            "intro": h4_tags[1],  
+                            "title": h4_tags[2],  
+                            "subtitle": h4_tags[3], 
                             "description": p_tags[2],
                             "created": created
                         }, {
@@ -63,9 +63,9 @@ class NorthEastClubs(ClassScraper):
                             "area": area,
                             "name": c["name"],
                             "url": url,
-                            "intro": h4_tags[1],  # the club caters for
-                            "title": h4_tags[2],  # a little bit...
-                            "subtitle": h4_tags[4],  # experienced
+                            "intro": h4_tags[1], 
+                            "title": h4_tags[2], 
+                            "subtitle": h4_tags[4], 
                             "description": p_tags[3],
                             "created": created
                         }, {
@@ -73,9 +73,9 @@ class NorthEastClubs(ClassScraper):
                             "area": area,
                             "name": c["name"],
                             "url": url,
-                            "intro": h4_tags[1],  # the club caters for
-                            "title": h4_tags[2],  # a little bit...
-                            "subtitle": h4_tags[5],  # active
+                            "intro": h4_tags[1], 
+                            "title": h4_tags[2], 
+                            "subtitle": h4_tags[5], 
                             "description": p_tags[4],
                             "created": created
                         }
@@ -102,7 +102,7 @@ class NorthEastClubs(ClassScraper):
                             "name": c["name"],
                             "url": url,
                             "intro": '',
-                            "title": span_tags[2],  # climbing
+                            "title": span_tags[2], 
                             "subtitle": '',
                             "description": span_tags[4],
                             "created": created
@@ -112,7 +112,7 @@ class NorthEastClubs(ClassScraper):
                             "name": c["name"],
                             "url": url,
                             "intro": '',
-                            "title": span_tags[2],  # climbing
+                            "title": span_tags[2], 
                             "subtitle": '',
                             "description": span_tags[5],
                             "created": created
@@ -122,7 +122,7 @@ class NorthEastClubs(ClassScraper):
                             "name": c["name"],
                             "url": url,
                             "intro": '',
-                            "title": span_tags[2],  # climbing
+                            "title": span_tags[2], 
                             "subtitle": '',
                             "description": span_tags[6],
                             "created": created
