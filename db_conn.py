@@ -9,55 +9,44 @@ import os
 
 class DatabaseConnection:
     """ initialise a class instance:
-        check if the scraped data was from a centre or class
-        search, add it to a list, and send it to the 
-        correct class method for insertion into the
-        database """
+        check if the scraped data was from a centre or class search, add it to a list, 
+        and send it to the correct class method for insertion into the database """
 
     def __init__(self, input_value):
         self.data_list = input_value
 
         self.create_tables()
 
-        # print(f'data_list: {self.data_list}')
         centre_data = []  # empty list to append centre only data to
         class_and_centre_data = []  # empty list to append class and centre data to
         club_data = []  # empty list to append club data to
         event_data = []  # empty list to append event data to
 
+        # sort the incoming data into the appropriate lists
         for data_dict in self.data_list:
-            # print(f'data_dict: {data_dict}')
-            # check if the data_list has come from a centre or class search
             if 'title' not in data_dict:
-                # if 'title' isn't there it is centre data
-                # put the data into the centre only list
                 centre_data.append(data_dict)
-
             elif 'type' not in data_dict and 'event' not in data_dict:
-                # if it is there it is class data
-                # put the data into the class and centre list
                 class_and_centre_data.append(data_dict)
-
             elif 'event' not in data_dict:
                 club_data.append(data_dict)
-
             else:
                 event_data.append(data_dict)
 
+        # run the appropriate function according to what data it is
         if centre_data:
             self.insert_centre_data(centre_data)
         elif class_and_centre_data:
             self.insert_data(class_and_centre_data)
         elif club_data:
-            # print(f'the data is {club_data}')
             self.insert_club_data(club_data)
         elif event_data:
             self.insert_event_data(event_data)
         else:
             return
 
-    """create a database file and the tables"""
-
+    
+    """method to create a database file and the tables"""
     def return_check(self, check_result):
         if check_result:
             print("this is true here")
@@ -66,8 +55,9 @@ class DatabaseConnection:
             print("this is false")
             return False
 
+
+    """method to create the tables in the database"""
     def create_tables(self):
-        # os.remove("database.db")
         conn = sqlite3.connect('database.db')
         conn.execute('''
             CREATE TABLE IF NOT EXISTS centres (
@@ -98,11 +88,9 @@ class DatabaseConnection:
         print("database and tables created successfully")
         conn.close()
 
-    """method to check whether the row already exists for 
-        a centre. Return is a Boolean that tells the 
-        insert_centre_data() method which insert statement to 
-        execute """
-
+    
+    """method to check if the row exists for a centre. Return is a Boolean that tells the 
+    insert_centre_data() method which insert statement to execute"""
     def check_rows_exist(self, data):
         input_data = data
         conn = sqlite3.connect('database.db')
@@ -110,10 +98,8 @@ class DatabaseConnection:
 
         found_rows = []
         for row in input_data:
-            # print(f'check rows exist row: {row}')
             area_from_data = row["area"]
             name_from_data = row["name"]
-            # print(f'assigned values {area_from_data}, {name_from_data}')
 
             cur.execute(
                 "SELECT * FROM centres WHERE area = ? AND name = ?", (area_from_data, name_from_data))
@@ -128,10 +114,8 @@ class DatabaseConnection:
         else:
             return False
 
-    """ method to insert class data into the classes and centre tables"""
-    # need to update this so that it doesn't overwrite the values if the
-    # centre already exists
 
+    """ method to insert class data into the classes and centre tables"""
     def insert_data(self, data_to_insert):
         data = data_to_insert
         conn = sqlite3.connect('database.db')
@@ -144,7 +128,6 @@ class DatabaseConnection:
                         ) VALUES (
                         :area, :name, :classUrl, :created);
                         ''', data)
-
             print('new centre added')
         else:
             cur.executemany(
@@ -162,14 +145,15 @@ class DatabaseConnection:
         print("Records successfully added")
         conn.close()
 
+
+    """method to insert data into the centre table"""
     def insert_centre_data(self, data_to_insert):
         data = data_to_insert
-        # classUrl may exist in the database - don't want to overwrite it
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
 
-        # will be true if the area and name are in a line on the database
-        check = self.check_rows_exist(data)
+        # classUrl may exist in the database - don't want to overwrite it
+        check = self.check_rows_exist(data) # will be true if the area and name are in a line on the database
         if check == True:
             # If classUrl in the incoming data is '' it is from centre search. if the class search is already done, the name will be there
             cur.executemany('''
@@ -187,6 +171,8 @@ class DatabaseConnection:
         print("Records successfully added")
         conn.close()
 
+    
+    """method to insert data into the club table"""
     def insert_club_data(self, data_to_insert):
         data = data_to_insert
         conn = sqlite3.connect('database.db')
@@ -199,6 +185,8 @@ class DatabaseConnection:
         print("Records successfully added")
         conn.close()
 
+
+    """method to insert data into the event table"""
     def insert_event_data(self, data_to_insert):
         data = data_to_insert
         conn = sqlite3.connect('database.db')
@@ -211,6 +199,8 @@ class DatabaseConnection:
         print("Records successfully added")
         conn.close()
 
+
+    """method to remove the database file - currently unused"""
     def remove_db():
         """function to remove database after process has completed so that it can begin again"""
         user_input = input(f"\ndo you want to remove the database?")
