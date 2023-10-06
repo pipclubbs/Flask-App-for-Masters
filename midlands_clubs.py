@@ -1,12 +1,17 @@
+"""module containing the class that scrapes websites for climbing club data (Midlands)"""
 import db_conn
 import datetime
 from class_scrapers import ClassScraper
 
 
 class MidlandsClubs(ClassScraper):
+    """class containing the web scraping information for climbing clubs (Midlands)"""
     def __init__(self):
         super().__init__()
 
+
+    """method that defines the sites to scrape, then runs through each in turn and sorts the 
+    results into dictionaries ready for storing in the database"""
     def assign_values(self):
         output = []
         scraped_clubs = []
@@ -30,14 +35,14 @@ class MidlandsClubs(ClassScraper):
         ]
 
         for c in clubs:
-
             if c["name"] == "Solihull Mountaineering Club":
                 area = c["area"]
                 url = c["url"]
-                soup = self.get_html(url)
+                soup = self.get_html(url) # get the html via the parent class method
                 created = datetime.datetime.now()
 
                 if soup:
+                    # search for the tags in the html
                     p_tags = self.search_tags_alternative('p', soup)
                     p_tag_list = []
                     p_tags_updated = []
@@ -46,6 +51,7 @@ class MidlandsClubs(ClassScraper):
                     for tag in p_tag_list:
                         p_tags_updated.append(tag.replace("\n", ""))
 
+                    # allocate the results to a dictionary for storing in the database
                     club_list = [
                         {
                             "type": "club",
@@ -99,6 +105,7 @@ class MidlandsClubs(ClassScraper):
                             "created": created
                         }
                     ]
+                    # add each dictionary entry to a list
                     for i in club_list:
                         scraped_clubs.append(i)
 
@@ -195,9 +202,7 @@ class MidlandsClubs(ClassScraper):
                 else:
                     pass
 
+        """send the compiled scraped club list to the database module, 
+        and append the result to the output list"""
         output.append(db_conn.DatabaseConnection(scraped_clubs))
         return output
-
-
-# instance = MidlandsClubs()
-# instance.assign_values()
