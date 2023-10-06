@@ -58,7 +58,11 @@
           </br>
           Search here for climbing walls in your area.
         </p>
-        <form  class="search-inputs" method="POST" action="/walls" onsubmit="return formValidate('wall-search-inputs')">
+        <form  
+          class="search-inputs" 
+          method="POST" 
+          action="/walls" 
+          onsubmit="return formValidate('wall-search-inputs')">
           <select name="wallsearch" id="wall-search-inputs">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
@@ -77,7 +81,11 @@
           <br>
           Search here for climbing classes in your area.
         </p>
-        <form  class="search-inputs" method="POST" action="/classes" onsubmit="return formValidate('class-search-inputs')">
+        <form  
+          class="search-inputs" 
+          method="POST" 
+          action="/classes" 
+          onsubmit="return formValidate('class-search-inputs')">
           <select name="classsearch" id="class-search-inputs">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
@@ -96,7 +104,11 @@
           <br>
           Search here for climbing clubs in your area.
         </p>
-        <form  class="search-inputs" method="POST" action="/clubs" onsubmit="return formValidate('club-search-inputs')">
+        <form  
+          class="search-inputs" 
+          method="POST" 
+          action="/clubs" 
+          onsubmit="return formValidate('club-search-inputs')">
           <select name="clubsearch" id="club-search-inputs">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
@@ -115,21 +127,29 @@
           <br> 
           Search here for events in the UK.
         </p>
-        <form  name="eventsearch" class="search-inputs" method="POST" action="/events">
+        <form  
+          name="eventsearch" 
+          class="search-inputs" 
+          method="POST" 
+          action="/events">
           <button name="eventsearch" type="submit" class="submit-button">Submit</button>
         </form>
         <div name="eventsearch" id="workingSymbol" style="display: none">
             Working...
         </div>
       </div>
-    
     </div>
-
 
     <footer>
       <p class="copyright-line">
-        <a href="https://github.com/pipclubbs/Flask-App-for-Masters" class="about-link" title="Link to GitHub page" target="_blank" rel="noreferrer">open-source code</a> by
-          Phillippa Clubbs
+        <a 
+          href="https://github.com/pipclubbs/Flask-App-for-Masters" 
+          class="about-link" 
+          title="Link to GitHub page" 
+          target="_blank" 
+          rel="noreferrer">open-source code
+        </a> 
+        by Phillippa Clubbs
           <script>
             document.write(new Date().getFullYear());
           </script>
