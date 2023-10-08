@@ -13,6 +13,7 @@
   <body>
   <header>
       <div class="header-bar">
+        <a class="skip-link" href="#main">Skip to content</a>
         <div class="logo">
           <a href="/" class="logo-link">
             <h2>Great Little Local</h2>
@@ -26,9 +27,11 @@
       </div>
     </header>
     
+    <main id="main">
     {% block content %}
 
     {% endblock %}
+    </main>
     
       <footer>
       <p class="copyright-line">

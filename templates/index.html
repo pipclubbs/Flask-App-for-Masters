@@ -13,7 +13,9 @@
   </head>
   <body>
     <header>
+      
       <div class="header-bar">
+        <a class="skip-link" href="#main">Skip to content</a>
         <div class="logo">
           <a href="/" class="logo-link">
             <h2>Great Little Local</h2>
@@ -27,7 +29,7 @@
       </div>
     </header>
 
-    </header>
+    <main id="main">
     <div class="grid-container">
       <div class="grid-item">
         <h1 class="hero-text">
@@ -63,14 +65,14 @@
           method="POST" 
           action="/walls" 
           onsubmit="return formValidate('wall-search-inputs')">
-          <select name="wallsearch" id="wall-search-inputs">
+          <select name="wallsearch" id="wall-search-inputs" aria-describedby="area-description">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
             <option value="north-west">North west</option>
             <option value="yorkshire">Yorkshire</option>
             <option value="midlands">Midlands</option>
           </select>
-          <button type="submit" class="submit-button">Submit</button>
+          <button type="submit" class="submit-button" aria-label="submit-search">Submit</button>
         </form>
       </div>
 
@@ -86,14 +88,14 @@
           method="POST" 
           action="/classes" 
           onsubmit="return formValidate('class-search-inputs')">
-          <select name="classsearch" id="class-search-inputs">
+          <select name="classsearch" id="class-search-inputs"  aria-describedby="area-description">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
             <option value="north-west">North West</option>
             <option value="yorkshire">Yorkshire</option>
             <option value="midlands">Midlands</option>
           </select>
-          <button type="submit" class="submit-button" id="submit-button">Submit</button>
+          <button type="submit" class="submit-button" id="submit-button" aria-label="submit-search">Submit</button>
         </form>
       </div>
 
@@ -109,14 +111,14 @@
           method="POST" 
           action="/clubs" 
           onsubmit="return formValidate('club-search-inputs')">
-          <select name="clubsearch" id="club-search-inputs">
+          <select name="clubsearch" id="club-search-inputs"  aria-describedby="area-description">
             <option value="choose">Choose an area...</option>
             <option value="north-east">North East</option>
             <option value="north-west">North West</option>
             <option value="yorkshire">Yorkshire</option>
             <option value="midlands">Midlands</option>
           </select>
-          <button type="submit" class="submit-button" id="submitButton">Submit</button>
+          <button type="submit" class="submit-button" id="submitButton" aria-label="submit-search">Submit</button>
         </form>
       </div>
 
@@ -139,7 +141,8 @@
         </div>
       </div>
     </div>
-
+    </main>
+    
     <footer>
       <p class="copyright-line">
         <a 

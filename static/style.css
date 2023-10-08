@@ -13,7 +13,7 @@
         'Times New Roman',
         serif;
     --main-text-colour: #41413F;
-    --brand-text-colour: #5D7074;
+    --brand-text-colour: #444C50;
     --brand-background-colour: #e5eaea;
 }
 
@@ -21,6 +21,21 @@ body {
     margin: 0 auto;
     width: 60%;
     background-color: var(--brand-background-colour);
+}
+
+.skip-link {
+    background: var(--brand-text-colour);
+    color: var(--brand-background-colour);
+    left: 50%;
+    padding: 5px;
+    position: absolute;
+    transform: translateY(-120%);
+    transition: transform 0.5s;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    transform: translateY(0%);
 }
 
 /* text styles */
