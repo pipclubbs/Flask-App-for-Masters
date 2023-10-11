@@ -36,170 +36,182 @@ class NorthEastClubs(ClassScraper):
         ]
 
         for c in clubs:
-            if c["name"] == "Northumbrian Mountaineering Club":
-                area = c["area"]
-                url = c["url"]
-                soup = self.get_html(url) # get the html via the parent class method
+            try:
+                if c["name"] == "Northumbrian Mountaineering Club":
+                    area = c["area"]
+                    url = c["url"]
+                    soup = self.get_html(url) # get the html via the parent class method
+    
+                    if soup:
+                        # search for the tags in the html
+                        h4_tags = self.search_tags('h4', soup)
+                        p_tags = self.search_tags('p', soup)
+    
+                        # allocate the results to a dictionary for storing in the database
+                        club_list = [
+                            {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": h4_tags[1],  
+                                "title": h4_tags[2],  
+                                "subtitle": h4_tags[3], 
+                                "description": p_tags[2],
+                                "created": created
+                            }, {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": h4_tags[1], 
+                                "title": h4_tags[2], 
+                                "subtitle": h4_tags[4], 
+                                "description": p_tags[3],
+                                "created": created
+                            }, {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": h4_tags[1], 
+                                "title": h4_tags[2], 
+                                "subtitle": h4_tags[5], 
+                                "description": p_tags[4],
+                                "created": created
+                            }
+                        ]
+                        # add each dictionary entry to a list
+                        for i in club_list:
+                            scraped_clubs.append(i)
+    
+                    else:
+                        pass
 
-                if soup:
-                    # search for the tags in the html
-                    h4_tags = self.search_tags('h4', soup)
-                    p_tags = self.search_tags('p', soup)
+            except:
+                pass
 
-                    # allocate the results to a dictionary for storing in the database
-                    club_list = [
-                        {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": h4_tags[1],  
-                            "title": h4_tags[2],  
-                            "subtitle": h4_tags[3], 
-                            "description": p_tags[2],
-                            "created": created
-                        }, {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": h4_tags[1], 
-                            "title": h4_tags[2], 
-                            "subtitle": h4_tags[4], 
-                            "description": p_tags[3],
-                            "created": created
-                        }, {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": h4_tags[1], 
-                            "title": h4_tags[2], 
-                            "subtitle": h4_tags[5], 
-                            "description": p_tags[4],
-                            "created": created
-                        }
-                    ]
-                    # add each dictionary entry to a list
-                    for i in club_list:
-                        scraped_clubs.append(i)
+            try:
+                if c["name"] == "Sunderland Mountaineering Club":
+                    area = c["area"]
+                    url = c["url"]
+                    soup = self.get_html(url)
+    
+                    if soup:
+                        span_tags = self.search_tags_alternative('span', soup)
+    
+                        club_list = [
+                            {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": '',
+                                "title": span_tags[2], 
+                                "subtitle": '',
+                                "description": span_tags[4],
+                                "created": created
+                            }, {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": '',
+                                "title": span_tags[2], 
+                                "subtitle": '',
+                                "description": span_tags[5],
+                                "created": created
+                            }, {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": '',
+                                "title": span_tags[2], 
+                                "subtitle": '',
+                                "description": span_tags[6],
+                                "created": created
+                            }
+                        ]
+                        for i in club_list:
+                            scraped_clubs.append(i)
+    
+                    else:
+                        pass
 
-                else:
-                    pass
+            except:
+                pass
 
-            if c["name"] == "Sunderland Mountaineering Club":
-                area = c["area"]
-                url = c["url"]
-                soup = self.get_html(url)
+            try:
+                if c["name"] == "Durham Mountain Sports":
+                    area = c["area"]
+                    url = c["url"]
+                    soup = self.get_html(url)
+    
+                    if soup:
+                        p_tags = self.search_tags_alternative('p', soup)
+    
+                        club_list = [
+                            {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": p_tags[0],
+                                "title": '',
+                                "subtitle": '',
+                                "description": p_tags[1],
+                                "created": created
+                            }, {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": '',
+                                "title": '',
+                                "subtitle": '',
+                                "description": p_tags[2],
+                                "created": created
+                            }, {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": '',
+                                "title": '',
+                                "subtitle": '',
+                                "description": p_tags[3],
+                                "created": created
+                            }, {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": '',
+                                "title": '',
+                                "subtitle": '',
+                                "description": p_tags[4],
+                                "created": created
+                            }, {
+                                "type": "club",
+                                "area": area,
+                                "name": c["name"],
+                                "url": url,
+                                "intro": '',
+                                "title": '',
+                                "subtitle": '',
+                                "description": p_tags[5],
+                                "created": created
+                            }
+                        ]
+                        for i in club_list:
+                            scraped_clubs.append(i)
+    
+                    else:
+                        pass
 
-                if soup:
-                    span_tags = self.search_tags_alternative('span', soup)
-
-                    club_list = [
-                        {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": '',
-                            "title": span_tags[2], 
-                            "subtitle": '',
-                            "description": span_tags[4],
-                            "created": created
-                        }, {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": '',
-                            "title": span_tags[2], 
-                            "subtitle": '',
-                            "description": span_tags[5],
-                            "created": created
-                        }, {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": '',
-                            "title": span_tags[2], 
-                            "subtitle": '',
-                            "description": span_tags[6],
-                            "created": created
-                        }
-                    ]
-                    for i in club_list:
-                        scraped_clubs.append(i)
-
-                else:
-                    pass
-
-            if c["name"] == "Durham Mountain Sports":
-                area = c["area"]
-                url = c["url"]
-                soup = self.get_html(url)
-
-                if soup:
-                    p_tags = self.search_tags_alternative('p', soup)
-
-                    club_list = [
-                        {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": p_tags[0],
-                            "title": '',
-                            "subtitle": '',
-                            "description": p_tags[1],
-                            "created": created
-                        }, {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": '',
-                            "title": '',
-                            "subtitle": '',
-                            "description": p_tags[2],
-                            "created": created
-                        }, {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": '',
-                            "title": '',
-                            "subtitle": '',
-                            "description": p_tags[3],
-                            "created": created
-                        }, {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": '',
-                            "title": '',
-                            "subtitle": '',
-                            "description": p_tags[4],
-                            "created": created
-                        }, {
-                            "type": "club",
-                            "area": area,
-                            "name": c["name"],
-                            "url": url,
-                            "intro": '',
-                            "title": '',
-                            "subtitle": '',
-                            "description": p_tags[5],
-                            "created": created
-                        }
-                    ]
-                    for i in club_list:
-                        scraped_clubs.append(i)
-
-                else:
-                    pass
+            except:
+                pass
 
         """send the compiled scraped club list to the database module, 
         and append the result to the output list"""
