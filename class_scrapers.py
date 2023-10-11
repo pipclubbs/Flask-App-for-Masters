@@ -19,16 +19,24 @@ class ClassScraper:
     using the Beautiful Soup module"""
     def get_html(self, url):
         try:
-            start_time = time.time() # time the scrape time
-
             result = requests.get(url, timeout=8)
             soup = BeautifulSoup(result.text, "html.parser")
+        except requests.exceptions.Timeout:
+            print(f"Timeout while scraping {url}")
+            return None
+        except requests.exceptions.ConnectionError:
+            print(f"Connection error while scraping {url}")
+            return None
+        except Exception as e:
+            print(f"Unexpected error while scraping {url}: {e}")
+            return None
+        finally:
+            if result is not None:
+                result.close()
 
-            time_difference = time.time() - start_time
-            print(f'Scraping time: %.2f seconds.' % time_difference)
-            return soup
-        except:
-            return
+        time_difference = time.time() - start_time
+        print('Scraping time: %.2f seconds.' % time_difference)
+        return soup
 
     
     """given the name of the tag and the html 'soup' to be searched, 
