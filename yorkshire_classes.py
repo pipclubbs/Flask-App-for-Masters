@@ -160,7 +160,6 @@ class YorkshireClasses(ClassScraper):
                         for p in p_tag_list:
                             if p != None and p != '\u200b':
                                 p_tags.append(p)
-                        # print(p_tags)
     
                         h2_tags = []
                         h2_tag_list = self.search_tags('h2', soup)

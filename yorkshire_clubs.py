@@ -97,6 +97,9 @@ class YorkshireClubs(ClassScraper):
                     else:
                         pass
 
+            except:
+                pass
+            
             try:
                 if c["name"] == "Leeds Mountaineering Club":
                     area = c["area"]
